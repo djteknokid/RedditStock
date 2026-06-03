@@ -2,10 +2,15 @@ import { useState } from 'react';
 import { stocks } from './data/stocks';
 import StockTable from './components/StockTable';
 import DetailPanel from './components/DetailPanel';
+import AboutPage from './AboutPage';
+
 
 export default function App() {
   const [selectedTicker, setSelectedTicker] = useState<string | null>(stocks[0].ticker);
   const selectedStock = stocks.find(s => s.ticker === selectedTicker) ?? null;
+
+  if (window.location.pathname === '/about') return <AboutPage />;
+
 
   function handleSelect(ticker: string) {
     setSelectedTicker(prev => prev === ticker ? null : ticker);
@@ -87,6 +92,14 @@ export default function App() {
             />
           </div>
         )}
+      </div>
+
+      {/* Footer */}
+      <div style={{ padding: '0 28px 20px', textAlign: 'center' }}>
+        <p style={{ fontSize: 11, color: '#d1d5db' }}>
+          Simulated data · Not financial advice ·{' '}
+          <a href="/about" style={{ color: '#9ca3af', textDecoration: 'underline' }}>About & Disclaimer</a>
+        </p>
       </div>
     </div>
   );
