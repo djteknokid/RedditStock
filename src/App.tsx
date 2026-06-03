@@ -107,7 +107,9 @@ export default function App() {
           Most talked stocks this week
         </h1>
         <p style={{ fontSize: 12, color: '#9ca3af' }}>
-          Ranked by Reddit mention volume · r/wallstreetbets · r/stocks · r/investing · AI analysis by GPT-4o · Click any row for details
+          Ranked by Reddit mention velocity · AI analysis by GPT-4o · Click any row for details ·{' '}
+          <span style={{ color: '#7c3aed', fontWeight: 600 }}>NEW</span> = buzz high, price flat ·{' '}
+          <span style={{ color: '#9ca3af', fontWeight: 600 }}>RAN</span> = already moved today
         </p>
       </div>
 

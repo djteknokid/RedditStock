@@ -101,6 +101,9 @@ export default function StockTable({ stocks, selectedTicker, onSelect, prices }:
             const priceInfo = prices[s.ticker];
             const changePercent = priceInfo?.changePercent ?? s.priceChange24h;
             const priceUp = changePercent >= 0;
+            // "already moved" = today's price already up >10% (the news is priced in)
+            const alreadyMoved = Math.abs(changePercent) > 10;
+            const notMovedYet = priceInfo && Math.abs(changePercent) <= 3 && s.sentimentScore >= 65;
 
             return (
               <tr
@@ -112,6 +115,7 @@ export default function StockTable({ stocks, selectedTicker, onSelect, prices }:
                   outline: isSelected ? '1.5px solid #3b82f6' : 'none',
                   outlineOffset: -1,
                   transition: 'background 0.1s',
+                  opacity: alreadyMoved ? 0.6 : 1,
                 }}
                 onMouseEnter={e => { if (!isSelected) (e.currentTarget as HTMLTableRowElement).style.background = '#f5f5f3'; }}
                 onMouseLeave={e => { if (!isSelected) (e.currentTarget as HTMLTableRowElement).style.background = isEven ? '#ffffff' : '#fafafa'; }}
@@ -123,7 +127,23 @@ export default function StockTable({ stocks, selectedTicker, onSelect, prices }:
 
                 {/* Ticker */}
                 <td style={{ ...CELL_STYLE }}>
-                  <span style={{ fontWeight: 700, color: '#111', letterSpacing: '-0.01em' }}>{s.ticker}</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                    <span style={{ fontWeight: 700, color: '#111', letterSpacing: '-0.01em' }}>{s.ticker}</span>
+                    {notMovedYet && (
+                      <span title="High buzz, price hasn't moved yet" style={{
+                        fontSize: 9, fontWeight: 700, color: '#7c3aed',
+                        background: '#f5f3ff', borderRadius: 3, padding: '1px 4px',
+                        letterSpacing: '0.04em', textTransform: 'uppercase',
+                      }}>NEW</span>
+                    )}
+                    {alreadyMoved && (
+                      <span title="Already moved significantly today" style={{
+                        fontSize: 9, fontWeight: 600, color: '#9ca3af',
+                        background: '#f3f4f6', borderRadius: 3, padding: '1px 4px',
+                        letterSpacing: '0.04em', textTransform: 'uppercase',
+                      }}>RAN</span>
+                    )}
+                  </div>
                 </td>
 
                 {/* Company */}
