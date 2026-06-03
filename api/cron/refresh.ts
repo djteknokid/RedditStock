@@ -12,7 +12,7 @@ const redis = new Redis({
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 
 const SUBREDDITS = ['wallstreetbets', 'stocks', 'investing'];
-const POSTS_PER_SUB = 200;
+const POSTS_PER_SUB = 100;
 const ARCTIC_SHIFT = 'https://arctic-shift.photon-reddit.com/api/posts/search';
 
 const SKIP = new Set([
