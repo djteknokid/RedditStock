@@ -4,6 +4,7 @@ interface PriceData {
   price: number;
   changePercent: number;
   change5d: number;
+  exchange: string;
 }
 
 interface StockTableProps {

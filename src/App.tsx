@@ -13,7 +13,7 @@ function timeAgo(iso: string): string {
   return `${Math.floor(secs / 86400)}d ago`;
 }
 
-interface PriceData { price: number; changePercent: number; change5d: number; }
+interface PriceData { price: number; changePercent: number; change5d: number; exchange: string; }
 
 export default function App() {
   const [stocks, setStocks] = useState<StockEntry[]>(fallbackStocks);
@@ -159,6 +159,7 @@ export default function App() {
             <DetailPanel
               stock={selectedStock}
               onClose={() => setSelectedTicker(null)}
+              exchange={prices[selectedStock.ticker]?.exchange}
             />
           </div>
         )}

@@ -3,6 +3,7 @@ import type { StockEntry, Direction } from '../data/stocks';
 interface DetailPanelProps {
   stock: StockEntry;
   onClose: () => void;
+  exchange?: string;
 }
 
 function verdictColor(d: Direction) {
@@ -32,9 +33,12 @@ function HorizonRow({ period, direction, confidence }: { period: string; directi
   );
 }
 
-export default function DetailPanel({ stock, onClose }: DetailPanelProps) {
+export default function DetailPanel({ stock, onClose, exchange }: DetailPanelProps) {
   const priceUp = stock.priceChange24h >= 0;
   const primaryDir = stock.predictions.oneDay.direction;
+  const googleFinanceUrl = exchange
+    ? `https://www.google.com/finance/quote/${stock.ticker}:${exchange}`
+    : `https://www.google.com/finance/quote/${stock.ticker}`;
 
   return (
     <div style={{
@@ -59,7 +63,7 @@ export default function DetailPanel({ stock, onClose }: DetailPanelProps) {
             </div>
             <div style={{ fontSize: 12, color: '#9ca3af' }}>{stock.name}</div>
             <a
-              href={`https://www.google.com/finance/quote/${stock.ticker}`}
+              href={googleFinanceUrl}
               target="_blank"
               rel="noopener noreferrer"
               style={{ fontSize: 11, color: '#6b7280', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4, marginTop: 4 }}

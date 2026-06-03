@@ -12,7 +12,7 @@ const redis = new Redis({
   token: process.env.KV_REST_API_TOKEN!,
 });
 
-async function getQuoteData(ticker: string): Promise<{ price: number; changePercent: number; change5d: number } | null> {
+async function getQuoteData(ticker: string): Promise<{ price: number; changePercent: number; change5d: number; exchange: string } | null> {
   try {
     const [quote, chart] = await Promise.all([
       yf.quote(ticker) as Promise<any>,
@@ -32,7 +32,16 @@ async function getQuoteData(ticker: string): Promise<{ price: number; changePerc
       if (first > 0) change5d = (last - first) / first * 100;
     }
 
-    return { price, changePercent, change5d };
+    // Map Yahoo exchange name to Google Finance exchange suffix
+    const exch = (quote.fullExchangeName ?? quote.exchange ?? '').toUpperCase();
+    let exchange = 'NASDAQ';
+    if (exch.includes('NYSE') || exch === 'NYQ') exchange = 'NYSE';
+    else if (exch.includes('NASDAQ') || exch.includes('NMS') || exch === 'NAS') exchange = 'NASDAQ';
+    else if (exch.includes('ARCA') || exch === 'PCX') exchange = 'NYSEARCA';
+    else if (exch.includes('AMEX') || exch === 'ASE') exchange = 'NYSEAMERICAN';
+    else if (exch.includes('OTC') || exch === 'PNK') exchange = 'OTCMKTS';
+
+    return { price, changePercent, change5d, exchange };
   } catch {
     return null;
   }
@@ -50,7 +59,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const tickers = cached.stocks.map(s => s.ticker);
     const results = await Promise.allSettled(tickers.map(getQuoteData));
 
-    const prices: Record<string, { price: number; changePercent: number; change5d: number }> = {};
+    const prices: Record<string, { price: number; changePercent: number; change5d: number; exchange: string }> = {};
     results.forEach((result, i) => {
       if (result.status === 'fulfilled' && result.value) {
         prices[tickers[i]] = result.value;
