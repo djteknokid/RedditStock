@@ -361,6 +361,15 @@ Keep the same order as the input (velocity-ranked).`,
       const topPost = d.allPosts.sort((a, b) => (b.score ?? 0) - (a.score ?? 0))[0];
       const mostRecent = d.allPosts.sort((a, b) => b.created_utc - a.created_utc)[0];
       const subreddits = [...new Set(d.allPosts.map(p => p.subreddit))].slice(0, 3);
+      const allTopPosts = d.allPosts
+        .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
+        .slice(0, 20)
+        .map(p => ({
+          quote: p.title,
+          upvotes: p.score ?? 0,
+          subreddit: p.subreddit,
+          ago: timeAgo(p.created_utc),
+        }));
 
       return {
         rank: i + 1,
@@ -377,6 +386,7 @@ Keep the same order as the input (velocity-ranked).`,
         topPost: topPost
           ? { quote: topPost.title, upvotes: topPost.score ?? 0, subreddit: topPost.subreddit }
           : { quote: 'Trending on Reddit', upvotes: 0, subreddit: 'wallstreetbets' },
+        allTopPosts,
         whyTrending: gpt.whyTrending ?? `Mention volume spiked ${d.velocity.toFixed(1)}x in the last 48 hours.`,
         catalyst: gpt.catalyst ?? null,
         predictions: gpt.predictions ? {

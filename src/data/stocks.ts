@@ -23,6 +23,12 @@ export interface StockEntry {
     upvotes: number;
     subreddit: string;
   };
+  allTopPosts?: {
+    quote: string;
+    upvotes: number;
+    subreddit: string;
+    ago: string;
+  }[];
   whyTrending: string;
   catalyst?: string;
   predictions: {

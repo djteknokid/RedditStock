@@ -158,20 +158,24 @@ export default function DetailPanel({ stock, onClose }: DetailPanelProps) {
           </div>
         )}
 
-        {/* Top post */}
+        {/* Posts */}
         <div style={{ marginBottom: 20 }}>
           <div style={{ fontSize: 10, color: '#9ca3af', fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', marginBottom: 8 }}>
-            Top Post
+            Posts ({(stock.allTopPosts ?? [stock.topPost]).length})
           </div>
-          <div style={{ background: '#f9fafb', borderRadius: 8, padding: '12px 14px' }}>
-            <p style={{ fontSize: 13, color: '#374151', lineHeight: '1.6', fontStyle: 'italic', marginBottom: 8 }}>
-              "{stock.topPost.quote}"
-            </p>
-            <div style={{ display: 'flex', gap: 12, fontSize: 11, color: '#9ca3af' }}>
-              <span>↑ {fmt(stock.topPost.upvotes)}</span>
-              <span>r/{stock.topPost.subreddit}</span>
-              <span>{stock.lastMentionAgo}</span>
-            </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {(stock.allTopPosts ?? [{ ...stock.topPost, ago: stock.lastMentionAgo }]).map((p, i) => (
+              <div key={i} style={{ background: '#f9fafb', borderRadius: 8, padding: '10px 12px' }}>
+                <p style={{ fontSize: 12, color: '#374151', lineHeight: '1.55', marginBottom: 6 }}>
+                  {p.quote}
+                </p>
+                <div style={{ display: 'flex', gap: 10, fontSize: 11, color: '#9ca3af' }}>
+                  <span>↑ {p.upvotes.toLocaleString()}</span>
+                  <span>r/{p.subreddit}</span>
+                  <span>{p.ago}</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
