@@ -13,6 +13,7 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 
 const SUBREDDITS = ['wallstreetbets', 'stocks', 'investing'];
 const POSTS_PER_SUB = 100;
+const PAGES_PER_SUB = 5;
 const ARCTIC_SHIFT = 'https://arctic-shift.photon-reddit.com/api/posts/search';
 
 const SKIP = new Set([
@@ -44,6 +45,7 @@ const KNOWN_TICKERS = new Set([
 ]);
 
 interface RawPost {
+  id: string;
   title: string;
   selftext?: string;
   score: number;
@@ -74,26 +76,39 @@ function extractTickers(text: string): string[] {
 }
 
 async function fetchPosts(subreddit: string): Promise<RawPost[]> {
-  try {
-    const url = `${ARCTIC_SHIFT}?subreddit=${subreddit}&limit=${POSTS_PER_SUB}`;
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 15000);
-    const res = await fetch(url, {
-      headers: { 'User-Agent': 'buzzd.fyi/1.0' },
-      signal: controller.signal,
-    });
-    clearTimeout(timeout);
-    if (!res.ok) {
-      console.error(`Arctic Shift ${subreddit}: HTTP ${res.status}`);
-      return [];
+  const allPosts: RawPost[] = [];
+  let lastId: string | null = null;
+
+  for (let page = 0; page < PAGES_PER_SUB; page++) {
+    try {
+      const params = new URLSearchParams({ subreddit, limit: String(POSTS_PER_SUB) });
+      if (lastId) params.set('after', lastId);
+      const url = `${ARCTIC_SHIFT}?${params}`;
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 15000);
+      const res = await fetch(url, {
+        headers: { 'User-Agent': 'buzzd.fyi/1.0' },
+        signal: controller.signal,
+      });
+      clearTimeout(timeout);
+      if (!res.ok) {
+        console.error(`Arctic Shift ${subreddit} page ${page}: HTTP ${res.status}`);
+        break;
+      }
+      const data = await res.json();
+      const posts: RawPost[] = data.data ?? [];
+      if (posts.length === 0) break;
+      allPosts.push(...posts);
+      lastId = posts[posts.length - 1].id ?? null;
+      if (!lastId || posts.length < POSTS_PER_SUB) break;
+    } catch (e) {
+      console.error(`Arctic Shift ${subreddit} page ${page} error:`, String(e));
+      break;
     }
-    const data = await res.json();
-    console.log(`Arctic Shift ${subreddit}: ${data.data?.length ?? 0} posts`);
-    return (data.data as RawPost[]) ?? [];
-  } catch (e) {
-    console.error(`Arctic Shift ${subreddit} error:`, String(e));
-    return [];
   }
+
+  console.log(`Arctic Shift ${subreddit}: ${allPosts.length} posts`);
+  return allPosts;
 }
 
 function timeAgo(utc: number): string {
@@ -135,20 +150,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
     }
 
-    // 3. Get top 10 by mentions
+    // 3. Get top 50 by mentions
     const top10 = [...tickerMap.values()]
       .sort((a, b) => b.mentions - a.mentions)
-      .slice(0, 10);
+      .slice(0, 50);
 
     if (top10.length === 0) {
       return res.status(200).json({ status: 'no_data', postsCount: allPosts.length, tickersFound: tickerMap.size });
     }
 
-    // 4. Build context for GPT — top posts per ticker
+    // 4. Build context for GPT — top 3 posts per ticker (keep prompt size manageable)
     const context = top10.map(d => {
       const topPosts = d.posts
         .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
-        .slice(0, 5)
+        .slice(0, 3)
         .map(p => `- [${p.subreddit}] "${p.title}"`)
         .join('\n');
       return `TICKER: ${d.ticker}\nMentions: ${d.mentions} across ${[...d.subreddits].join(', ')}\nTop posts:\n${topPosts}`;
