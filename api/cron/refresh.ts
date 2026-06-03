@@ -127,7 +127,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .slice(0, 10);
 
     if (top10.length === 0) {
-      return res.status(200).json({ status: 'no_data' });
+      return res.status(200).json({ status: 'no_data', postsCount: allPosts.length, tickersFound: tickerMap.size });
     }
 
     // 4. Build context for GPT — top posts per ticker
