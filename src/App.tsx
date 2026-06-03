@@ -1,34 +1,49 @@
 import { useState, useEffect } from 'react';
 import { stocks as fallbackStocks } from './data/stocks';
-import { fetchTrendingStocks } from './data/reddit';
 import type { StockEntry } from './data/stocks';
 import StockTable from './components/StockTable';
 import DetailPanel from './components/DetailPanel';
 import AboutPage from './AboutPage';
 
+function timeAgo(iso: string): string {
+  const secs = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
+  if (secs < 60) return 'just now';
+  if (secs < 3600) return `${Math.floor(secs / 60)}m ago`;
+  if (secs < 86400) return `${Math.floor(secs / 3600)}h ago`;
+  return `${Math.floor(secs / 86400)}d ago`;
+}
+
 export default function App() {
   const [stocks, setStocks] = useState<StockEntry[]>(fallbackStocks);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [lastUpdated, setLastUpdated] = useState<string>('loading...');
+  const [status, setStatus] = useState<'loading' | 'live' | 'building' | 'error'>('loading');
+  const [lastUpdated, setLastUpdated] = useState('');
   const [selectedTicker, setSelectedTicker] = useState<string | null>(null);
 
   const selectedStock = stocks.find(s => s.ticker === selectedTicker) ?? null;
 
   useEffect(() => {
     if (window.location.pathname === '/about') return;
-    fetchTrendingStocks()
+    fetch('/api/stocks')
+      .then(r => r.json())
       .then(data => {
-        if (data.length > 0) {
-          setStocks(data);
-          setSelectedTicker(data[0].ticker);
+        if (data.stocks?.length > 0) {
+          setStocks(data.stocks);
+          setSelectedTicker(data.stocks[0].ticker);
+          setLastUpdated(timeAgo(data.updatedAt));
+          setStatus('live');
+        } else if (data.status === 'building') {
+          setSelectedTicker(fallbackStocks[0].ticker);
+          setStatus('building');
+        } else {
+          setSelectedTicker(fallbackStocks[0].ticker);
+          setStatus('error');
         }
-        setLastUpdated('just now');
         setLoading(false);
       })
       .catch(() => {
-        setError('Could not load live data — showing cached data');
         setSelectedTicker(fallbackStocks[0].ticker);
+        setStatus('error');
         setLoading(false);
       });
   }, []);
@@ -38,6 +53,18 @@ export default function App() {
   }
 
   if (window.location.pathname === '/about') return <AboutPage />;
+
+  const statusEl = {
+    loading: <span style={{ fontSize: 12, color: '#9ca3af' }}>Scanning Reddit...</span>,
+    building: <span style={{ fontSize: 12, color: '#f59e0b' }}>First run in progress — check back in 60s</span>,
+    error: <span style={{ fontSize: 12, color: '#f59e0b' }}>Showing demo data</span>,
+    live: (
+      <>
+        <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }} />
+        <span style={{ fontSize: 12, color: '#9ca3af' }}>Updated {lastUpdated}</span>
+      </>
+    ),
+  }[status];
 
   return (
     <div style={{ minHeight: '100svh', background: '#f5f5f3', display: 'flex', flexDirection: 'column' }}>
@@ -61,16 +88,7 @@ export default function App() {
           </div>
 
           <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 6 }}>
-            {loading ? (
-              <span style={{ fontSize: 12, color: '#9ca3af' }}>Scanning Reddit...</span>
-            ) : error ? (
-              <span style={{ fontSize: 12, color: '#f59e0b' }}>{error}</span>
-            ) : (
-              <>
-                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }} />
-                <span style={{ fontSize: 12, color: '#9ca3af' }}>Updated {lastUpdated}</span>
-              </>
-            )}
+            {statusEl}
           </div>
         </div>
       </header>
@@ -81,7 +99,7 @@ export default function App() {
           Most talked stocks this week
         </h1>
         <p style={{ fontSize: 12, color: '#9ca3af' }}>
-          Ranked by Reddit mention volume · r/wallstreetbets · r/stocks · r/investing · Click any row for details
+          Ranked by Reddit mention volume · r/wallstreetbets · r/stocks · r/investing · AI analysis by GPT-4o · Click any row for details
         </p>
       </div>
 
@@ -107,7 +125,7 @@ export default function App() {
             }}>
               <div style={{ textAlign: 'center' }}>
                 <div style={{ fontSize: 24, marginBottom: 8 }}>⟳</div>
-                <div style={{ fontSize: 13, color: '#6b7280' }}>Scanning r/wallstreetbets, r/stocks, r/investing...</div>
+                <div style={{ fontSize: 13, color: '#6b7280' }}>Loading Reddit analysis...</div>
               </div>
             </div>
           )}
@@ -136,7 +154,7 @@ export default function App() {
       {/* Footer */}
       <div style={{ padding: '0 28px 20px', textAlign: 'center' }}>
         <p style={{ fontSize: 11, color: '#d1d5db' }}>
-          Data sourced from Reddit via Arctic Shift · Not financial advice ·{' '}
+          Reddit data via Arctic Shift · Analysis by GPT-4o · Not financial advice ·{' '}
           <a href="/about" style={{ color: '#9ca3af', textDecoration: 'underline' }}>About & Disclaimer</a>
         </p>
       </div>
