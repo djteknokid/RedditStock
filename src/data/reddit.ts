@@ -1,8 +1,28 @@
 import type { StockEntry, Direction, SentimentLabel } from './stocks';
 
 const SUBREDDITS = ['wallstreetbets', 'stocks', 'investing'];
-const POSTS_PER_SUB = 100;
+const POSTS_PER_SUB = 500;
 const ARCTIC_SHIFT = 'https://arctic-shift.photon-reddit.com/api/posts/search';
+
+// Well-known tickers we detect even without the $ prefix
+const KNOWN_TICKERS = new Set([
+  'NVDA','TSLA','AAPL','MSFT','AMZN','GOOGL','GOOG','META','AMD','INTC',
+  'GME','AMC','PLTR','MSTR','RIVN','SOFI','BBBY','HOOD','COIN','RBLX',
+  'SPY','QQQ','SPX','VIX','ARKK','GLD','SLV','TLT','IWM',
+  'MRVL','MARA','RIOT','HUT','CLSK','BITF','CIFR',
+  'NFLX','DIS','UBER','LYFT','SNAP','PINS','TWTR','RDDT',
+  'NIO','LCID','XPEV','FSR','HYLN',
+  'F','GM','FORD',
+  'BAC','JPM','GS','MS','WFC','C',
+  'BABA','JD','PDD','KWEB',
+  'SMCI','ARM','AVGO','QCOM','MU','AMAT','LRCX','ASML',
+  'ORCL','CRM','NOW','SNOW','DDOG','CRWD','PANW','ZS','NET',
+  'ABNB','BKNG','EXPE','MAR','HLT',
+  'WMT','TGT','COST','AMZN',
+  'XOM','CVX','OXY','BP',
+  'PFE','MRNA','BNTX','JNJ','LLY','ABBV',
+  'BTC','ETH',
+]);
 
 const SKIP = new Set([
   'DD','IMO','WSB','NYSE','IPO','ETF','CEO','SEC','FDA','ATH','YTD','AI','US','EU','UK',
@@ -36,12 +56,20 @@ interface TickerData {
 
 function extractTickers(text: string): string[] {
   const results: string[] = [];
-  // $TICKER pattern (most reliable)
-  const dollarMatches = text.matchAll(/\$([A-Z]{1,5})\b/g);
-  for (const m of dollarMatches) {
+  const seen = new Set<string>();
+
+  // $TICKER pattern — most reliable signal
+  for (const m of text.matchAll(/\$([A-Z]{1,5})\b/g)) {
     const t = m[1];
-    if (!SKIP.has(t)) results.push(t);
+    if (!SKIP.has(t) && !seen.has(t)) { results.push(t); seen.add(t); }
   }
+
+  // Known tickers mentioned without $ (e.g. "NVDA is printing")
+  for (const m of text.matchAll(/\b([A-Z]{2,5})\b/g)) {
+    const t = m[1];
+    if (KNOWN_TICKERS.has(t) && !seen.has(t)) { results.push(t); seen.add(t); }
+  }
+
   return results;
 }
 
@@ -110,7 +138,6 @@ export async function fetchTrendingStocks(): Promise<StockEntry[]> {
 
   // Sort by mention count, take top 10
   const sorted = [...tickerMap.values()]
-    .filter(d => d.mentions >= 2)
     .sort((a, b) => b.mentions - a.mentions)
     .slice(0, 10);
 
