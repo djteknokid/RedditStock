@@ -31,6 +31,76 @@ const SKIP = new Set([
   'OTM','ATM','DTE','IV','OI','SPX','NDX','RUT','VIX','FOMC','JPM','Q1','Q2','Q3','Q4',
 ]);
 
+// Company name / nickname → ticker mapping
+// Keys are lowercase for case-insensitive matching
+const COMPANY_TO_TICKER: Record<string, string> = {
+  // Big tech
+  'nvidia': 'NVDA', 'jensen': 'NVDA', 'jensen huang': 'NVDA',
+  'apple': 'AAPL', 'iphone': 'AAPL', 'tim cook': 'AAPL',
+  'microsoft': 'MSFT', 'msft': 'MSFT', 'msoft': 'MSFT', 'azure': 'MSFT', 'satya': 'MSFT',
+  'google': 'GOOGL', 'alphabet': 'GOOGL', 'sundar': 'GOOGL', 'gemini': 'GOOGL',
+  'amazon': 'AMZN', 'aws': 'AMZN', 'andy jassy': 'AMZN',
+  'meta': 'META', 'facebook': 'META', 'zuckerberg': 'META', 'zuck': 'META', 'instagram': 'META', 'whatsapp': 'META',
+  'tesla': 'TSLA', 'elon': 'TSLA', 'elon musk': 'TSLA', 'cybertruck': 'TSLA',
+  'amd': 'AMD', 'lisa su': 'AMD',
+  'intel': 'INTC',
+  'netflix': 'NFLX',
+  'disney': 'DIS',
+  'uber': 'UBER',
+  'palantir': 'PLTR', 'alex karp': 'PLTR',
+  'coinbase': 'COIN',
+  'robinhood': 'HOOD',
+  'microstrategy': 'MSTR', 'michael saylor': 'MSTR', 'saylor': 'MSTR',
+  'rivian': 'RIVN',
+  'sofi': 'SOFI',
+  'gamestop': 'GME', 'game stop': 'GME',
+  'amc': 'AMC',
+  'snowflake': 'SNOW',
+  'crowdstrike': 'CRWD',
+  'datadog': 'DDOG',
+  'salesforce': 'CRM',
+  'oracle': 'ORCL',
+  'servicenow': 'NOW',
+  'arm': 'ARM', 'arm holdings': 'ARM',
+  'broadcom': 'AVGO',
+  'qualcomm': 'QCOM',
+  'micron': 'MU',
+  'applied materials': 'AMAT',
+  'asml': 'ASML',
+  'shopify': 'SHOP',
+  'spotify': 'SPOT',
+  'airbnb': 'ABNB',
+  'booking': 'BKNG',
+  'walmart': 'WMT',
+  'target': 'TGT',
+  'costco': 'COST',
+  'exxon': 'XOM',
+  'chevron': 'CVX',
+  'pfizer': 'PFE',
+  'moderna': 'MRNA',
+  'johnson': 'JNJ',
+  'eli lilly': 'LLY', 'lilly': 'LLY',
+  'abbvie': 'ABBV',
+  'jpmorgan': 'JPM', 'jp morgan': 'JPM', 'jamie dimon': 'JPM',
+  'goldman': 'GS', 'goldman sachs': 'GS',
+  'bank of america': 'BAC', 'bofa': 'BAC',
+  'wells fargo': 'WFC',
+  'morgan stanley': 'MS',
+  'alibaba': 'BABA', 'baba': 'BABA',
+  'nio': 'NIO',
+  'lucid': 'LCID',
+  'xpeng': 'XPEV',
+  'reddit': 'RDDT',
+  'snap': 'SNAP', 'snapchat': 'SNAP',
+  'pinterest': 'PINS',
+  'blackrock': 'BLK',
+  'openai': 'MSFT', // OpenAI is private, discussions often correlate to MSFT
+  'chatgpt': 'MSFT',
+  'spy': 'SPY', 'qqq': 'QQQ', 'iwm': 'IWM',
+  'marathon': 'MARA', 'riot': 'RIOT', 'riot platforms': 'RIOT',
+  'marvell': 'MRVL',
+};
+
 interface RawPost {
   id: string;
   title: string;
@@ -84,16 +154,30 @@ async function fetchSubredditPosts(subreddit: string, afterTs: number): Promise<
 function extractTickers(text: string): string[] {
   const seen = new Set<string>();
   const results: string[] = [];
-  // $TICKER pattern — high confidence
+
+  // $TICKER pattern — highest confidence
   for (const m of text.matchAll(/\$([A-Z]{1,5})\b/g)) {
     if (!SKIP.has(m[1]) && !seen.has(m[1])) { seen.add(m[1]); results.push(m[1]); }
   }
+
   // Bare ALL-CAPS 2-5 letter words that look like tickers
   for (const m of text.matchAll(/\b([A-Z]{2,5})\b/g)) {
     if (!SKIP.has(m[1]) && !seen.has(m[1]) && /^[A-Z]+$/.test(m[1])) {
       seen.add(m[1]); results.push(m[1]);
     }
   }
+
+  // Company name / nickname matching (case-insensitive)
+  const lower = text.toLowerCase();
+  // Check multi-word phrases first (longer matches take priority)
+  const phrases = Object.keys(COMPANY_TO_TICKER).sort((a, b) => b.length - a.length);
+  for (const phrase of phrases) {
+    if (lower.includes(phrase)) {
+      const ticker = COMPANY_TO_TICKER[phrase];
+      if (!seen.has(ticker)) { seen.add(ticker); results.push(ticker); }
+    }
+  }
+
   return results;
 }
 
