@@ -11,38 +11,14 @@ const redis = new Redis({
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 
-const SUBREDDITS = ['wallstreetbets', 'stocks', 'investing'];
-const POSTS_PER_SUB = 100;
-const PAGES_PER_SUB = 5;
+const SUBREDDITS = [
+  'wallstreetbets', 'stocks', 'investing',
+  'options', 'pennystocks', 'stockmarket',
+  'Superstonk', 'valueinvesting', 'RobinHoodPennyStocks', 'dividends',
+];
+
 const ARCTIC_SHIFT = 'https://arctic-shift.photon-reddit.com/api/posts/search';
-
-const SKIP = new Set([
-  'DD','IMO','WSB','NYSE','IPO','ETF','CEO','SEC','FDA','ATH','YTD','AI','US','EU','UK',
-  'FOR','THE','AND','BUT','OR','IT','MY','BE','IS','ON','IN','TO','AT','BY','IF','SO',
-  'WE','NO','DO','UP','AM','AN','GO','OH','OK','OP','PE','EV','ER','RE','ED','TV',
-  'ALL','ANY','ARE','CAN','DID','GET','GOT','HAS','HAD','HIM','HIS','HOW','ITS','LET',
-  'MAY','NEW','NOT','NOW','OFF','OLD','OWN','SAY','SHE','TOO','USE','WAS','WHO','WHY',
-  'WON','YES','YET','YOU','GDP','CPI','FED','BOJ','ECB','YOLO','FOMO','HODL','TBH',
-  'IMO','FYI','EOD','EOW','AMA','TIL','ELI','ETA','PSA','TBA','TBD','TLDR',
-]);
-
-const KNOWN_TICKERS = new Set([
-  'NVDA','TSLA','AAPL','MSFT','AMZN','GOOGL','GOOG','META','AMD','INTC',
-  'GME','AMC','PLTR','MSTR','RIVN','SOFI','HOOD','COIN','RBLX',
-  'SPY','QQQ','IWM','GLD','SLV','TLT','ARKK',
-  'MRVL','MARA','RIOT','HUT','CLSK',
-  'NFLX','DIS','UBER','LYFT','SNAP','PINS','RDDT',
-  'NIO','LCID','XPEV',
-  'F','GM',
-  'BAC','JPM','GS','MS','WFC',
-  'BABA','JD','PDD',
-  'SMCI','ARM','AVGO','QCOM','MU','AMAT','ASML',
-  'ORCL','CRM','NOW','SNOW','DDOG','CRWD','PANW','ZS','NET',
-  'ABNB','BKNG',
-  'WMT','TGT','COST',
-  'XOM','CVX','OXY',
-  'PFE','MRNA','BNTX','JNJ','LLY','ABBV',
-]);
+const SEVEN_DAYS_AGO = () => Math.floor(Date.now() / 1000) - 7 * 86400;
 
 interface RawPost {
   id: string;
@@ -52,62 +28,44 @@ interface RawPost {
   upvote_ratio: number;
   created_utc: number;
   subreddit: string;
-  permalink: string;
 }
 
-interface TickerData {
-  ticker: string;
-  mentions: number;
-  totalRatio: number;
-  posts: RawPost[];
-  subreddits: Set<string>;
-}
-
-function extractTickers(text: string): string[] {
-  const seen = new Set<string>();
-  const results: string[] = [];
-  for (const m of text.matchAll(/\$([A-Z]{1,5})\b/g)) {
-    if (!SKIP.has(m[1]) && !seen.has(m[1])) { seen.add(m[1]); results.push(m[1]); }
-  }
-  for (const m of text.matchAll(/\b([A-Z]{2,5})\b/g)) {
-    if (KNOWN_TICKERS.has(m[1]) && !seen.has(m[1])) { seen.add(m[1]); results.push(m[1]); }
-  }
-  return results;
-}
-
-async function fetchPosts(subreddit: string): Promise<RawPost[]> {
+async function fetchSubredditPosts(subreddit: string): Promise<RawPost[]> {
   const allPosts: RawPost[] = [];
+  const after = SEVEN_DAYS_AGO();
   let lastId: string | null = null;
 
-  for (let page = 0; page < PAGES_PER_SUB; page++) {
+  for (let page = 0; page < 5; page++) {
     try {
-      const params = new URLSearchParams({ subreddit, limit: String(POSTS_PER_SUB) });
-      if (lastId) params.set('after', lastId);
-      const url = `${ARCTIC_SHIFT}?${params}`;
+      const params = new URLSearchParams({
+        subreddit,
+        limit: '100',
+        after: String(after),
+        sort: 'score',
+      });
+      if (lastId) params.set('after_id', lastId);
+
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 15000);
-      const res = await fetch(url, {
+      const timeout = setTimeout(() => controller.abort(), 12000);
+      const res = await fetch(`${ARCTIC_SHIFT}?${params}`, {
         headers: { 'User-Agent': 'buzzd.fyi/1.0' },
         signal: controller.signal,
       });
       clearTimeout(timeout);
-      if (!res.ok) {
-        console.error(`Arctic Shift ${subreddit} page ${page}: HTTP ${res.status}`);
-        break;
-      }
+
+      if (!res.ok) break;
       const data = await res.json();
       const posts: RawPost[] = data.data ?? [];
       if (posts.length === 0) break;
       allPosts.push(...posts);
       lastId = posts[posts.length - 1].id ?? null;
-      if (!lastId || posts.length < POSTS_PER_SUB) break;
-    } catch (e) {
-      console.error(`Arctic Shift ${subreddit} page ${page} error:`, String(e));
+      if (!lastId || posts.length < 100) break;
+    } catch {
       break;
     }
   }
 
-  console.log(`Arctic Shift ${subreddit}: ${allPosts.length} posts`);
+  console.log(`r/${subreddit}: ${allPosts.length} posts`);
   return allPosts;
 }
 
@@ -119,123 +77,109 @@ function timeAgo(utc: number): string {
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // Verify cron secret so only Vercel can trigger this
   if (req.headers.authorization !== `Bearer ${process.env.CRON_SECRET}`) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
   try {
     // 1. Fetch posts from all subreddits in parallel
-    console.log('Fetching Reddit posts...');
-    const allPosts = (await Promise.all(SUBREDDITS.map(fetchPosts))).flat();
-    console.log(`Fetched ${allPosts.length} total posts`);
+    console.log('Fetching Reddit posts (7-day window)...');
+    const allPosts = (await Promise.all(SUBREDDITS.map(fetchSubredditPosts))).flat();
+    console.log(`Total posts fetched: ${allPosts.length}`);
 
-    // 2. Count ticker mentions
-    const tickerMap = new Map<string, TickerData>();
-    for (const post of allPosts) {
-      const text = `${post.title} ${post.selftext ?? ''}`;
-      const tickers = extractTickers(text);
-      const seenInPost = new Set<string>();
-      for (const ticker of tickers) {
-        if (seenInPost.has(ticker)) continue;
-        seenInPost.add(ticker);
-        if (!tickerMap.has(ticker)) {
-          tickerMap.set(ticker, { ticker, mentions: 0, totalRatio: 0, posts: [], subreddits: new Set() });
-        }
-        const d = tickerMap.get(ticker)!;
-        d.mentions++;
-        d.totalRatio += post.upvote_ratio ?? 0.5;
-        d.posts.push(post);
-        d.subreddits.add(post.subreddit);
-      }
+    if (allPosts.length === 0) {
+      return res.status(200).json({ status: 'no_data', postsCount: 0 });
     }
 
-    // 3. Get top 50 by mentions
-    const top10 = [...tickerMap.values()]
-      .sort((a, b) => b.mentions - a.mentions)
-      .slice(0, 50);
+    // 2. Build a deduplicated list of post titles for GPT
+    // Include subreddit and score for context, truncate long titles
+    const postLines = allPosts
+      .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
+      .slice(0, 2000)
+      .map(p => `[r/${p.subreddit}|score:${p.score}] ${p.title.slice(0, 120)}`)
+      .join('\n');
 
-    if (top10.length === 0) {
-      return res.status(200).json({ status: 'no_data', postsCount: allPosts.length, tickersFound: tickerMap.size });
-    }
-
-    // 4. Build context for GPT — top 3 posts per ticker (keep prompt size manageable)
-    const context = top10.map(d => {
-      const topPosts = d.posts
-        .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
-        .slice(0, 3)
-        .map(p => `- [${p.subreddit}] "${p.title}"`)
-        .join('\n');
-      return `TICKER: ${d.ticker}\nMentions: ${d.mentions} across ${[...d.subreddits].join(', ')}\nTop posts:\n${topPosts}`;
-    }).join('\n\n---\n\n');
-
-    // 5. Call GPT
-    console.log('Calling GPT...');
+    // 3. GPT-first: let the model identify what's being discussed
+    console.log(`Sending ${Math.min(allPosts.length, 2000)} posts to GPT-4o...`);
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o',
-      temperature: 0.3,
+      temperature: 0.2,
       response_format: { type: 'json_object' },
       messages: [
         {
           role: 'system',
-          content: `You are a financial sentiment analyst. Analyze Reddit discussion data about stocks and return structured JSON.
-For each ticker, analyze the post titles and discussion context to determine:
-1. Why it's trending (plain English, 1-2 sentences, based on what people are actually saying)
-2. Overall sentiment (bullish/bearish/mixed)
-3. Sentiment score 0-100 (based on tone of discussion)
-4. Price predictions for 1 day, 1 week, 1 month (rise/fall/neutral + confidence 0-100)
-5. 24h price change estimate based on sentiment (a rough % number)
+          content: `You are a financial analyst specializing in Reddit retail investor sentiment.
 
-Return ONLY valid JSON in this exact format:
-{
-  "stocks": [
-    {
-      "ticker": "GME",
-      "whyTrending": "...",
-      "sentimentLabel": "bullish",
-      "sentimentScore": 82,
-      "priceChange24h": 4.2,
-      "predictions": {
-        "oneDay": { "direction": "rise", "confidence": 78 },
-        "oneWeek": { "direction": "neutral", "confidence": 55 },
-        "oneMonth": { "direction": "fall", "confidence": 61 }
-      }
-    }
-  ]
-}`,
+You will receive a list of Reddit post titles from stock-related subreddits.
+Your job is to identify the top 50 most-discussed publicly traded companies/ETFs and analyze sentiment.
+
+IMPORTANT: Recognize companies by ANY name used — ticker symbols ($TSLA, TSLA), company names (Tesla, Apple, Nvidia),
+nicknames (meme stock, the EV maker, Elon's car company), product names (iPhone, ChatGPT→MSFT/OPENAI),
+CEO names (Elon→TSLA, Jensen→NVDA, Gensler→SEC context).
+
+For each company return:
+- ticker: official stock ticker (e.g. "TSLA")
+- name: full company name (e.g. "Tesla, Inc.")
+- mentions: estimated mention count based on frequency in the posts
+- sentimentLabel: "bullish" | "bearish" | "mixed"
+- sentimentScore: 0-100 (based on tone — bullish=high, bearish=low)
+- whyTrending: 1-2 sentences explaining WHY it's being discussed right now, based on what the posts actually say
+- priceChange24h: estimated 24h sentiment-implied move as a % (e.g. 3.2 or -1.8)
+- predictions: { oneDay, oneWeek, oneMonth } each with direction ("rise"|"fall"|"neutral") and confidence (0-100)
+
+Return JSON: { "stocks": [ ...50 items sorted by mentions desc... ] }`,
         },
         {
           role: 'user',
-          content: `Analyze these trending Reddit stock discussions and return JSON:\n\n${context}`,
+          content: `Analyze these ${Math.min(allPosts.length, 2000)} Reddit posts and identify the top 50 most-discussed stocks:\n\n${postLines}`,
         },
       ],
     });
 
     const gptResult = JSON.parse(completion.choices[0].message.content ?? '{}');
-    console.log('GPT response received');
+    console.log(`GPT identified ${gptResult.stocks?.length ?? 0} stocks`);
 
-    // 6. Merge GPT analysis with our mention data
-    const stocks = top10.map((d, i) => {
-      const gpt = gptResult.stocks?.find((s: { ticker: string }) => s.ticker === d.ticker) ?? {};
-      const avgRatio = d.totalRatio / d.mentions;
-      const topPost = d.posts.sort((a, b) => (b.score ?? 0) - (a.score ?? 0))[0];
-      const mostRecent = d.posts.sort((a, b) => b.created_utc - a.created_utc)[0];
+    if (!gptResult.stocks?.length) {
+      return res.status(200).json({ status: 'no_data', postsCount: allPosts.length });
+    }
+
+    // 4. Build a lookup of posts by what subreddits mentioned them (for top post display)
+    // We'll attach top posts by finding posts that likely mention the ticker/company
+    const stocksByTicker = new Map<string, RawPost[]>();
+    for (const stock of gptResult.stocks) {
+      const ticker = stock.ticker.toUpperCase();
+      const name = (stock.name ?? '').toLowerCase();
+      const shortName = name.split(' ')[0]; // "tesla" from "Tesla, Inc."
+      const matching = allPosts.filter(p => {
+        const text = (p.title + ' ' + (p.selftext ?? '')).toLowerCase();
+        return text.includes(ticker.toLowerCase()) ||
+               text.includes(shortName) ||
+               text.includes(`$${ticker.toLowerCase()}`);
+      });
+      stocksByTicker.set(ticker, matching.sort((a, b) => (b.score ?? 0) - (a.score ?? 0)));
+    }
+
+    // 5. Merge into final shape
+    const stocks = gptResult.stocks.slice(0, 50).map((gpt: any, i: number) => {
+      const ticker = gpt.ticker.toUpperCase();
+      const matchedPosts = stocksByTicker.get(ticker) ?? [];
+      const topPost = matchedPosts[0];
+      const mostRecent = matchedPosts.sort((a, b) => b.created_utc - a.created_utc)[0];
+      const subredditsFound = [...new Set(matchedPosts.map(p => p.subreddit))].slice(0, 3);
 
       return {
         rank: i + 1,
-        ticker: d.ticker,
-        name: d.ticker,
-        mentions: d.mentions,
-        sentimentScore: gpt.sentimentScore ?? Math.round(avgRatio * 100),
+        ticker,
+        name: gpt.name ?? ticker,
+        mentions: gpt.mentions ?? 0,
+        sentimentScore: gpt.sentimentScore ?? 50,
         sentimentLabel: gpt.sentimentLabel ?? 'mixed',
-        subreddits: [...d.subreddits].slice(0, 3),
-        lastMentionAgo: timeAgo(mostRecent.created_utc),
-        topPost: {
-          quote: topPost.title,
-          upvotes: topPost.score ?? 0,
-          subreddit: topPost.subreddit,
-        },
-        whyTrending: gpt.whyTrending ?? `Mentioned ${d.mentions} times across ${d.subreddits.size} subreddits.`,
+        subreddits: subredditsFound.length > 0 ? subredditsFound : ['wallstreetbets'],
+        lastMentionAgo: mostRecent ? timeAgo(mostRecent.created_utc) : 'recently',
+        topPost: topPost
+          ? { quote: topPost.title, upvotes: topPost.score ?? 0, subreddit: topPost.subreddit }
+          : { quote: `Trending on Reddit this week`, upvotes: 0, subreddit: 'wallstreetbets' },
+        whyTrending: gpt.whyTrending ?? `Mentioned ${gpt.mentions} times across Reddit this week.`,
         predictions: gpt.predictions ?? {
           oneDay:   { direction: 'neutral', confidence: 50 },
           oneWeek:  { direction: 'neutral', confidence: 50 },
@@ -245,11 +189,11 @@ Return ONLY valid JSON in this exact format:
       };
     });
 
-    // 7. Save to Redis with 2hr TTL
-    await redis.set('buzzd:stocks', JSON.stringify({ stocks, updatedAt: new Date().toISOString() }), { ex: 7200 });
-    console.log('Saved to Redis');
+    // 6. Save to Redis with 25hr TTL (daily refresh)
+    await redis.set('buzzd:stocks', JSON.stringify({ stocks, updatedAt: new Date().toISOString() }), { ex: 90000 });
+    console.log(`Saved ${stocks.length} stocks to Redis`);
 
-    return res.status(200).json({ status: 'ok', count: stocks.length });
+    return res.status(200).json({ status: 'ok', count: stocks.length, postsAnalyzed: allPosts.length });
   } catch (err) {
     console.error('Refresh error:', err);
     return res.status(500).json({ error: String(err) });
