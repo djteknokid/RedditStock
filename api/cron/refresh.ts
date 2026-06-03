@@ -76,7 +76,13 @@ function extractTickers(text: string): string[] {
 async function fetchPosts(subreddit: string): Promise<RawPost[]> {
   try {
     const url = `${ARCTIC_SHIFT}?subreddit=${subreddit}&limit=${POSTS_PER_SUB}`;
-    const res = await fetch(url, { headers: { 'User-Agent': 'buzzd.fyi/1.0' } });
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+    const res = await fetch(url, {
+      headers: { 'User-Agent': 'buzzd.fyi/1.0' },
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
     if (!res.ok) {
       console.error(`Arctic Shift ${subreddit}: HTTP ${res.status}`);
       return [];
@@ -85,7 +91,7 @@ async function fetchPosts(subreddit: string): Promise<RawPost[]> {
     console.log(`Arctic Shift ${subreddit}: ${data.data?.length ?? 0} posts`);
     return (data.data as RawPost[]) ?? [];
   } catch (e) {
-    console.error(`Arctic Shift ${subreddit} error:`, e);
+    console.error(`Arctic Shift ${subreddit} error:`, String(e));
     return [];
   }
 }
