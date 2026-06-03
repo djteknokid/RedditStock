@@ -58,6 +58,16 @@ export default function DetailPanel({ stock, onClose }: DetailPanelProps) {
               </span>
             </div>
             <div style={{ fontSize: 12, color: '#9ca3af' }}>{stock.name}</div>
+            <a
+              href={`https://www.google.com/finance/quote/${stock.ticker}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ fontSize: 11, color: '#6b7280', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4, marginTop: 4 }}
+              onMouseEnter={e => (e.currentTarget.style.color = '#111')}
+              onMouseLeave={e => (e.currentTarget.style.color = '#6b7280')}
+            >
+              View on Google Finance ↗
+            </a>
           </div>
           <button
             onClick={onClose}
