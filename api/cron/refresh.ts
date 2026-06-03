@@ -75,11 +75,19 @@ function extractTickers(text: string): string[] {
 
 async function fetchPosts(subreddit: string): Promise<RawPost[]> {
   try {
-    const res = await fetch(`${ARCTIC_SHIFT}?subreddit=${subreddit}&limit=${POSTS_PER_SUB}`);
-    if (!res.ok) return [];
+    const url = `${ARCTIC_SHIFT}?subreddit=${subreddit}&limit=${POSTS_PER_SUB}`;
+    const res = await fetch(url, { headers: { 'User-Agent': 'buzzd.fyi/1.0' } });
+    if (!res.ok) {
+      console.error(`Arctic Shift ${subreddit}: HTTP ${res.status}`);
+      return [];
+    }
     const data = await res.json();
+    console.log(`Arctic Shift ${subreddit}: ${data.data?.length ?? 0} posts`);
     return (data.data as RawPost[]) ?? [];
-  } catch { return []; }
+  } catch (e) {
+    console.error(`Arctic Shift ${subreddit} error:`, e);
+    return [];
+  }
 }
 
 function timeAgo(utc: number): string {
