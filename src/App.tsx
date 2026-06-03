@@ -13,7 +13,7 @@ function timeAgo(iso: string): string {
   return `${Math.floor(secs / 86400)}d ago`;
 }
 
-interface PriceData { price: number; changePercent: number; }
+interface PriceData { price: number; changePercent: number; change5d: number; }
 
 export default function App() {
   const [stocks, setStocks] = useState<StockEntry[]>(fallbackStocks);
