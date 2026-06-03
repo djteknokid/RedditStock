@@ -3,6 +3,7 @@ import { Redis } from '@upstash/redis';
 import OpenAI from 'openai';
 
 export const maxDuration = 60;
+// v2 — includes allTopPosts per ticker
 
 const redis = new Redis({
   url: process.env.KV_REST_API_URL!,
