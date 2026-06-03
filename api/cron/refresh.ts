@@ -1,9 +1,12 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { Redis } from '@upstash/redis';
 import OpenAI from 'openai';
+import YahooFinanceLib from 'yahoo-finance2';
 
 export const maxDuration = 60;
-// v2 — includes allTopPosts per ticker
+
+const YahooFinance = (YahooFinanceLib as any).default ?? YahooFinanceLib;
+const yf = new YahooFinance({ suppressNotices: ['yahooSurvey', 'ripHistorical'] });
 
 const redis = new Redis({
   url: process.env.KV_REST_API_URL!,
@@ -32,6 +35,19 @@ const SKIP = new Set([
   'WON','YES','YET','YOU','GDP','CPI','FED','BOJ','ECB','YOLO','FOMO','HODL','TBH',
   'FYI','EOD','EOW','AMA','TIL','ETA','PSA','TBA','TBD','TLDR','CALLS','PUTS','ITM',
   'OTM','ATM','DTE','IV','OI','SPX','NDX','RUT','VIX','FOMC','JPM','Q1','Q2','Q3','Q4',
+  // Trading jargon
+  'GTC','EOY','AH','PM','TA','DD','PT','SL','TP','RR','PNL','PL','YOY','QOQ','MOM',
+  'HODL','BTFD','BTFP','RIPS','DIPS','BULL','BEAR','MOON','DUMP','PUMP','BAGS','LOSS',
+  'GAIN','PLAY','YOLO','FOMO','APES','GANG','HOLD','SOLD','BUY','SELL','LONG','SHORT',
+  // Common words that look like tickers
+  'THIS','THAT','THEY','THEM','THEN','THAN','WHEN','WHAT','WITH','FROM','HAVE','BEEN',
+  'WILL','JUST','LIKE','MORE','ALSO','EVEN','ONLY','OVER','BACK','INTO','WELL','WANT',
+  'NEED','KNOW','GOOD','MAKE','LOOK','TIME','YEAR','WEEK','LAST','NEXT','SOME','MOST',
+  'MANY','MUCH','VERY','SAME','TAKE','GIVE','COME','TELL','SHOW','HIGH','LATE','HARD',
+  // Non-equity tickers that appear in finance subs
+  'BTC','ETH','SOL','XRP','DOGE','SHIB','LINK','DOT','ADA','MATIC','AVAX','UNI',
+  'YT','YTD','IG','DM','PM','AM','HR','HRS','WK','MO','YR',
+  'EDIT','TLDR','IMHO','IMO','AFAIK','IIRC','TIL','AMA','ELI5',
 ]);
 
 // Company name / nickname → ticker mapping
@@ -191,6 +207,34 @@ function timeAgo(utc: number): string {
   return `${Math.floor(secs / 86400)}d ago`;
 }
 
+// Returns a human-readable earnings proximity string for GPT context
+async function getEarningsContext(ticker: string): Promise<string> {
+  try {
+    const cal = await (yf as any).quoteSummary(ticker, { modules: ['calendarEvents'] }) as any;
+    const dates: number[] = cal?.calendarEvents?.earnings?.earningsDate ?? [];
+    if (!dates.length) return 'No upcoming earnings date found.';
+
+    const now = Date.now();
+    const upcoming = dates
+      .map((d: any) => new Date(typeof d === 'object' && d.raw ? d.raw * 1000 : d).getTime())
+      .filter(t => t > now)
+      .sort((a, b) => a - b);
+
+    if (!upcoming.length) return 'Earnings already passed this cycle.';
+
+    const daysAway = Math.round((upcoming[0] - now) / 86400000);
+    const dateStr = new Date(upcoming[0]).toISOString().slice(0, 10);
+
+    if (daysAway === 0) return `EARNINGS TODAY (${dateStr}) — extreme volatility expected.`;
+    if (daysAway === 1) return `EARNINGS TOMORROW (${dateStr}) — high impact on 1-day prediction.`;
+    if (daysAway <= 7) return `Earnings in ${daysAway} days (${dateStr}) — elevated near-term risk.`;
+    if (daysAway <= 30) return `Earnings in ${daysAway} days (${dateStr}) — within 1-month window.`;
+    return `Next earnings ~${daysAway} days away (${dateStr}) — no imminent catalyst.`;
+  } catch {
+    return 'Earnings date unavailable.';
+  }
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.headers.authorization !== `Bearer ${process.env.CRON_SECRET}`) {
     return res.status(401).json({ error: 'Unauthorized' });
@@ -236,23 +280,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // 3. Score by velocity (spike detection) not raw mentions
-    // Velocity = recentMentions / (olderMentions/5 * 2 + 1)
-    // This normalizes older mentions to a 2-day baseline for fair comparison
-    // Unknown stocks with sudden spikes score high; NVDA baseline stays low
     const scored = [...tickerMap.values()]
-      .filter(d => d.recentPosts.length >= 2) // need at least 2 recent mentions
+      .filter(d => d.recentPosts.length >= 5) // raised floor: need real discussion
       .map(d => {
         const recentCount = d.recentPosts.length;
-        const olderDailyAvg = d.olderPosts.length / 5; // avg per day over older window
-        const baseline = olderDailyAvg * 2 + 1; // expected 2-day count
+        const olderDailyAvg = d.olderPosts.length / 5;
+        const baseline = olderDailyAvg * 2 + 1;
         const velocity = recentCount / baseline;
-        // Boost unknown stocks (fewer total mentions = more surprising)
         const unknownBonus = d.allPosts.length < 50 ? 2.5 : d.allPosts.length < 200 ? 1.5 : 1.0;
         const score = velocity * unknownBonus;
         return { ...d, recentCount, olderCount: d.olderPosts.length, velocity, score };
       })
       .sort((a, b) => b.score - a.score)
-      .slice(0, 50);
+      .slice(0, 30); // top 30 only — more focused, less noise
 
     console.log(`Top spiking tickers: ${scored.slice(0, 5).map(d => `${d.ticker}(v=${d.velocity.toFixed(1)})`).join(', ')}`);
 
@@ -260,7 +300,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(200).json({ status: 'no_data', postsCount: allPosts.length });
     }
 
-    // 4. Build rich context for GPT — top posts per ticker with body excerpts
+    // 4. Fetch earnings dates in parallel for all scored tickers
+    console.log('Fetching earnings dates...');
+    const earningsResults = await Promise.all(scored.map(d => getEarningsContext(d.ticker)));
+    const earningsByTicker = new Map(scored.map((d, i) => [d.ticker, earningsResults[i]]));
+
+    // 5. Build rich context for GPT — top posts + earnings date per ticker
     const context = scored.map(d => {
       const topPosts = d.allPosts
         .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
@@ -274,12 +319,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return [
         `TICKER: ${d.ticker}`,
         `Recent mentions (last 48h): ${d.recentCount} | Older mentions (days 3-7): ${d.olderCount} | Velocity score: ${d.velocity.toFixed(2)}x`,
+        `Earnings: ${earningsByTicker.get(d.ticker) ?? 'Unknown'}`,
         `Top posts:`,
         topPosts,
       ].join('\n');
     }).join('\n\n---\n\n');
 
-    // 5. Send to GPT-4o with full context
+    // 6. Send to GPT-4o with full context
     console.log('Sending to GPT-4o...');
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o',
@@ -293,6 +339,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 CRITICAL RULE: Ignore backward-looking statements entirely.
 - IGNORE: "MU went up 5% today", "I made money on this", "it already mooned", "great earnings last quarter"
 - FOCUS ON: future expectations, upcoming catalysts, thesis statements, options positioning, price targets, warnings
+
+Each ticker includes an "Earnings:" line with the next earnings date from Yahoo Finance. This is GROUND TRUTH — use it as the primary driver of the 1-day prediction:
+- EARNINGS TODAY or TOMORROW → high confidence move expected. Direction based on sentiment (bullish = rise, bearish = fall). Confidence 75-90%.
+- EARNINGS IN 2-7 DAYS → elevated uncertainty. Posts about "loading up before earnings" or "dumping before earnings" are key signals.
+- EARNINGS IN 8-30 DAYS → earnings are the 1-month signal, not the 1-day signal.
+- NO EARNINGS SOON → 1-day prediction based purely on momentum, options flow, and crowd positioning in posts.
 
 SIGNALS TO EXTRACT (forward-looking only):
 - Upcoming catalysts: earnings next week, FDA decision pending, contract announcement expected
@@ -317,11 +369,16 @@ For each ticker return:
 
 4. **sentimentReasoning**: 1 sentence citing specific FORWARD evidence (e.g. "5 posts mention earnings on June 10 with bull thesis, 2 posts show $30c options bought")
 
-5. **catalyst**: The single most important upcoming event or reason to watch this stock (e.g. "Earnings June 10", "FDA decision pending", "Short squeeze setup — 40% float shorted")
+5. **catalyst**: The single most important upcoming event (e.g. "Earnings June 10", "FDA decision pending", "Short squeeze setup — 40% float shorted"). If earnings are in the next 7 days, that IS the catalyst.
 
-6. **priceChange24h**: forward sentiment-implied expected move in next 24h as % (e.g. 3.2 or -1.8). Base this on what investors are EXPECTING, not what happened.
+6. **priceChange24h**: forward sentiment-implied expected move in next 24h as % (e.g. 3.2 or -1.8). If earnings are today/tomorrow, this should reflect typical earnings move magnitude (±5-15%).
 
-7. **predictions**: { oneDay, oneWeek, oneMonth } — direction ("rise"|"fall"|"neutral") and confidence 0-100. Base ONLY on forward-looking signals in the posts.
+7. **predictions**: IMPORTANT — do NOT default to neutral/50. Make a real call based on the evidence.
+   - oneDay: driven by earnings timing + Reddit momentum. If earnings tomorrow and sentiment bullish → rise 75-85%. If no catalyst and mixed sentiment → neutral 45-55% is fine but justify it.
+   - oneWeek: driven by post-earnings drift or upcoming catalyst resolution.
+   - oneMonth: longer thesis, less sensitive to near-term events.
+   - direction: "rise" | "fall" | "neutral" (use neutral sparingly — only when genuinely no signal)
+   - confidence: 0-100 (avoid 50 unless truly no information)
 
 Return JSON: { "stocks": [ { "ticker", "name", "whyTrending", "sentimentLabel", "sentimentScore", "sentimentReasoning", "catalyst", "priceChange24h", "predictions" } ] }
 
