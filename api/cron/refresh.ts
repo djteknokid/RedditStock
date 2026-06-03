@@ -237,6 +237,16 @@ Keep the same order as the input (velocity-ranked).`,
 
     const gptResult = JSON.parse(completion.choices[0].message.content ?? '{}');
     console.log(`GPT analyzed ${gptResult.stocks?.length ?? 0} stocks`);
+    // Log first stock to verify predictions shape
+    if (gptResult.stocks?.[0]) {
+      console.log('GPT sample:', JSON.stringify(gptResult.stocks[0]).slice(0, 300));
+    }
+
+    // Build a lookup map by ticker for fast matching
+    const gptByTicker = new Map<string, any>();
+    for (const s of gptResult.stocks ?? []) {
+      if (s.ticker) gptByTicker.set(s.ticker.toUpperCase(), s);
+    }
 
     // 6. Merge into final shape
     function normalizeDirection(d: string): 'rise' | 'fall' | 'neutral' {
@@ -249,7 +259,7 @@ Keep the same order as the input (velocity-ranked).`,
       return { direction: normalizeDirection(p?.direction), confidence: p?.confidence ?? 50 };
     }
     const stocks = scored.map((d, i) => {
-      const gpt = gptResult.stocks?.find((s: any) => s.ticker === d.ticker) ?? gptResult.stocks?.[i] ?? {};
+      const gpt = gptByTicker.get(d.ticker) ?? gptResult.stocks?.[i] ?? {};
       const topPost = d.allPosts.sort((a, b) => (b.score ?? 0) - (a.score ?? 0))[0];
       const mostRecent = d.allPosts.sort((a, b) => b.created_utc - a.created_utc)[0];
       const subreddits = [...new Set(d.allPosts.map(p => p.subreddit))].slice(0, 3);

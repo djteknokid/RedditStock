@@ -65,14 +65,14 @@ export default function StockTable({ stocks, selectedTicker, onSelect, prices }:
           <col style={{ width: COL_WIDTHS.rank }} />
           <col style={{ width: COL_WIDTHS.ticker }} />
           <col />  {/* name — fills remaining space */}
-          <col style={{ width: COL_WIDTHS.price }} />
-          <col style={{ width: COL_WIDTHS.change }} />
+          <col style={{ width: COL_WIDTHS.sentiment }} />
           <col style={{ width: 72 }} />  {/* spike */}
           <col style={{ width: COL_WIDTHS.mentions }} />
-          <col style={{ width: COL_WIDTHS.sentiment }} />
           <col style={{ width: COL_WIDTHS.oneDay }} />
           <col style={{ width: COL_WIDTHS.oneWeek }} />
           <col style={{ width: COL_WIDTHS.oneMonth }} />
+          <col style={{ width: COL_WIDTHS.price }} />
+          <col style={{ width: COL_WIDTHS.change }} />
         </colgroup>
 
         <thead>
@@ -80,14 +80,14 @@ export default function StockTable({ stocks, selectedTicker, onSelect, prices }:
             <th style={{ ...HEADER_STYLE, paddingLeft: 16 }}>#</th>
             <th style={HEADER_STYLE}>Ticker</th>
             <th style={HEADER_STYLE}>Company</th>
-            <th style={{ ...HEADER_STYLE, textAlign: 'right' }}>Price</th>
-            <th style={{ ...HEADER_STYLE, textAlign: 'right' }}>Today</th>
+            <th style={{ ...HEADER_STYLE, textAlign: 'right' }}>Sentiment</th>
             <th style={{ ...HEADER_STYLE, textAlign: 'right' }}>48h Spike</th>
             <th style={{ ...HEADER_STYLE, textAlign: 'right' }}>Mentions</th>
-            <th style={{ ...HEADER_STYLE, textAlign: 'right' }}>Sentiment</th>
             <th style={{ ...HEADER_STYLE, textAlign: 'center' }}>1 Day</th>
             <th style={{ ...HEADER_STYLE, textAlign: 'center' }}>1 Week</th>
-            <th style={{ ...HEADER_STYLE, textAlign: 'center', paddingRight: 16 }}>1 Month</th>
+            <th style={{ ...HEADER_STYLE, textAlign: 'center' }}>1 Month</th>
+            <th style={{ ...HEADER_STYLE, textAlign: 'right' }}>Price</th>
+            <th style={{ ...HEADER_STYLE, textAlign: 'right', paddingRight: 16 }}>Today</th>
           </tr>
         </thead>
 
@@ -128,20 +128,10 @@ export default function StockTable({ stocks, selectedTicker, onSelect, prices }:
                   {s.name}
                 </td>
 
-                {/* Price */}
-                <td style={{ ...CELL_STYLE, textAlign: 'right', fontVariantNumeric: 'tabular-nums', color: '#111', fontWeight: 500 }}>
-                  {priceInfo
-                    ? `$${priceInfo.price < 10 ? priceInfo.price.toFixed(3) : priceInfo.price < 1000 ? priceInfo.price.toFixed(2) : priceInfo.price.toLocaleString('en-US', { maximumFractionDigits: 0 })}`
-                    : <span style={{ color: '#d1d5db' }}>—</span>
-                  }
-                </td>
-
-                {/* Today's change */}
-                <td style={{ ...CELL_STYLE, textAlign: 'right', fontWeight: 600, fontVariantNumeric: 'tabular-nums', color: priceUp ? '#16a34a' : '#dc2626' }}>
-                  {priceInfo
-                    ? `${priceUp ? '+' : ''}${changePercent.toFixed(2)}%`
-                    : <span style={{ color: '#d1d5db', fontWeight: 400 }}>—</span>
-                  }
+                {/* Sentiment */}
+                <td style={{ ...CELL_STYLE, textAlign: 'right', fontWeight: 600, fontVariantNumeric: 'tabular-nums',
+                  color: s.sentimentScore >= 70 ? '#16a34a' : s.sentimentScore >= 45 ? '#d97706' : '#dc2626' }}>
+                  {s.sentimentScore}%
                 </td>
 
                 {/* 48h spike */}
@@ -157,12 +147,6 @@ export default function StockTable({ stocks, selectedTicker, onSelect, prices }:
                   {fmt(s.mentions)}
                 </td>
 
-                {/* Sentiment */}
-                <td style={{ ...CELL_STYLE, textAlign: 'right', fontWeight: 600, fontVariantNumeric: 'tabular-nums',
-                  color: s.sentimentScore >= 70 ? '#16a34a' : s.sentimentScore >= 45 ? '#d97706' : '#dc2626' }}>
-                  {s.sentimentScore}%
-                </td>
-
                 {/* 1 day */}
                 <td style={{ ...CELL_STYLE, textAlign: 'center' }}>
                   {directionChip(s.predictions.oneDay.direction, s.predictions.oneDay.confidence)}
@@ -174,8 +158,24 @@ export default function StockTable({ stocks, selectedTicker, onSelect, prices }:
                 </td>
 
                 {/* 1 month */}
-                <td style={{ ...CELL_STYLE, textAlign: 'center', paddingRight: 16 }}>
+                <td style={{ ...CELL_STYLE, textAlign: 'center' }}>
                   {directionChip(s.predictions.oneMonth.direction, s.predictions.oneMonth.confidence)}
+                </td>
+
+                {/* Price */}
+                <td style={{ ...CELL_STYLE, textAlign: 'right', fontVariantNumeric: 'tabular-nums', color: '#111', fontWeight: 500 }}>
+                  {priceInfo
+                    ? `$${priceInfo.price < 10 ? priceInfo.price.toFixed(3) : priceInfo.price < 1000 ? priceInfo.price.toFixed(2) : priceInfo.price.toLocaleString('en-US', { maximumFractionDigits: 0 })}`
+                    : <span style={{ color: '#d1d5db' }}>—</span>
+                  }
+                </td>
+
+                {/* Today's change */}
+                <td style={{ ...CELL_STYLE, textAlign: 'right', fontWeight: 600, fontVariantNumeric: 'tabular-nums', paddingRight: 16, color: priceUp ? '#16a34a' : '#dc2626' }}>
+                  {priceInfo
+                    ? `${priceUp ? '+' : ''}${changePercent.toFixed(2)}%`
+                    : <span style={{ color: '#d1d5db', fontWeight: 400 }}>—</span>
+                  }
                 </td>
               </tr>
             );
