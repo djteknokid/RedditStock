@@ -11,8 +11,11 @@ export interface StockEntry {
   ticker: string;
   name: string;
   mentions: number;
+  totalMentions?: number;
+  velocityScore?: number;
   sentimentScore: number;
   sentimentLabel: SentimentLabel;
+  sentimentReasoning?: string;
   subreddits: string[];
   lastMentionAgo: string;
   topPost: {

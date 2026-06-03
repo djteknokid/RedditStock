@@ -138,6 +138,18 @@ export default function DetailPanel({ stock, onClose }: DetailPanelProps) {
           </p>
         </div>
 
+        {/* Sentiment reasoning */}
+        {stock.sentimentReasoning && (
+          <div style={{ marginBottom: 20 }}>
+            <div style={{ fontSize: 10, color: '#9ca3af', fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', marginBottom: 8 }}>
+              Sentiment Basis
+            </div>
+            <p style={{ fontSize: 13, color: '#6b7280', lineHeight: '1.6', fontStyle: 'italic' }}>
+              {stock.sentimentReasoning}
+            </p>
+          </div>
+        )}
+
         {/* Top post */}
         <div style={{ marginBottom: 20 }}>
           <div style={{ fontSize: 10, color: '#9ca3af', fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', marginBottom: 8 }}>

@@ -67,6 +67,7 @@ export default function StockTable({ stocks, selectedTicker, onSelect, prices }:
           <col />  {/* name — fills remaining space */}
           <col style={{ width: COL_WIDTHS.price }} />
           <col style={{ width: COL_WIDTHS.change }} />
+          <col style={{ width: 72 }} />  {/* spike */}
           <col style={{ width: COL_WIDTHS.mentions }} />
           <col style={{ width: COL_WIDTHS.sentiment }} />
           <col style={{ width: COL_WIDTHS.oneDay }} />
@@ -81,6 +82,7 @@ export default function StockTable({ stocks, selectedTicker, onSelect, prices }:
             <th style={HEADER_STYLE}>Company</th>
             <th style={{ ...HEADER_STYLE, textAlign: 'right' }}>Price</th>
             <th style={{ ...HEADER_STYLE, textAlign: 'right' }}>Today</th>
+            <th style={{ ...HEADER_STYLE, textAlign: 'right' }}>48h Spike</th>
             <th style={{ ...HEADER_STYLE, textAlign: 'right' }}>Mentions</th>
             <th style={{ ...HEADER_STYLE, textAlign: 'right' }}>Sentiment</th>
             <th style={{ ...HEADER_STYLE, textAlign: 'center' }}>1 Day</th>
@@ -139,6 +141,14 @@ export default function StockTable({ stocks, selectedTicker, onSelect, prices }:
                   {priceInfo
                     ? `${priceUp ? '+' : ''}${changePercent.toFixed(2)}%`
                     : <span style={{ color: '#d1d5db', fontWeight: 400 }}>—</span>
+                  }
+                </td>
+
+                {/* 48h spike */}
+                <td style={{ ...CELL_STYLE, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>
+                  {s.velocityScore != null && s.velocityScore > 1.2
+                    ? <span style={{ fontWeight: 600, color: '#d97706' }}>{s.velocityScore.toFixed(1)}×</span>
+                    : <span style={{ color: '#d1d5db' }}>—</span>
                   }
                 </td>
 
