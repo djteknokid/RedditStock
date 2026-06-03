@@ -2,6 +2,8 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { Redis } from '@upstash/redis';
 import OpenAI from 'openai';
 
+export const maxDuration = 60;
+
 const redis = new Redis({
   url: process.env.KV_REST_API_URL!,
   token: process.env.KV_REST_API_TOKEN!,
@@ -10,7 +12,7 @@ const redis = new Redis({
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 
 const SUBREDDITS = ['wallstreetbets', 'stocks', 'investing'];
-const POSTS_PER_SUB = 500;
+const POSTS_PER_SUB = 200;
 const ARCTIC_SHIFT = 'https://arctic-shift.photon-reddit.com/api/posts/search';
 
 const SKIP = new Set([
