@@ -1,0 +1,155 @@
+import type { StockEntry, Direction } from '../data/stocks';
+
+interface StockTableProps {
+  stocks: StockEntry[];
+  selectedTicker: string | null;
+  onSelect: (ticker: string) => void;
+}
+
+function directionChip(d: Direction, confidence: number) {
+  const cfg = {
+    rise:    { label: 'Rise',  color: '#16a34a', bg: '#f0fdf4' },
+    fall:    { label: 'Fall',  color: '#dc2626', bg: '#fef2f2' },
+    neutral: { label: 'Hold', color: '#6b7280', bg: '#f9fafb' },
+  }[d];
+  return (
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', gap: 4,
+      fontSize: 11, fontWeight: 600, color: cfg.color,
+      background: cfg.bg, borderRadius: 4, padding: '2px 6px',
+    }}>
+      {cfg.label}
+      <span style={{ fontWeight: 400, color: cfg.color, opacity: 0.7 }}>{confidence}%</span>
+    </span>
+  );
+}
+
+function fmt(n: number) {
+  return n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n);
+}
+
+const COL_WIDTHS = {
+  rank:      36,
+  ticker:    80,
+  change:    80,
+  mentions:  80,
+  sentiment: 72,
+  oneDay:    88,
+  oneWeek:   88,
+  oneMonth:  88,
+};
+
+const HEADER_STYLE: React.CSSProperties = {
+  fontSize: 10, fontWeight: 600, color: '#9ca3af',
+  letterSpacing: '0.07em', textTransform: 'uppercase',
+  padding: '0 8px 10px', textAlign: 'left', whiteSpace: 'nowrap',
+  borderBottom: '1px solid #e5e7eb',
+};
+
+const CELL_STYLE: React.CSSProperties = {
+  padding: '11px 8px', fontSize: 13, verticalAlign: 'middle',
+};
+
+export default function StockTable({ stocks, selectedTicker, onSelect }: StockTableProps) {
+  return (
+    <div style={{ overflowX: 'auto' }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
+        <colgroup>
+          <col style={{ width: COL_WIDTHS.rank }} />
+          <col style={{ width: COL_WIDTHS.ticker }} />
+          <col />  {/* name — fills remaining space */}
+          <col style={{ width: COL_WIDTHS.change }} />
+          <col style={{ width: COL_WIDTHS.mentions }} />
+          <col style={{ width: COL_WIDTHS.sentiment }} />
+          <col style={{ width: COL_WIDTHS.oneDay }} />
+          <col style={{ width: COL_WIDTHS.oneWeek }} />
+          <col style={{ width: COL_WIDTHS.oneMonth }} />
+        </colgroup>
+
+        <thead>
+          <tr>
+            <th style={{ ...HEADER_STYLE, paddingLeft: 16 }}>#</th>
+            <th style={HEADER_STYLE}>Ticker</th>
+            <th style={HEADER_STYLE}>Company</th>
+            <th style={{ ...HEADER_STYLE, textAlign: 'right' }}>24h</th>
+            <th style={{ ...HEADER_STYLE, textAlign: 'right' }}>Mentions</th>
+            <th style={{ ...HEADER_STYLE, textAlign: 'right' }}>Sentiment</th>
+            <th style={{ ...HEADER_STYLE, textAlign: 'center' }}>1 Day</th>
+            <th style={{ ...HEADER_STYLE, textAlign: 'center' }}>1 Week</th>
+            <th style={{ ...HEADER_STYLE, textAlign: 'center', paddingRight: 16 }}>1 Month</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {stocks.map((s, i) => {
+            const isSelected = s.ticker === selectedTicker;
+            const priceUp = s.priceChange24h >= 0;
+            const isEven = i % 2 === 0;
+
+            return (
+              <tr
+                key={s.ticker}
+                onClick={() => onSelect(s.ticker)}
+                style={{
+                  background: isSelected ? '#f0f7ff' : isEven ? '#ffffff' : '#fafafa',
+                  cursor: 'pointer',
+                  outline: isSelected ? '1.5px solid #3b82f6' : 'none',
+                  outlineOffset: -1,
+                  transition: 'background 0.1s',
+                }}
+                onMouseEnter={e => { if (!isSelected) (e.currentTarget as HTMLTableRowElement).style.background = '#f5f5f3'; }}
+                onMouseLeave={e => { if (!isSelected) (e.currentTarget as HTMLTableRowElement).style.background = isEven ? '#ffffff' : '#fafafa'; }}
+              >
+                {/* Rank */}
+                <td style={{ ...CELL_STYLE, paddingLeft: 16, color: '#9ca3af', fontWeight: 500, fontSize: 12 }}>
+                  {s.rank}
+                </td>
+
+                {/* Ticker */}
+                <td style={{ ...CELL_STYLE }}>
+                  <span style={{ fontWeight: 700, color: '#111', letterSpacing: '-0.01em' }}>{s.ticker}</span>
+                </td>
+
+                {/* Company */}
+                <td style={{ ...CELL_STYLE, color: '#6b7280', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {s.name}
+                </td>
+
+                {/* 24h change */}
+                <td style={{ ...CELL_STYLE, textAlign: 'right', fontWeight: 600, fontVariantNumeric: 'tabular-nums', color: priceUp ? '#16a34a' : '#dc2626' }}>
+                  {priceUp ? '+' : ''}{s.priceChange24h}%
+                </td>
+
+                {/* Mentions */}
+                <td style={{ ...CELL_STYLE, textAlign: 'right', color: '#374151', fontVariantNumeric: 'tabular-nums' }}>
+                  {fmt(s.mentions)}
+                </td>
+
+                {/* Sentiment */}
+                <td style={{ ...CELL_STYLE, textAlign: 'right', fontWeight: 600, fontVariantNumeric: 'tabular-nums',
+                  color: s.sentimentScore >= 70 ? '#16a34a' : s.sentimentScore >= 45 ? '#d97706' : '#dc2626' }}>
+                  {s.sentimentScore}%
+                </td>
+
+                {/* 1 day */}
+                <td style={{ ...CELL_STYLE, textAlign: 'center' }}>
+                  {directionChip(s.predictions.oneDay.direction, s.predictions.oneDay.confidence)}
+                </td>
+
+                {/* 1 week */}
+                <td style={{ ...CELL_STYLE, textAlign: 'center' }}>
+                  {directionChip(s.predictions.oneWeek.direction, s.predictions.oneWeek.confidence)}
+                </td>
+
+                {/* 1 month */}
+                <td style={{ ...CELL_STYLE, textAlign: 'center', paddingRight: 16 }}>
+                  {directionChip(s.predictions.oneMonth.direction, s.predictions.oneMonth.confidence)}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+}
