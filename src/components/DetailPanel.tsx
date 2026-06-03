@@ -6,10 +6,10 @@ interface DetailPanelProps {
 }
 
 function verdictColor(d: Direction) {
-  return d === 'rise' ? '#16a34a' : d === 'fall' ? '#dc2626' : '#6b7280';
+  return ({ rise: '#16a34a', fall: '#dc2626', neutral: '#6b7280' } as Record<string, string>)[d] ?? '#6b7280';
 }
 function verdictWord(d: Direction) {
-  return d === 'rise' ? 'Rising' : d === 'fall' ? 'Falling' : 'Holding';
+  return ({ rise: 'Rising', fall: 'Falling', neutral: 'Holding' } as Record<string, string>)[d] ?? 'Holding';
 }
 function fmt(n: number) {
   return n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n);

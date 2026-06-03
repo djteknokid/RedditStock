@@ -13,11 +13,11 @@ interface StockTableProps {
 }
 
 function directionChip(d: Direction, confidence: number) {
-  const cfg = {
-    rise:    { label: 'Rise',  color: '#16a34a', bg: '#f0fdf4' },
-    fall:    { label: 'Fall',  color: '#dc2626', bg: '#fef2f2' },
+  const cfg = ({
+    rise:    { label: 'Rise', color: '#16a34a', bg: '#f0fdf4' },
+    fall:    { label: 'Fall', color: '#dc2626', bg: '#fef2f2' },
     neutral: { label: 'Hold', color: '#6b7280', bg: '#f9fafb' },
-  }[d];
+  } as Record<string, { label: string; color: string; bg: string }>)[d] ?? { label: 'Hold', color: '#6b7280', bg: '#f9fafb' };
   return (
     <span style={{
       display: 'inline-flex', alignItems: 'center', gap: 4,

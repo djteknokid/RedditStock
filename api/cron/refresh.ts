@@ -239,6 +239,15 @@ Keep the same order as the input (velocity-ranked).`,
     console.log(`GPT analyzed ${gptResult.stocks?.length ?? 0} stocks`);
 
     // 6. Merge into final shape
+    function normalizeDirection(d: string): 'rise' | 'fall' | 'neutral' {
+      const s = (d ?? '').toLowerCase();
+      if (s === 'rise' || s === 'up' || s === 'bullish') return 'rise';
+      if (s === 'fall' || s === 'down' || s === 'bearish') return 'fall';
+      return 'neutral';
+    }
+    function normalizePrediction(p: any) {
+      return { direction: normalizeDirection(p?.direction), confidence: p?.confidence ?? 50 };
+    }
     const stocks = scored.map((d, i) => {
       const gpt = gptResult.stocks?.find((s: any) => s.ticker === d.ticker) ?? gptResult.stocks?.[i] ?? {};
       const topPost = d.allPosts.sort((a, b) => (b.score ?? 0) - (a.score ?? 0))[0];
@@ -261,7 +270,11 @@ Keep the same order as the input (velocity-ranked).`,
           ? { quote: topPost.title, upvotes: topPost.score ?? 0, subreddit: topPost.subreddit }
           : { quote: 'Trending on Reddit', upvotes: 0, subreddit: 'wallstreetbets' },
         whyTrending: gpt.whyTrending ?? `Mention volume spiked ${d.velocity.toFixed(1)}x in the last 48 hours.`,
-        predictions: gpt.predictions ?? {
+        predictions: gpt.predictions ? {
+          oneDay:   normalizePrediction(gpt.predictions.oneDay),
+          oneWeek:  normalizePrediction(gpt.predictions.oneWeek),
+          oneMonth: normalizePrediction(gpt.predictions.oneMonth),
+        } : {
           oneDay:   { direction: 'neutral', confidence: 50 },
           oneWeek:  { direction: 'neutral', confidence: 50 },
           oneMonth: { direction: 'neutral', confidence: 50 },
