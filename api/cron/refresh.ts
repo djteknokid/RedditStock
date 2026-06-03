@@ -33,17 +33,12 @@ interface RawPost {
 async function fetchSubredditPosts(subreddit: string): Promise<RawPost[]> {
   const allPosts: RawPost[] = [];
   const after = SEVEN_DAYS_AGO();
-  let lastId: string | null = null;
+  let beforeTs: number | null = null;
 
   for (let page = 0; page < 5; page++) {
     try {
-      const params = new URLSearchParams({
-        subreddit,
-        limit: '100',
-        after: String(after),
-        sort: 'score',
-      });
-      if (lastId) params.set('after_id', lastId);
+      const params = new URLSearchParams({ subreddit, limit: '100', after: String(after) });
+      if (beforeTs) params.set('before', String(beforeTs));
 
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 12000);
@@ -53,14 +48,15 @@ async function fetchSubredditPosts(subreddit: string): Promise<RawPost[]> {
       });
       clearTimeout(timeout);
 
-      if (!res.ok) break;
+      if (!res.ok) { console.error(`r/${subreddit} page ${page}: HTTP ${res.status}`); break; }
       const data = await res.json();
       const posts: RawPost[] = data.data ?? [];
       if (posts.length === 0) break;
       allPosts.push(...posts);
-      lastId = posts[posts.length - 1].id ?? null;
-      if (!lastId || posts.length < 100) break;
-    } catch {
+      beforeTs = posts[posts.length - 1].created_utc ?? null;
+      if (!beforeTs || posts.length < 100) break;
+    } catch (e) {
+      console.error(`r/${subreddit} page ${page} error:`, String(e));
       break;
     }
   }
