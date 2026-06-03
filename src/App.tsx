@@ -75,7 +75,7 @@ export default function App() {
   }[status];
 
   return (
-    <div style={{ minHeight: '100svh', background: '#f5f5f3', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ height: '100svh', background: '#f5f5f3', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
 
       {/* Header */}
       <header style={{ background: '#ffffff', borderBottom: '1px solid #e5e7eb', flexShrink: 0 }}>
@@ -154,7 +154,7 @@ export default function App() {
             borderRadius: 10, border: '1px solid #e5e7eb',
             overflow: 'hidden', display: 'flex', flexDirection: 'column',
             position: 'sticky', top: 0, alignSelf: 'flex-start',
-            maxHeight: 'calc(100svh - 56px - 40px - 28px)',
+            height: 'calc(100svh - 56px - 56px - 28px)',
           }}>
             <DetailPanel
               stock={selectedStock}

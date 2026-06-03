@@ -59,7 +59,7 @@ export default function DetailPanel({ stock, onClose }: DetailPanelProps) {
             </div>
             <div style={{ fontSize: 12, color: '#9ca3af' }}>{stock.name}</div>
             <a
-              href={`https://www.google.com/finance/beta/search?q=${stock.ticker}`}
+              href={`https://www.google.com/finance/quote/${stock.ticker}`}
               target="_blank"
               rel="noopener noreferrer"
               style={{ fontSize: 11, color: '#6b7280', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4, marginTop: 4 }}
