@@ -5,12 +5,38 @@ import YahooFinanceLib from 'yahoo-finance2';
 export const maxDuration = 30;
 
 const YahooFinance = (YahooFinanceLib as any).default ?? YahooFinanceLib;
-const yf = new YahooFinance({ suppressNotices: ['yahooSurvey'] });
+const yf = new YahooFinance({ suppressNotices: ['yahooSurvey', 'ripHistorical'] });
 
 const redis = new Redis({
   url: process.env.KV_REST_API_URL!,
   token: process.env.KV_REST_API_TOKEN!,
 });
+
+async function getQuoteData(ticker: string): Promise<{ price: number; changePercent: number; change5d: number } | null> {
+  try {
+    const [quote, chart] = await Promise.all([
+      yf.quote(ticker) as Promise<any>,
+      yf.chart(ticker, { period1: new Date(Date.now() - 7 * 86400000), interval: '1d' as any }).catch(() => null) as Promise<any>,
+    ]);
+
+    const price = quote.regularMarketPrice ?? 0;
+    if (price === 0) return null;
+
+    const changePercent = quote.regularMarketChangePercent ?? 0;
+
+    let change5d = 0;
+    const quotes = chart?.quotes ?? [];
+    if (quotes.length >= 2) {
+      const first = quotes[0].close ?? quotes[0].open ?? 0;
+      const last = quotes[quotes.length - 1].close ?? 0;
+      if (first > 0) change5d = (last - first) / first * 100;
+    }
+
+    return { price, changePercent, change5d };
+  } catch {
+    return null;
+  }
+}
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -22,20 +48,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const tickers = cached.stocks.map(s => s.ticker);
+    const results = await Promise.allSettled(tickers.map(getQuoteData));
 
-    const results = await Promise.allSettled(
-      tickers.map(ticker => yf.quote(ticker))
-    );
-
-    const prices: Record<string, { price: number; changePercent: number }> = {};
+    const prices: Record<string, { price: number; changePercent: number; change5d: number }> = {};
     results.forEach((result, i) => {
       if (result.status === 'fulfilled' && result.value) {
-        const q = result.value as any;
-        const price = q.regularMarketPrice ?? 0;
-        const changePercent = q.regularMarketChangePercent ?? 0;
-        if (price > 0) {
-          prices[tickers[i]] = { price, changePercent };
-        }
+        prices[tickers[i]] = result.value;
       }
     });
 

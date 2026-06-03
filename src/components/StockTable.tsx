@@ -3,6 +3,7 @@ import type { StockEntry, Direction } from '../data/stocks';
 interface PriceData {
   price: number;
   changePercent: number;
+  change5d: number;
 }
 
 interface StockTableProps {
@@ -73,6 +74,7 @@ export default function StockTable({ stocks, selectedTicker, onSelect, prices }:
           <col style={{ width: COL_WIDTHS.oneMonth }} />
           <col style={{ width: COL_WIDTHS.price }} />
           <col style={{ width: COL_WIDTHS.change }} />
+          <col style={{ width: COL_WIDTHS.change }} />
         </colgroup>
 
         <thead>
@@ -87,7 +89,8 @@ export default function StockTable({ stocks, selectedTicker, onSelect, prices }:
             <th style={{ ...HEADER_STYLE, textAlign: 'center' }}>1 Week</th>
             <th style={{ ...HEADER_STYLE, textAlign: 'center' }}>1 Month</th>
             <th style={{ ...HEADER_STYLE, textAlign: 'right' }}>Price</th>
-            <th style={{ ...HEADER_STYLE, textAlign: 'right', paddingRight: 16 }}>Today</th>
+            <th style={{ ...HEADER_STYLE, textAlign: 'right' }}>Today</th>
+            <th style={{ ...HEADER_STYLE, textAlign: 'right', paddingRight: 16 }}>5 Day</th>
           </tr>
         </thead>
 
@@ -171,12 +174,26 @@ export default function StockTable({ stocks, selectedTicker, onSelect, prices }:
                 </td>
 
                 {/* Today's change */}
-                <td style={{ ...CELL_STYLE, textAlign: 'right', fontWeight: 600, fontVariantNumeric: 'tabular-nums', paddingRight: 16, color: priceUp ? '#16a34a' : '#dc2626' }}>
+                <td style={{ ...CELL_STYLE, textAlign: 'right', fontWeight: 600, fontVariantNumeric: 'tabular-nums', color: priceUp ? '#16a34a' : '#dc2626' }}>
                   {priceInfo
                     ? `${priceUp ? '+' : ''}${changePercent.toFixed(2)}%`
                     : <span style={{ color: '#d1d5db', fontWeight: 400 }}>—</span>
                   }
                 </td>
+
+                {/* 5 day change */}
+                {(() => {
+                  const c5 = priceInfo?.change5d ?? null;
+                  const up5 = (c5 ?? 0) >= 0;
+                  return (
+                    <td style={{ ...CELL_STYLE, textAlign: 'right', fontWeight: 600, fontVariantNumeric: 'tabular-nums', paddingRight: 16, color: up5 ? '#16a34a' : '#dc2626' }}>
+                      {c5 != null
+                        ? `${up5 ? '+' : ''}${c5.toFixed(2)}%`
+                        : <span style={{ color: '#d1d5db', fontWeight: 400 }}>—</span>
+                      }
+                    </td>
+                  );
+                })()}
               </tr>
             );
           })}
