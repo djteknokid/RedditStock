@@ -1,0 +1,3358 @@
+{
+  "stocks": [
+    {
+      "rank": 1,
+      "ticker": "MRVL",
+      "name": "Marvell Technology",
+      "mentions": 35,
+      "totalMentions": 37,
+      "velocityScore": 19.4,
+      "sentimentScore": 70,
+      "sentimentLabel": "bullish",
+      "sentimentReasoning": "Multiple posts discuss long-term call options and potential S&P 500 inclusion, indicating bullish sentiment.",
+      "subreddits": [
+        "wallstreetbets",
+        "investing",
+        "investing_discussion"
+      ],
+      "lastMentionAgo": "1h ago",
+      "topPost": {
+        "quote": "Thanks for the shoutout daddy Jensen $MRVL",
+        "upvotes": 2,
+        "subreddit": "wallstreetbets"
+      },
+      "allTopPosts": [
+        {
+          "quote": "Thanks for the shoutout daddy Jensen $MRVL",
+          "upvotes": 2,
+          "subreddit": "wallstreetbets",
+          "ago": "11h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv2g7u"
+        },
+        {
+          "quote": "MRVL at Jensen's beneficence",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "1h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tvg72m"
+        },
+        {
+          "quote": "dropped 40k in MRVL",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "1h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tvg4fa"
+        },
+        {
+          "quote": "I am done chasing the next MRVL!!!",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "1h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tvfydb"
+        },
+        {
+          "quote": "I am done chasing the next MRVL",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "2h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tvfvyv"
+        },
+        {
+          "quote": "MRVL - Thank You Jensen",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "5h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tvb9qk"
+        },
+        {
+          "quote": "Got you regards beat on MRVL",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "5h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tvb8fr"
+        },
+        {
+          "quote": "$MRVL Sold half before the massive melt up. Atleast there's the other half.",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "5h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tvauln"
+        },
+        {
+          "quote": "Call me Spider-Man cuz im finna shoot ropes over $MRVL comics",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "6h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tva0mt"
+        },
+        {
+          "quote": "How are you hedging your portfolio given the current market conditions?",
+          "upvotes": 1,
+          "subreddit": "investing",
+          "ago": "7h ago",
+          "url": "https://reddit.com/r/investing/comments/1tv97dp"
+        },
+        {
+          "quote": "This entire bull run is being fuelled exclusively by short squeezes - there's nothing fundamentally new behind this insanity",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "7h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv81yo"
+        },
+        {
+          "quote": "AI Stocks Are Booming… But Investors Are Starting To Ask Questions",
+          "upvotes": 1,
+          "subreddit": "investing_discussion",
+          "ago": "8h ago",
+          "url": "https://reddit.com/r/investing_discussion/comments/1tv7pdt"
+        },
+        {
+          "quote": "$MRVL massive FOMO",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "8h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv7i74"
+        },
+        {
+          "quote": "Calling it - MRVL Added to the S&P on Friday after market close",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "8h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv6zvg"
+        },
+        {
+          "quote": "Jensen pumped MRVL today. Is there a way to get push notifications for such events?",
+          "upvotes": 1,
+          "subreddit": "stocks",
+          "ago": "8h ago",
+          "url": "https://reddit.com/r/stocks/comments/1tv6i4m"
+        },
+        {
+          "quote": "Marvell",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "8h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv6gu2"
+        },
+        {
+          "quote": "1500% gain MRVL",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "9h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv638k"
+        },
+        {
+          "quote": "Thank you Marvel, micron, and Jensen",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "9h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv5bw9"
+        },
+        {
+          "quote": "😭MRVL FOMO Check 👅",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "10h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv4sov"
+        },
+        {
+          "quote": "Thanks to Jensen Huang, profits jumped 2,000% in a single day",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "10h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv4rzm"
+        }
+      ],
+      "whyTrending": "MRVL is trending due to speculation about its potential inclusion in the S&P 500 and its strategic partnerships in AI and custom ASICs for major tech companies like Microsoft, Amazon, and Meta. Investors are discussing the impact of these partnerships and the potential for significant growth, with some expecting a short squeeze and others buying long-term call options.",
+      "catalyst": "Speculation on S&P 500 inclusion",
+      "predictions": {
+        "oneDay": {
+          "direction": "rise",
+          "confidence": 65
+        },
+        "oneWeek": {
+          "direction": "rise",
+          "confidence": 70
+        },
+        "oneMonth": {
+          "direction": "rise",
+          "confidence": 75
+        }
+      },
+      "priceChange24h": 2.5
+    },
+    {
+      "rank": 2,
+      "ticker": "PURR",
+      "name": "PURR Stock",
+      "mentions": 10,
+      "totalMentions": 10,
+      "velocityScore": 10,
+      "sentimentScore": 65,
+      "sentimentLabel": "bullish",
+      "sentimentReasoning": "Posts highlight potential for a gamma squeeze and significant call option activity, indicating bullish sentiment.",
+      "subreddits": [
+        "stocks",
+        "StockMarket",
+        "options"
+      ],
+      "lastMentionAgo": "4h ago",
+      "topPost": {
+        "quote": "$120k yolo into $PURR stock",
+        "upvotes": 1,
+        "subreddit": "wallstreetbets"
+      },
+      "allTopPosts": [
+        {
+          "quote": "Question about possible gamma squeeze set up for PURR stock",
+          "upvotes": 1,
+          "subreddit": "stocks",
+          "ago": "4h ago",
+          "url": "https://reddit.com/r/stocks/comments/1tvdb6c"
+        },
+        {
+          "quote": "Question about possible gamma squeeze set up for PURR stock",
+          "upvotes": 1,
+          "subreddit": "StockMarket",
+          "ago": "4h ago",
+          "url": "https://reddit.com/r/StockMarket/comments/1tvd7zi"
+        },
+        {
+          "quote": "Question about possible gamma squeeze set up for PURR stock",
+          "upvotes": 1,
+          "subreddit": "StockMarket",
+          "ago": "4h ago",
+          "url": "https://reddit.com/r/StockMarket/comments/1tvd7zi"
+        },
+        {
+          "quote": "Question about possible gamma squeeze set up for PURR stock",
+          "upvotes": 1,
+          "subreddit": "StockMarket",
+          "ago": "4h ago",
+          "url": "https://reddit.com/r/StockMarket/comments/1tvd5k6"
+        },
+        {
+          "quote": "Question about possible gamma squeeze set up for PURR stock",
+          "upvotes": 1,
+          "subreddit": "StockMarket",
+          "ago": "4h ago",
+          "url": "https://reddit.com/r/StockMarket/comments/1tvd5k6"
+        },
+        {
+          "quote": "Question about possible gamma squeeze set up for PURR stock",
+          "upvotes": 1,
+          "subreddit": "options",
+          "ago": "4h ago",
+          "url": "https://reddit.com/r/options/comments/1tvd2gp"
+        },
+        {
+          "quote": "Question about possible gamma squeeze set up for PURR stock",
+          "upvotes": 1,
+          "subreddit": "stocks",
+          "ago": "4h ago",
+          "url": "https://reddit.com/r/stocks/comments/1tvcojn"
+        },
+        {
+          "quote": "$120k yolo into $PURR stock",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "6h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv9wyq"
+        },
+        {
+          "quote": "$PURR The hype around Hyperliquid has begun, everyone's talking about it. It could be an interesting penny stock, even if it has wild swings and you could get hurt.",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tuieg5"
+        },
+        {
+          "quote": "$PURR lol wait until the market catches on to this",
+          "upvotes": 1,
+          "subreddit": "stocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/stocks/comments/1tu3nyl"
+        }
+      ],
+      "whyTrending": "PURR is gaining attention due to discussions around a potential gamma squeeze setup, with significant out-of-the-money call option activity. The stock is also being compared to MSTR in terms of its asymmetrical risk-reward profile, particularly in the DeFi and staking sectors.",
+      "catalyst": "Potential gamma squeeze setup",
+      "predictions": {
+        "oneDay": {
+          "direction": "rise",
+          "confidence": 60
+        },
+        "oneWeek": {
+          "direction": "rise",
+          "confidence": 65
+        },
+        "oneMonth": {
+          "direction": "rise",
+          "confidence": 70
+        }
+      },
+      "priceChange24h": 3
+    },
+    {
+      "rank": 3,
+      "ticker": "LASE",
+      "name": "Laser Photonics",
+      "mentions": 9,
+      "totalMentions": 9,
+      "velocityScore": 9,
+      "sentimentScore": 75,
+      "sentimentLabel": "bullish",
+      "sentimentReasoning": "Posts indicate a potential short squeeze and defense contract speculation, suggesting bullish sentiment.",
+      "subreddits": [
+        "wallstreetbets",
+        "pennystocks",
+        "RobinHoodPennyStocks"
+      ],
+      "lastMentionAgo": "2h ago",
+      "topPost": {
+        "quote": "SOLID $LASE gains - Sold half at end of day, swinging the remaining 50%.",
+        "upvotes": 2,
+        "subreddit": "wallstreetbets"
+      },
+      "allTopPosts": [
+        {
+          "quote": "SOLID $LASE gains - Sold half at end of day, swinging the remaining 50%.",
+          "upvotes": 2,
+          "subreddit": "wallstreetbets",
+          "ago": "6h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tva96f"
+        },
+        {
+          "quote": "$LASE - INCOMING SHORTSQUEEZE POTENTIAL",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "2h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tvf6bx"
+        },
+        {
+          "quote": "LASE ran +86% on a defense \"win\" that isn't a contract yet — and kept running after-hours",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "9h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tv6495"
+        },
+        {
+          "quote": "LASE ran +86% on a defense \"win\" that isn't a contract yet — and kept running after-hours",
+          "upvotes": 1,
+          "subreddit": "RobinHoodPennyStocks",
+          "ago": "9h ago",
+          "url": "https://reddit.com/r/RobinHoodPennyStocks/comments/1tv6464"
+        },
+        {
+          "quote": "LASE gains, wish I had more shares tho",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "9h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv548z"
+        },
+        {
+          "quote": "LASE, BB, and NOK….thoughts???",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "11h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv2fll"
+        },
+        {
+          "quote": "Thank you LASE but GET OUT now",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "11h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tv1xti"
+        },
+        {
+          "quote": "If you don’t know $LASE you will wish you did.",
+          "upvotes": 1,
+          "subreddit": "stocks",
+          "ago": "13h ago",
+          "url": "https://reddit.com/r/stocks/comments/1tuz5v1"
+        },
+        {
+          "quote": "LASE - A real sleeper (on the verge of contract with department of war)",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "16h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tutlnv"
+        }
+      ],
+      "whyTrending": "LASE is trending due to speculation about a potential short squeeze and its recent recognition in a defense-related submission. Investors are discussing the potential for a significant contract win, which could drive the stock higher.",
+      "catalyst": "Potential defense contract win",
+      "predictions": {
+        "oneDay": {
+          "direction": "rise",
+          "confidence": 70
+        },
+        "oneWeek": {
+          "direction": "rise",
+          "confidence": 75
+        },
+        "oneMonth": {
+          "direction": "rise",
+          "confidence": 80
+        }
+      },
+      "priceChange24h": 4
+    },
+    {
+      "rank": 4,
+      "ticker": "OPEN",
+      "name": "Opendoor Technologies",
+      "mentions": 18,
+      "totalMentions": 21,
+      "velocityScore": 8.2,
+      "sentimentScore": 50,
+      "sentimentLabel": "mixed",
+      "sentimentReasoning": "Posts show mixed sentiment with speculation on OpenAI IPO impact and investor settlement.",
+      "subreddits": [
+        "wallstreetbets",
+        "investing",
+        "pennystocks"
+      ],
+      "lastMentionAgo": "1h ago",
+      "topPost": {
+        "quote": "Missed the Opendoor $39M investor settlement? Looks like they're still accepting late claims",
+        "upvotes": 4,
+        "subreddit": "pennystocks"
+      },
+      "allTopPosts": [
+        {
+          "quote": "Missed the Opendoor $39M investor settlement? Looks like they're still accepting late claims",
+          "upvotes": 4,
+          "subreddit": "pennystocks",
+          "ago": "6d ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tp9018"
+        },
+        {
+          "quote": "Bought SpaceX (SPCE)",
+          "upvotes": 2,
+          "subreddit": "pennystocks",
+          "ago": "4d ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tr9b3p"
+        },
+        {
+          "quote": "78k on $OPEN leaps",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "1h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tvh09n"
+        },
+        {
+          "quote": "I’m long $OPEN @5.20, with thesis.",
+          "upvotes": 1,
+          "subreddit": "investing",
+          "ago": "6h ago",
+          "url": "https://reddit.com/r/investing/comments/1tva94r"
+        },
+        {
+          "quote": "The SRXH & EMJX Merger Deep Dive: Upcoming June 15 Closing, Eric Jackson’s Multi-Bagger Track Record (OPEN, CVNA, BETR), \"STRESS mode\" shift, Uber assets, and Dividends.",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "9h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tv5p9j"
+        },
+        {
+          "quote": "$MSTR sold BTC, Polymarket fucked up on a $200M bet, here's how to profit",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "9h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv5de2"
+        },
+        {
+          "quote": "ATTENTION APES WHO VOTED NO: YOU CAN CHANGE YOUR VOTE FOR WHILE POLLS ARE STILL OPEN",
+          "upvotes": 1,
+          "subreddit": "Superstonk",
+          "ago": "10h ago",
+          "url": "https://reddit.com/r/Superstonk/comments/1tv43mw"
+        },
+        {
+          "quote": "OPEN for OpenAI",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "10h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv3fbk"
+        },
+        {
+          "quote": "$OPEN AI IPO is a go!!!",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "12h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv0sva"
+        },
+        {
+          "quote": "$OPEN your wallets ahead of OPENAI IPO",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "12h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv0khm"
+        },
+        {
+          "quote": "OPEN > OpenAI",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "12h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuzxso"
+        },
+        {
+          "quote": "OPEN",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "13h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuyla1"
+        },
+        {
+          "quote": "OPEN 77k yolo",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "13h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuy1od"
+        },
+        {
+          "quote": "OPEN is the next SPCE",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "14h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tux7q6"
+        },
+        {
+          "quote": "Is it Time to OPEN AI now",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "14h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuwz1o"
+        },
+        {
+          "quote": "IV Crushing SPCE / SpaceX IPO Update",
+          "upvotes": 1,
+          "subreddit": "options",
+          "ago": "14h ago",
+          "url": "https://reddit.com/r/options/comments/1tuwcc7"
+        },
+        {
+          "quote": "Guys who cried about SPCE you can make it up on OPEN",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "15h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuvr4m"
+        },
+        {
+          "quote": "OPEN grows because of people who think like this",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "16h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuto6g"
+        },
+        {
+          "quote": "I’m long $OPEN @5.2",
+          "upvotes": 1,
+          "subreddit": "stocks",
+          "ago": "16h ago",
+          "url": "https://reddit.com/r/stocks/comments/1tutixg"
+        },
+        {
+          "quote": "I’m long $OPEN @5.20, with thesis.",
+          "upvotes": 1,
+          "subreddit": "investing",
+          "ago": "16h ago",
+          "url": "https://reddit.com/r/investing/comments/1tutbu6"
+        }
+      ],
+      "whyTrending": "OPEN is being discussed in relation to a potential OpenAI IPO, with some investors speculating on its impact on the stock. Additionally, there is mention of a $39M investor settlement, which could influence investor sentiment.",
+      "catalyst": "Speculation on OpenAI IPO impact",
+      "predictions": {
+        "oneDay": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneWeek": {
+          "direction": "neutral",
+          "confidence": 55
+        },
+        "oneMonth": {
+          "direction": "neutral",
+          "confidence": 60
+        }
+      },
+      "priceChange24h": 1
+    },
+    {
+      "rank": 5,
+      "ticker": "AVGO",
+      "name": "Broadcom Inc.",
+      "mentions": 18,
+      "totalMentions": 21,
+      "velocityScore": 8.2,
+      "sentimentScore": 80,
+      "sentimentLabel": "bullish",
+      "sentimentReasoning": "Posts indicate bullish sentiment with options positioning ahead of earnings tomorrow.",
+      "subreddits": [
+        "stocks",
+        "wallstreetbets",
+        "options"
+      ],
+      "lastMentionAgo": "1h ago",
+      "topPost": {
+        "quote": "55x on ORCL calls. Trimming and rolling into LITE for the AVGO catalyst.",
+        "upvotes": 35,
+        "subreddit": "options"
+      },
+      "allTopPosts": [
+        {
+          "quote": "55x on ORCL calls. Trimming and rolling into LITE for the AVGO catalyst.",
+          "upvotes": 35,
+          "subreddit": "options",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/options/comments/1tu1yxw"
+        },
+        {
+          "quote": "20M - $45K+ (New Addition & Add More)",
+          "upvotes": 5,
+          "subreddit": "ValueInvesting",
+          "ago": "6d ago",
+          "url": "https://reddit.com/r/ValueInvesting/comments/1tplivx"
+        },
+        {
+          "quote": "Insider selling in WDC & INFQ vs. retail hype on SPCE/MU/NVDA",
+          "upvotes": 2,
+          "subreddit": "options",
+          "ago": "2d ago",
+          "url": "https://reddit.com/r/options/comments/1tstfx3"
+        },
+        {
+          "quote": "AVGO earnings boom or bust? 🤔",
+          "upvotes": 1,
+          "subreddit": "stocks",
+          "ago": "1h ago",
+          "url": "https://reddit.com/r/stocks/comments/1tvgd8n"
+        },
+        {
+          "quote": "AVGO earnings boom or bust? 🤔",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "3h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tvdz4r"
+        },
+        {
+          "quote": "Got you regards beat on MRVL",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "5h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tvb8fr"
+        },
+        {
+          "quote": "$GOOGL is the only MAG7 worth owning (and first to 10T market cap).",
+          "upvotes": 1,
+          "subreddit": "options",
+          "ago": "13h ago",
+          "url": "https://reddit.com/r/options/comments/1tuzgsv"
+        },
+        {
+          "quote": "AVGO and CIEN",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "13h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuy74h"
+        },
+        {
+          "quote": "AVGO is ripping into earnings but  the fresh money is fading it.",
+          "upvotes": 1,
+          "subreddit": "options",
+          "ago": "14h ago",
+          "url": "https://reddit.com/r/options/comments/1tuxj45"
+        },
+        {
+          "quote": "In the AI Gold Rush, What Are the Shovels?",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "14h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuwp73"
+        },
+        {
+          "quote": "Jensen is Trump 2.0",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "15h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuuiqs"
+        },
+        {
+          "quote": "$META bounce?",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "16h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tutgmn"
+        },
+        {
+          "quote": "Current Artificial Intelligence bullish narrative and my stock watchlist.",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "18h ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tuqyi6"
+        },
+        {
+          "quote": "Key watchlist in relation with NVDA Taipei keynote",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "18h ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tuqcrp"
+        },
+        {
+          "quote": "AI Narratives, Nvidia Taipei; Speculative trading pairs",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "18h ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tuq28d"
+        },
+        {
+          "quote": "Nvidia Taipei keynote trade watchlist",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "18h ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tupt45"
+        },
+        {
+          "quote": "Narrative trades from the NVIDIA GTC Taipei",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "19h ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tupide"
+        },
+        {
+          "quote": "What's with the massive single-name moves lately?",
+          "upvotes": 1,
+          "subreddit": "investing",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/investing/comments/1tu9la6"
+        },
+        {
+          "quote": "$ADI Analog Devices options could easily 4x this year.",
+          "upvotes": 1,
+          "subreddit": "options",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/options/comments/1tu52jc"
+        },
+        {
+          "quote": "MXL: priced in for 800 dsp chip but not 1.6 dsp race",
+          "upvotes": 1,
+          "subreddit": "ValueInvesting",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/ValueInvesting/comments/1tu3w2q"
+        }
+      ],
+      "whyTrending": "AVGO is trending due to its upcoming earnings report tomorrow, which is expected to have a significant impact on the stock price. Investors are discussing potential outcomes and positioning with options ahead of the earnings announcement.",
+      "catalyst": "Earnings June 3",
+      "predictions": {
+        "oneDay": {
+          "direction": "rise",
+          "confidence": 80
+        },
+        "oneWeek": {
+          "direction": "rise",
+          "confidence": 85
+        },
+        "oneMonth": {
+          "direction": "rise",
+          "confidence": 90
+        }
+      },
+      "priceChange24h": 6
+    },
+    {
+      "rank": 6,
+      "ticker": "PUSA",
+      "name": "PUSA",
+      "mentions": 7,
+      "totalMentions": 7,
+      "velocityScore": 7,
+      "sentimentScore": 50,
+      "sentimentLabel": "mixed",
+      "sentimentReasoning": "",
+      "subreddits": [
+        "pennystocks",
+        "wallstreetbets"
+      ],
+      "lastMentionAgo": "7h ago",
+      "topPost": {
+        "quote": "$PUSA: The Trump Drone Play Nobody Is Talking About",
+        "upvotes": 1,
+        "subreddit": "wallstreetbets"
+      },
+      "allTopPosts": [
+        {
+          "quote": "$PUSA: The Trump Drone Play Nobody Is Talking About",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "7h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tv8sue"
+        },
+        {
+          "quote": "$PUSA: The Trump Drone Play Nobody Is Talking About",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "7h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv8dwl"
+        },
+        {
+          "quote": "$PUSA: Am I crazy for thinking the ticker itself could become a catalyst?",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "11h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv26oo"
+        },
+        {
+          "quote": "Am I a regard that the only reason I’m investing in $PUSA is the ticker would be liked by the president?",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "11h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv22q1"
+        },
+        {
+          "quote": "Am I a regard if the only reason I’m investing in PUSA is that the ticker would be liked by POTUS",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "11h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv1yho"
+        },
+        {
+          "quote": "Hear me out, Trump at some point pumps PUSA stock just because the ticker can stand for President of United States of America",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "11h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv1w6z"
+        },
+        {
+          "quote": "So how about that PUSA? 😛",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "15h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuvy02"
+        }
+      ],
+      "whyTrending": "Mention volume spiked 7.0x in the last 48 hours.",
+      "catalyst": null,
+      "predictions": {
+        "oneDay": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneWeek": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneMonth": {
+          "direction": "neutral",
+          "confidence": 50
+        }
+      },
+      "priceChange24h": 0
+    },
+    {
+      "rank": 7,
+      "ticker": "BB",
+      "name": "BB",
+      "mentions": 12,
+      "totalMentions": 14,
+      "velocityScore": 6.7,
+      "sentimentScore": 50,
+      "sentimentLabel": "mixed",
+      "sentimentReasoning": "",
+      "subreddits": [
+        "stocks",
+        "wallstreetbets",
+        "ValueInvesting"
+      ],
+      "lastMentionAgo": "4h ago",
+      "topPost": {
+        "quote": "BlackBerry (BB)",
+        "upvotes": 1,
+        "subreddit": "wallstreetbets"
+      },
+      "allTopPosts": [
+        {
+          "quote": "What is next for BlackBerry (BB)?",
+          "upvotes": 1,
+          "subreddit": "stocks",
+          "ago": "4h ago",
+          "url": "https://reddit.com/r/stocks/comments/1tvcp9y"
+        },
+        {
+          "quote": "What is next for BlackBerry (BB)?",
+          "upvotes": 1,
+          "subreddit": "stocks",
+          "ago": "4h ago",
+          "url": "https://reddit.com/r/stocks/comments/1tvcnk0"
+        },
+        {
+          "quote": "What is next for BlackBerry (BB)?",
+          "upvotes": 1,
+          "subreddit": "stocks",
+          "ago": "4h ago",
+          "url": "https://reddit.com/r/stocks/comments/1tvci9a"
+        },
+        {
+          "quote": "What is next for BlackBerry (BB)?",
+          "upvotes": 1,
+          "subreddit": "stocks",
+          "ago": "4h ago",
+          "url": "https://reddit.com/r/stocks/comments/1tvcgke"
+        },
+        {
+          "quote": "BlackBerry (BB)",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "9h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv6c7x"
+        },
+        {
+          "quote": "BlackBerry ($BB) for the long run",
+          "upvotes": 1,
+          "subreddit": "ValueInvesting",
+          "ago": "9h ago",
+          "url": "https://reddit.com/r/ValueInvesting/comments/1tv63cc"
+        },
+        {
+          "quote": "BB - BlackBerry",
+          "upvotes": 1,
+          "subreddit": "stocks",
+          "ago": "9h ago",
+          "url": "https://reddit.com/r/stocks/comments/1tv52cf"
+        },
+        {
+          "quote": "BB - BlackBerry",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "10h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv4lwc"
+        },
+        {
+          "quote": "LASE, BB, and NOK….thoughts???",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "11h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv2fll"
+        },
+        {
+          "quote": "Anyone else with calls on $BB?",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "13h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuzmjs"
+        },
+        {
+          "quote": "BB is officially a tech turnaround, not a meme.",
+          "upvotes": 1,
+          "subreddit": "stocks",
+          "ago": "16h ago",
+          "url": "https://reddit.com/r/stocks/comments/1tuu053"
+        },
+        {
+          "quote": "BB is officially a tech turnaround",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "16h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tutsww"
+        },
+        {
+          "quote": "No more dilution. $9B cash enough to build 100 startup companies. Since 2021, $BB only diluted 4.5% while $GME 300%. If 2.5B shares approved, and the future CEO dilute, all apes will lose all money and shorts escape.",
+          "upvotes": 0,
+          "subreddit": "Superstonk",
+          "ago": "2d ago",
+          "url": "https://reddit.com/r/Superstonk/comments/1tt4z36"
+        },
+        {
+          "quote": "Help managing my BB Bull Call Spread",
+          "upvotes": 0,
+          "subreddit": "options",
+          "ago": "5d ago",
+          "url": "https://reddit.com/r/options/comments/1tqjh1m"
+        }
+      ],
+      "whyTrending": "Mention volume spiked 6.7x in the last 48 hours.",
+      "catalyst": null,
+      "predictions": {
+        "oneDay": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneWeek": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneMonth": {
+          "direction": "neutral",
+          "confidence": 50
+        }
+      },
+      "priceChange24h": 0
+    },
+    {
+      "rank": 8,
+      "ticker": "ET",
+      "name": "ET",
+      "mentions": 12,
+      "totalMentions": 14,
+      "velocityScore": 6.7,
+      "sentimentScore": 50,
+      "sentimentLabel": "mixed",
+      "sentimentReasoning": "",
+      "subreddits": [
+        "pennystocks",
+        "RobinHoodPennyStocks",
+        "wallstreetbets"
+      ],
+      "lastMentionAgo": "9h ago",
+      "topPost": {
+        "quote": "Week 5 - Day 1 - One and done option trade. Growing a small account $300 to $60,000",
+        "upvotes": 4,
+        "subreddit": "Daytrading"
+      },
+      "allTopPosts": [
+        {
+          "quote": "Week 5 - Day 1 - One and done option trade. Growing a small account $300 to $60,000",
+          "upvotes": 4,
+          "subreddit": "Daytrading",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1ttvwv5"
+        },
+        {
+          "quote": "The S&P 500 priced in a tariff-shock recovery before ISM Manufacturing confirmed it -- does today's data close the gap?",
+          "upvotes": 2,
+          "subreddit": "ValueInvesting",
+          "ago": "2d ago",
+          "url": "https://reddit.com/r/ValueInvesting/comments/1tthymv"
+        },
+        {
+          "quote": "DXST ran +80% on an insider buy that handed the chairman 90% of the votes — a $2.9M-cap shell",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "9h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tv65qz"
+        },
+        {
+          "quote": "DXST ran +80% on an insider buy that handed the chairman 90% of the votes — a $2.9M-cap shell",
+          "upvotes": 1,
+          "subreddit": "RobinHoodPennyStocks",
+          "ago": "9h ago",
+          "url": "https://reddit.com/r/RobinHoodPennyStocks/comments/1tv65nj"
+        },
+        {
+          "quote": "LASE ran +86% on a defense \"win\" that isn't a contract yet — and kept running after-hours",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "9h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tv6495"
+        },
+        {
+          "quote": "$MSTR sold BTC, Polymarket fucked up on a $200M bet, here's how to profit",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "9h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv5de2"
+        },
+        {
+          "quote": "PANW reporting tonight — where do you see it going?",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "12h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv1igw"
+        },
+        {
+          "quote": "HPE 🚀 Rate my enter/exit timing on scale 1-10",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "12h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv0rce"
+        },
+        {
+          "quote": "The Iran conflict has disrupted oil supply. Gulf states are now looking to multi-billion-dollar investments in renewables",
+          "upvotes": 1,
+          "subreddit": "stocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/stocks/comments/1tuehy4"
+        },
+        {
+          "quote": "TGHL gapped +500% premarket on a $400M reverse-merger term sheet — then round-tripped to flat by the close",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tu7cp6"
+        },
+        {
+          "quote": "TGHL gapped +500% premarket on a $400M reverse-merger term sheet — then round-tripped to flat by the close",
+          "upvotes": 1,
+          "subreddit": "RobinHoodPennyStocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/RobinHoodPennyStocks/comments/1tu7clz"
+        },
+        {
+          "quote": "HKIT doubled intraday on zero news — a sub-5M float doing what sub-5M floats do",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tu7bdl"
+        },
+        {
+          "quote": "HKIT doubled intraday on zero news — a sub-5M float doing what sub-5M floats do",
+          "upvotes": 1,
+          "subreddit": "RobinHoodPennyStocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/RobinHoodPennyStocks/comments/1tu7b8n"
+        },
+        {
+          "quote": "🔮 $SPY & $SPX — Levels and Scenarios for Monday, June 1, 2026",
+          "upvotes": 0,
+          "subreddit": "Daytrading",
+          "ago": "2d ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1ttb2yz"
+        }
+      ],
+      "whyTrending": "Mention volume spiked 6.7x in the last 48 hours.",
+      "catalyst": null,
+      "predictions": {
+        "oneDay": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneWeek": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneMonth": {
+          "direction": "neutral",
+          "confidence": 50
+        }
+      },
+      "priceChange24h": 0
+    },
+    {
+      "rank": 9,
+      "ticker": "XOVR",
+      "name": "XOVR",
+      "mentions": 6,
+      "totalMentions": 6,
+      "velocityScore": 6,
+      "sentimentScore": 50,
+      "sentimentLabel": "mixed",
+      "sentimentReasoning": "",
+      "subreddits": [
+        "wallstreetbets"
+      ],
+      "lastMentionAgo": "8h ago",
+      "topPost": {
+        "quote": "Tired of these SpaceX equivalents of beyond burger?",
+        "upvotes": 1,
+        "subreddit": "wallstreetbets"
+      },
+      "allTopPosts": [
+        {
+          "quote": "Tired of these SpaceX equivalents of beyond burger?",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "8h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv7342"
+        },
+        {
+          "quote": "SpaceX fund XOVR YOLO",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "12h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv0idy"
+        },
+        {
+          "quote": "3 funds that already hold pre-IPO shares of the upcoming IPO",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "13h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuzrlk"
+        },
+        {
+          "quote": "tired of beyond burger SPCE? try these for the real deal instead",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "13h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuywck"
+        },
+        {
+          "quote": "investing in SpaceX",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "13h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuym8v"
+        },
+        {
+          "quote": "pre-IPO SpaceX exposure",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "13h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuyh8o"
+        }
+      ],
+      "whyTrending": "Mention volume spiked 6.0x in the last 48 hours.",
+      "catalyst": null,
+      "predictions": {
+        "oneDay": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneWeek": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneMonth": {
+          "direction": "neutral",
+          "confidence": 50
+        }
+      },
+      "priceChange24h": 0
+    },
+    {
+      "rank": 10,
+      "ticker": "MSTR",
+      "name": "MSTR",
+      "mentions": 10,
+      "totalMentions": 12,
+      "velocityScore": 5.6,
+      "sentimentScore": 50,
+      "sentimentLabel": "mixed",
+      "sentimentReasoning": "",
+      "subreddits": [
+        "wallstreetbets",
+        "Daytrading",
+        "pennystocks"
+      ],
+      "lastMentionAgo": "6h ago",
+      "topPost": {
+        "quote": "Strategy shares fall after selling $2.5 million in bitcoin, its first sale since 2022",
+        "upvotes": 531,
+        "subreddit": "stocks"
+      },
+      "allTopPosts": [
+        {
+          "quote": "Strategy shares fall after selling $2.5 million in bitcoin, its first sale since 2022",
+          "upvotes": 531,
+          "subreddit": "stocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/stocks/comments/1tttxjr"
+        },
+        {
+          "quote": "$120k yolo into $PURR stock",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "6h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv9wyq"
+        },
+        {
+          "quote": "Artist rendering of michael saylor dumping his bitcoin on unsuspecting crypto bros (2026)",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "9h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv5wxd"
+        },
+        {
+          "quote": "$MSTR sold BTC, Polymarket fucked up on a $200M bet, here's how to profit",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "9h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv5de2"
+        },
+        {
+          "quote": "Strategy (MSTR) Investors 'Deeply Concerned' After Market's Reaction to Michael Saylor Selling Bitcoin",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "9h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv55hn"
+        },
+        {
+          "quote": "TL;DR on why Bitcoin is going to ZERO",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "12h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv0jlk"
+        },
+        {
+          "quote": "MSTR’s BTC Flywheel Might Be Losing Steam",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "12h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv0dju"
+        },
+        {
+          "quote": "MSTR",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "13h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuywn7"
+        },
+        {
+          "quote": "$MSTR RSI 21. Down -15% in 5 days.",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "13h ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tuy7fe"
+        },
+        {
+          "quote": "I am buying more",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tuf19j"
+        },
+        {
+          "quote": "Strategy sends $30M in Bitcoin to Coinbase as MSTR stock slides",
+          "upvotes": 1,
+          "subreddit": "investing",
+          "ago": "2d ago",
+          "url": "https://reddit.com/r/investing/comments/1ttkrgh"
+        },
+        {
+          "quote": "Long Term Thoughts on CHPY",
+          "upvotes": 0,
+          "subreddit": "dividends",
+          "ago": "5d ago",
+          "url": "https://reddit.com/r/dividends/comments/1tqoxx6"
+        }
+      ],
+      "whyTrending": "Mention volume spiked 5.6x in the last 48 hours.",
+      "catalyst": null,
+      "predictions": {
+        "oneDay": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneWeek": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneMonth": {
+          "direction": "neutral",
+          "confidence": 50
+        }
+      },
+      "priceChange24h": 0
+    },
+    {
+      "rank": 11,
+      "ticker": "RONB",
+      "name": "RONB",
+      "mentions": 5,
+      "totalMentions": 5,
+      "velocityScore": 5,
+      "sentimentScore": 50,
+      "sentimentLabel": "mixed",
+      "sentimentReasoning": "",
+      "subreddits": [
+        "wallstreetbets"
+      ],
+      "lastMentionAgo": "8h ago",
+      "topPost": {
+        "quote": "Tired of these SpaceX equivalents of beyond burger?",
+        "upvotes": 1,
+        "subreddit": "wallstreetbets"
+      },
+      "allTopPosts": [
+        {
+          "quote": "Tired of these SpaceX equivalents of beyond burger?",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "8h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv7342"
+        },
+        {
+          "quote": "3 funds that already hold pre-IPO shares of the upcoming IPO",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "13h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuzrlk"
+        },
+        {
+          "quote": "tired of beyond burger SPCE? try these for the real deal instead",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "13h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuywck"
+        },
+        {
+          "quote": "investing in SpaceX",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "13h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuym8v"
+        },
+        {
+          "quote": "pre-IPO SpaceX exposure",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "13h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuyh8o"
+        }
+      ],
+      "whyTrending": "Mention volume spiked 5.0x in the last 48 hours.",
+      "catalyst": null,
+      "predictions": {
+        "oneDay": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneWeek": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneMonth": {
+          "direction": "neutral",
+          "confidence": 50
+        }
+      },
+      "priceChange24h": 0
+    },
+    {
+      "rank": 12,
+      "ticker": "DXYZ",
+      "name": "DXYZ",
+      "mentions": 5,
+      "totalMentions": 5,
+      "velocityScore": 5,
+      "sentimentScore": 50,
+      "sentimentLabel": "mixed",
+      "sentimentReasoning": "",
+      "subreddits": [
+        "wallstreetbets"
+      ],
+      "lastMentionAgo": "8h ago",
+      "topPost": {
+        "quote": "Tired of these SpaceX equivalents of beyond burger?",
+        "upvotes": 1,
+        "subreddit": "wallstreetbets"
+      },
+      "allTopPosts": [
+        {
+          "quote": "Tired of these SpaceX equivalents of beyond burger?",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "8h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv7342"
+        },
+        {
+          "quote": "3 funds that already hold pre-IPO shares of the upcoming IPO",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "13h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuzrlk"
+        },
+        {
+          "quote": "tired of beyond burger SPCE? try these for the real deal instead",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "13h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuywck"
+        },
+        {
+          "quote": "investing in SpaceX",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "13h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuym8v"
+        },
+        {
+          "quote": "pre-IPO SpaceX exposure",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "13h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuyh8o"
+        }
+      ],
+      "whyTrending": "Mention volume spiked 5.0x in the last 48 hours.",
+      "catalyst": null,
+      "predictions": {
+        "oneDay": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneWeek": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneMonth": {
+          "direction": "neutral",
+          "confidence": 50
+        }
+      },
+      "priceChange24h": 0
+    },
+    {
+      "rank": 13,
+      "ticker": "ADEA",
+      "name": "ADEA",
+      "mentions": 5,
+      "totalMentions": 5,
+      "velocityScore": 5,
+      "sentimentScore": 50,
+      "sentimentLabel": "mixed",
+      "sentimentReasoning": "",
+      "subreddits": [
+        "wallstreetbets"
+      ],
+      "lastMentionAgo": "9h ago",
+      "topPost": {
+        "quote": "$ADEA - The AI Shovel No One is Talking About (DD)",
+        "upvotes": 1,
+        "subreddit": "wallstreetbets"
+      },
+      "allTopPosts": [
+        {
+          "quote": "$ADEA - The AI Shovel No One is Talking About (DD)",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "9h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv67j6"
+        },
+        {
+          "quote": "$ADEA $78K OPTIONS YOLO",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "12h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv10u6"
+        },
+        {
+          "quote": "$ADEA - The HBM Gold Shovel No One Talks About (DD)",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "13h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuycib"
+        },
+        {
+          "quote": "$ADEA - The HBM Tollbooth No One Talks About (DD)",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "13h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuy7rr"
+        },
+        {
+          "quote": "$ADEA - The HBM Tollbooth No One Talks About (DD)",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "13h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuy1f6"
+        }
+      ],
+      "whyTrending": "Mention volume spiked 5.0x in the last 48 hours.",
+      "catalyst": null,
+      "predictions": {
+        "oneDay": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneWeek": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneMonth": {
+          "direction": "neutral",
+          "confidence": 50
+        }
+      },
+      "priceChange24h": 0
+    },
+    {
+      "rank": 14,
+      "ticker": "EMA",
+      "name": "EMA",
+      "mentions": 11,
+      "totalMentions": 14,
+      "velocityScore": 5,
+      "sentimentScore": 50,
+      "sentimentLabel": "mixed",
+      "sentimentReasoning": "",
+      "subreddits": [
+        "wallstreetbets",
+        "Daytrading",
+        "options"
+      ],
+      "lastMentionAgo": "9h ago",
+      "topPost": {
+        "quote": "News: Cosmos Health (NASDAQ: COSM) Enters $69 Billion Global Animal Health Industry with Veterinary C-Scrub Wash 4% Following Successful European Standard Testing Under EN 1656 and EN 1657",
+        "upvotes": 5,
+        "subreddit": "pennystocks"
+      },
+      "allTopPosts": [
+        {
+          "quote": "News: Cosmos Health (NASDAQ: COSM) Enters $69 Billion Global Animal Health Industry with Veterinary C-Scrub Wash 4% Following Successful European Standard Testing Under EN 1656 and EN 1657",
+          "upvotes": 5,
+          "subreddit": "pennystocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1ttru7i"
+        },
+        {
+          "quote": "News: Cosmos Health (NASDAQ: COSM) Enters $69 Billion Global Animal Health Industry with Veterinary C-Scrub Wash 4% Following Successful European Standard Testing Under EN 1656 and EN 1657",
+          "upvotes": 2,
+          "subreddit": "pennystocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1ttzp18"
+        },
+        {
+          "quote": "USDCAD Daily Outlook - 1/06/2026",
+          "upvotes": 2,
+          "subreddit": "Daytrading",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1ttu6u2"
+        },
+        {
+          "quote": "Spx bull spread sanity check",
+          "upvotes": 2,
+          "subreddit": "options",
+          "ago": "6d ago",
+          "url": "https://reddit.com/r/options/comments/1tppmng"
+        },
+        {
+          "quote": "Building Strategy",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "9h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv5g6l"
+        },
+        {
+          "quote": "Orb strategy day 165",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "10h ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tv47e8"
+        },
+        {
+          "quote": "OKLO - Selling $65P ~38 DTE for $600 credit | Bullish thesis",
+          "upvotes": 1,
+          "subreddit": "options",
+          "ago": "12h ago",
+          "url": "https://reddit.com/r/options/comments/1tv11jx"
+        },
+        {
+          "quote": "New to Trading!",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "15h ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tuva4e"
+        },
+        {
+          "quote": "Cosmos Health Provides Balance Sheet Update: Highlights European Investment Bank Financing Discussions for up to €25M, Eliminates 38% of Warrant Overhang with No Dilution; Reaffirms Growth Trajectory; Notes No Known Business Reason for Recent Share Price Decline",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "18h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tupzo3"
+        },
+        {
+          "quote": "Ultra HTF Indicator",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tue4lz"
+        },
+        {
+          "quote": "Need some advice it's my entry rule too strict?",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1ttwm6f"
+        },
+        {
+          "quote": "USDJPY Daily Outlook - 1/06/2026",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tttwi9"
+        },
+        {
+          "quote": "RXRX Volume Update: Heavy Tape Again, But Bears Still Need the Break",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "4d ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tr5b0j"
+        },
+        {
+          "quote": "$HOLO: Charts Show the Symptom. Filings May Show the Cause.",
+          "upvotes": 0,
+          "subreddit": "pennystocks",
+          "ago": "2d ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tt0ksk"
+        }
+      ],
+      "whyTrending": "Mention volume spiked 5.0x in the last 48 hours.",
+      "catalyst": null,
+      "predictions": {
+        "oneDay": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneWeek": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneMonth": {
+          "direction": "neutral",
+          "confidence": 50
+        }
+      },
+      "priceChange24h": 0
+    },
+    {
+      "rank": 15,
+      "ticker": "AS",
+      "name": "AS",
+      "mentions": 5,
+      "totalMentions": 5,
+      "velocityScore": 5,
+      "sentimentScore": 50,
+      "sentimentLabel": "mixed",
+      "sentimentReasoning": "",
+      "subreddits": [
+        "pennystocks",
+        "wallstreetbets"
+      ],
+      "lastMentionAgo": "5h ago",
+      "topPost": {
+        "quote": "We are about to see THE MOST epic rugpull in human history.",
+        "upvotes": 1,
+        "subreddit": "wallstreetbets"
+      },
+      "allTopPosts": [
+        {
+          "quote": "🚨 HOLY $HMR Trailer NEWS - The Next Uber - Up 110%+ since post 1. Up 50%+ since my last DD. The Most Undervalued Stock on NASDAQ Just Launched a YouTube Trailer. Marketing, eyes & attention are only just arriving.",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "5h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tvaufk"
+        },
+        {
+          "quote": "🚨HOLY MOLY $HMR TRAILER DROP - Up 110%+ since my post 1. Up 50%+ since my last DD. They just dropped the wildest investor trailer I've seen on a small/microcap. Marketing & Eyes are only just arriving.",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "8h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tv7wt1"
+        },
+        {
+          "quote": "🚨 HOLY MOLY $HMR TRAILER DROP - UP 110%+ SINCE MY FIRST POST. UP 50%+ SINCE MY LAST ONE. 2.5M VOLUME IN A DAY. AND THEY JUST DROPPED THE MOST INSANE STOCK TRAILER I HAVE EVER SEEN. PLUS CASH IF YOU LEAVE A YOUTUBE COMMENT. THE MARKETING & EYES ARE ONLY JUST STARTING…",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "8h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tv7naz"
+        },
+        {
+          "quote": "We are about to see THE MOST epic rugpull in human history.",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "10h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv4ans"
+        },
+        {
+          "quote": "$HMR UPDATE: A No-Debt Microcap Printing GAAP Profits. Massive Q1 Beat, Massively Tight Float + 90% Insider Ownership. The Catalysts are Set and the Stock Is Moving!",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tu5d4m"
+        }
+      ],
+      "whyTrending": "Mention volume spiked 5.0x in the last 48 hours.",
+      "catalyst": null,
+      "predictions": {
+        "oneDay": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneWeek": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneMonth": {
+          "direction": "neutral",
+          "confidence": 50
+        }
+      },
+      "priceChange24h": 0
+    },
+    {
+      "rank": 16,
+      "ticker": "LITE",
+      "name": "LITE",
+      "mentions": 5,
+      "totalMentions": 5,
+      "velocityScore": 5,
+      "sentimentScore": 50,
+      "sentimentLabel": "mixed",
+      "sentimentReasoning": "",
+      "subreddits": [
+        "wallstreetbets",
+        "pennystocks",
+        "stocks"
+      ],
+      "lastMentionAgo": "13h ago",
+      "topPost": {
+        "quote": "55x on ORCL calls. Trimming and rolling into LITE for the AVGO catalyst.",
+        "upvotes": 35,
+        "subreddit": "options"
+      },
+      "allTopPosts": [
+        {
+          "quote": "55x on ORCL calls. Trimming and rolling into LITE for the AVGO catalyst.",
+          "upvotes": 35,
+          "subreddit": "options",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/options/comments/1tu1yxw"
+        },
+        {
+          "quote": "$$LITE Lumentum YOLO",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "13h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuzoc5"
+        },
+        {
+          "quote": "Gains thus far this year",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "14h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tux8m0"
+        },
+        {
+          "quote": "NVIDIA just put $2B into a single optical supplier ($LITE). The AI trade is rotating to the networking layer.",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "18h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tuqnsi"
+        },
+        {
+          "quote": "Is it normal for semiconductor and AI infrastructure stocks to 10x in such a short time?",
+          "upvotes": 1,
+          "subreddit": "stocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/stocks/comments/1tu53do"
+        }
+      ],
+      "whyTrending": "Mention volume spiked 5.0x in the last 48 hours.",
+      "catalyst": null,
+      "predictions": {
+        "oneDay": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneWeek": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneMonth": {
+          "direction": "neutral",
+          "confidence": 50
+        }
+      },
+      "priceChange24h": 0
+    },
+    {
+      "rank": 17,
+      "ticker": "CASH",
+      "name": "CASH",
+      "mentions": 5,
+      "totalMentions": 5,
+      "velocityScore": 5,
+      "sentimentScore": 50,
+      "sentimentLabel": "mixed",
+      "sentimentReasoning": "",
+      "subreddits": [
+        "pennystocks",
+        "Superstonk",
+        "Daytrading"
+      ],
+      "lastMentionAgo": "5h ago",
+      "topPost": {
+        "quote": "🚨 HOLY $HMR Trailer NEWS - The Next Uber - Up 110%+ since post 1. Up 50%+ since my last DD. The Most Undervalued Stock on NASDAQ Just Launched a YouTube Trailer. Marketing, eyes & attention are only just arriving.",
+        "upvotes": 1,
+        "subreddit": "pennystocks"
+      },
+      "allTopPosts": [
+        {
+          "quote": "🚨 HOLY $HMR Trailer NEWS - The Next Uber - Up 110%+ since post 1. Up 50%+ since my last DD. The Most Undervalued Stock on NASDAQ Just Launched a YouTube Trailer. Marketing, eyes & attention are only just arriving.",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "5h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tvaufk"
+        },
+        {
+          "quote": "🚨HOLY MOLY $HMR TRAILER DROP - Up 110%+ since my post 1. Up 50%+ since my last DD. They just dropped the wildest investor trailer I've seen on a small/microcap. Marketing & Eyes are only just arriving.",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "8h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tv7wt1"
+        },
+        {
+          "quote": "🚨 HOLY MOLY $HMR TRAILER DROP - UP 110%+ SINCE MY FIRST POST. UP 50%+ SINCE MY LAST ONE. 2.5M VOLUME IN A DAY. AND THEY JUST DROPPED THE MOST INSANE STOCK TRAILER I HAVE EVER SEEN. PLUS CASH IF YOU LEAVE A YOUTUBE COMMENT. THE MARKETING & EYES ARE ONLY JUST STARTING…",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "8h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tv7naz"
+        },
+        {
+          "quote": "4546 - FOR",
+          "upvotes": 1,
+          "subreddit": "Superstonk",
+          "ago": "8h ago",
+          "url": "https://reddit.com/r/Superstonk/comments/1tv7ijg"
+        },
+        {
+          "quote": "ROMANIAN SELL SENTREPRISE FOR 3 ,600,000,000 CASH , CASH !!!! CASH !!!! I CANNOT POST THIS IN ANT ROMANIANIAN CHANNELS. TRANSLATE THIS . IT'S OFFICIAL https://www.libertatea.ro/stiri/chris-turlica-isi-vinde-compania-cu-trei-miliarde-sase-sute-de-milioane-de-dolari-5760649",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tu9rk3"
+        }
+      ],
+      "whyTrending": "Mention volume spiked 5.0x in the last 48 hours.",
+      "catalyst": null,
+      "predictions": {
+        "oneDay": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneWeek": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneMonth": {
+          "direction": "neutral",
+          "confidence": 50
+        }
+      },
+      "priceChange24h": 0
+    },
+    {
+      "rank": 18,
+      "ticker": "HKIT",
+      "name": "HKIT",
+      "mentions": 5,
+      "totalMentions": 5,
+      "velocityScore": 5,
+      "sentimentScore": 50,
+      "sentimentLabel": "mixed",
+      "sentimentReasoning": "",
+      "subreddits": [
+        "Daytrading",
+        "pennystocks",
+        "RobinHoodPennyStocks"
+      ],
+      "lastMentionAgo": "14h ago",
+      "topPost": {
+        "quote": "HKIT doubled intraday on zero news — a sub-5M float doing what sub-5M floats do",
+        "upvotes": 1,
+        "subreddit": "pennystocks"
+      },
+      "allTopPosts": [
+        {
+          "quote": "SILO - On anyone's radar?",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "14h ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tuxlrk"
+        },
+        {
+          "quote": "HKIT doubled intraday on zero news — a sub-5M float doing what sub-5M floats do",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tu7bdl"
+        },
+        {
+          "quote": "HKIT doubled intraday on zero news — a sub-5M float doing what sub-5M floats do",
+          "upvotes": 1,
+          "subreddit": "RobinHoodPennyStocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/RobinHoodPennyStocks/comments/1tu7b8n"
+        },
+        {
+          "quote": "HKIT Low Float Opportunity",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tu6du2"
+        },
+        {
+          "quote": "Interesting fact about premarket gainers.",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1ttw7ac"
+        }
+      ],
+      "whyTrending": "Mention volume spiked 5.0x in the last 48 hours.",
+      "catalyst": null,
+      "predictions": {
+        "oneDay": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneWeek": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneMonth": {
+          "direction": "neutral",
+          "confidence": 50
+        }
+      },
+      "priceChange24h": 0
+    },
+    {
+      "rank": 19,
+      "ticker": "RTX",
+      "name": "RTX",
+      "mentions": 10,
+      "totalMentions": 13,
+      "velocityScore": 4.5,
+      "sentimentScore": 50,
+      "sentimentLabel": "mixed",
+      "sentimentReasoning": "",
+      "subreddits": [
+        "investing",
+        "RobinHoodPennyStocks",
+        "wallstreetbets"
+      ],
+      "lastMentionAgo": "1h ago",
+      "topPost": {
+        "quote": "Nvidia debuts RTX Spark processor for Windows laptops, taking aim at Intel, AMD",
+        "upvotes": 382,
+        "subreddit": "StockMarket"
+      },
+      "allTopPosts": [
+        {
+          "quote": "Nvidia debuts RTX Spark processor for Windows laptops, taking aim at Intel, AMD",
+          "upvotes": 382,
+          "subreddit": "StockMarket",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/StockMarket/comments/1ttof14"
+        },
+        {
+          "quote": "Nvidia debuts RTX Spark processor for Windows laptops, taking aim at Intel, AMD",
+          "upvotes": 382,
+          "subreddit": "StockMarket",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/StockMarket/comments/1ttof14"
+        },
+        {
+          "quote": "20M - $45K+ (New Addition & Add More)",
+          "upvotes": 5,
+          "subreddit": "ValueInvesting",
+          "ago": "6d ago",
+          "url": "https://reddit.com/r/ValueInvesting/comments/1tplivx"
+        },
+        {
+          "quote": "Microsoft - The Software Rotation.",
+          "upvotes": 2,
+          "subreddit": "stocks",
+          "ago": "3d ago",
+          "url": "https://reddit.com/r/stocks/comments/1tsclvw"
+        },
+        {
+          "quote": "3 Aerospace Stocks Ready to Ride the Aftermarket Rebound - Barron’s",
+          "upvotes": 2,
+          "subreddit": "ValueInvesting",
+          "ago": "4d ago",
+          "url": "https://reddit.com/r/ValueInvesting/comments/1trse7v"
+        },
+        {
+          "quote": "Looking at the RTX Spark announcement strategically",
+          "upvotes": 1,
+          "subreddit": "investing",
+          "ago": "1h ago",
+          "url": "https://reddit.com/r/investing/comments/1tvgkqr"
+        },
+        {
+          "quote": "YYGH High-growth revenue, massive asset gap , and a brand new NVIDIA Blackwell infrastructure catalyst.",
+          "upvotes": 1,
+          "subreddit": "RobinHoodPennyStocks",
+          "ago": "5h ago",
+          "url": "https://reddit.com/r/RobinHoodPennyStocks/comments/1tvbtl5"
+        },
+        {
+          "quote": "RTX - potential play for the coming weeks?",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "8h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv7iqd"
+        },
+        {
+          "quote": "YYGH High-growth revenue, massive asset gap ($4.03/share net), and a brand new NVIDIA Blackwell infrastructure catalyst.",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "13h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tuygpx"
+        },
+        {
+          "quote": "In the AI Gold Rush, What Are the Shovels?",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "14h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuwp73"
+        },
+        {
+          "quote": "What defensive stock would you add to this portfolio? Lined it up like a football team and the defense feels thin.",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "15h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuvm3l"
+        },
+        {
+          "quote": "[REQUEST] SPCE Financial Gore",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "16h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tutqca"
+        },
+        {
+          "quote": "Trading week recap 25.5.-29.5.",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "23h ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tujxg9"
+        }
+      ],
+      "whyTrending": "Mention volume spiked 4.5x in the last 48 hours.",
+      "catalyst": null,
+      "predictions": {
+        "oneDay": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneWeek": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneMonth": {
+          "direction": "neutral",
+          "confidence": 50
+        }
+      },
+      "priceChange24h": 0
+    },
+    {
+      "rank": 20,
+      "ticker": "CN",
+      "name": "CN",
+      "mentions": 10,
+      "totalMentions": 13,
+      "velocityScore": 4.5,
+      "sentimentScore": 50,
+      "sentimentLabel": "mixed",
+      "sentimentReasoning": "",
+      "subreddits": [
+        "pennystocks",
+        "investing",
+        "RobinHoodPennyStocks"
+      ],
+      "lastMentionAgo": "14h ago",
+      "topPost": {
+        "quote": "Canada just told the US: we have the power and critical minerals you need",
+        "upvotes": 64,
+        "subreddit": "RobinHoodPennyStocks"
+      },
+      "allTopPosts": [
+        {
+          "quote": "Canada just told the US: we have the power and critical minerals you need",
+          "upvotes": 64,
+          "subreddit": "RobinHoodPennyStocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/RobinHoodPennyStocks/comments/1ttrsmb"
+        },
+        {
+          "quote": "FCX is already running. Now copper traders may start looking lower down the chain",
+          "upvotes": 32,
+          "subreddit": "RobinHoodPennyStocks",
+          "ago": "4d ago",
+          "url": "https://reddit.com/r/RobinHoodPennyStocks/comments/1tr2pb4"
+        },
+        {
+          "quote": "Herbal Dispatch $HERB.CN / $LUFFF Q1 Major Pivot Veteran Channel Soars 98%, Massive International Shipments Signal Global Breakout",
+          "upvotes": 5,
+          "subreddit": "stocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/stocks/comments/1ttunpo"
+        },
+        {
+          "quote": "Herbal Dispatch $HERB.CN / $LUFFF Q1 Major Pivot Veteran Channel Soars 98%, Massive International Shipments Signal Global Breakout",
+          "upvotes": 3,
+          "subreddit": "pennystocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tttggm"
+        },
+        {
+          "quote": "Chile's copper agency just raised its 2026 copper forecast. Explorers should be on watch",
+          "upvotes": 2,
+          "subreddit": "pennystocks",
+          "ago": "4d ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tr4eq8"
+        },
+        {
+          "quote": "BC copper projects are getting easier to explain",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "14h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tuwnkw"
+        },
+        {
+          "quote": "C$10M financing for a BC copper junior",
+          "upvotes": 1,
+          "subreddit": "investing",
+          "ago": "14h ago",
+          "url": "https://reddit.com/r/investing/comments/1tuwjgb"
+        },
+        {
+          "quote": "Giustra says copper needs higher prices, but I think the M&A angle is the bigger tell",
+          "upvotes": 1,
+          "subreddit": "RobinHoodPennyStocks",
+          "ago": "16h ago",
+          "url": "https://reddit.com/r/RobinHoodPennyStocks/comments/1tutqlg"
+        },
+        {
+          "quote": "Feels Like AI, Defense And Copper Are All Becoming The Same Trade",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "17h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1turev2"
+        },
+        {
+          "quote": "Why NRED.CN Keeps Looking Better Every Time A New Copper Headline Appears",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tu3ckq"
+        },
+        {
+          "quote": "Why NRED.CN Could Be One Of The Most Interesting Copper Stories As Global Supply Chains Shift",
+          "upvotes": 1,
+          "subreddit": "investing_discussion",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/investing_discussion/comments/1ttwgbx"
+        },
+        {
+          "quote": "Chile copper output hits a 9-year low. BC copper explorers just got more interesting",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1ttvo8p"
+        },
+        {
+          "quote": "$HERB.CN / $LUFFF Exports keep flying, Why I think lots more are on the way!",
+          "upvotes": 1,
+          "subreddit": "investing",
+          "ago": "4d ago",
+          "url": "https://reddit.com/r/investing/comments/1tr6l7d"
+        }
+      ],
+      "whyTrending": "Mention volume spiked 4.5x in the last 48 hours.",
+      "catalyst": null,
+      "predictions": {
+        "oneDay": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneWeek": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneMonth": {
+          "direction": "neutral",
+          "confidence": 50
+        }
+      },
+      "priceChange24h": 0
+    },
+    {
+      "rank": 21,
+      "ticker": "HOLY",
+      "name": "HOLY",
+      "mentions": 6,
+      "totalMentions": 7,
+      "velocityScore": 4.3,
+      "sentimentScore": 50,
+      "sentimentLabel": "mixed",
+      "sentimentReasoning": "",
+      "subreddits": [
+        "pennystocks",
+        "RobinHoodPennyStocks",
+        "StockMarket"
+      ],
+      "lastMentionAgo": "5h ago",
+      "topPost": {
+        "quote": "🚨 HOLY $HMR Trailer NEWS - The Next Uber - Up 110%+ since post 1. Up 50%+ since my last DD. The Most Undervalued Stock on NASDAQ Just Launched a YouTube Trailer. Marketing, eyes & attention are only just arriving.",
+        "upvotes": 1,
+        "subreddit": "pennystocks"
+      },
+      "allTopPosts": [
+        {
+          "quote": "🚨 HOLY $HMR Trailer NEWS - The Next Uber - Up 110%+ since post 1. Up 50%+ since my last DD. The Most Undervalued Stock on NASDAQ Just Launched a YouTube Trailer. Marketing, eyes & attention are only just arriving.",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "5h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tvaufk"
+        },
+        {
+          "quote": "🚨 HOLY $HMR Trailer NEWS - The Next Uber - Up 100%+ since post 1. Up 50%+ since my last DD. The Most Undervalued Stock on NASDAQ Just Launched a YouTube Trailer. Marketing, eyes & attention are only just arriving.",
+          "upvotes": 1,
+          "subreddit": "RobinHoodPennyStocks",
+          "ago": "6h ago",
+          "url": "https://reddit.com/r/RobinHoodPennyStocks/comments/1tv9tzm"
+        },
+        {
+          "quote": "🚨 HOLY $HMR TRAILER DROP - Up 100%+ since post 1. Up 50%+ since my last DD. The Most Undervalued Stock on NASDAQ Just Launched a YouTube Trailer. Marketing, eyes & attention are only just arriving.",
+          "upvotes": 1,
+          "subreddit": "StockMarket",
+          "ago": "7h ago",
+          "url": "https://reddit.com/r/StockMarket/comments/1tv92sg"
+        },
+        {
+          "quote": "🚨 HOLY $HMR TRAILER DROP - Up 100%+ since post 1. Up 50%+ since my last DD. The Most Undervalued Stock on NASDAQ Just Launched a YouTube Trailer. Marketing, eyes & attention are only just arriving.",
+          "upvotes": 1,
+          "subreddit": "StockMarket",
+          "ago": "7h ago",
+          "url": "https://reddit.com/r/StockMarket/comments/1tv92sg"
+        },
+        {
+          "quote": "🚨HOLY MOLY $HMR TRAILER DROP - Up 110%+ since my post 1. Up 50%+ since my last DD. They just dropped the wildest investor trailer I've seen on a small/microcap. Marketing & Eyes are only just arriving.",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "8h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tv7wt1"
+        },
+        {
+          "quote": "🚨 HOLY MOLY $HMR TRAILER DROP - UP 110%+ SINCE MY FIRST POST. UP 50%+ SINCE MY LAST ONE. 2.5M VOLUME IN A DAY. AND THEY JUST DROPPED THE MOST INSANE STOCK TRAILER I HAVE EVER SEEN. PLUS CASH IF YOU LEAVE A YOUTUBE COMMENT. THE MARKETING & EYES ARE ONLY JUST STARTING…",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "8h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tv7naz"
+        },
+        {
+          "quote": "HOLY SHIT I FORGOT I HAD A TRADE OPEN",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "2d ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1ttd5rn"
+        }
+      ],
+      "whyTrending": "Mention volume spiked 4.3x in the last 48 hours.",
+      "catalyst": null,
+      "predictions": {
+        "oneDay": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneWeek": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneMonth": {
+          "direction": "neutral",
+          "confidence": 50
+        }
+      },
+      "priceChange24h": 0
+    },
+    {
+      "rank": 22,
+      "ticker": "HPE",
+      "name": "HPE",
+      "mentions": 12,
+      "totalMentions": 17,
+      "velocityScore": 4,
+      "sentimentScore": 50,
+      "sentimentLabel": "mixed",
+      "sentimentReasoning": "",
+      "subreddits": [
+        "ValueInvesting",
+        "stocks",
+        "options"
+      ],
+      "lastMentionAgo": "1h ago",
+      "topPost": {
+        "quote": "The market has completely detached from reality",
+        "upvotes": 266,
+        "subreddit": "ValueInvesting"
+      },
+      "allTopPosts": [
+        {
+          "quote": "The market has completely detached from reality",
+          "upvotes": 266,
+          "subreddit": "ValueInvesting",
+          "ago": "5d ago",
+          "url": "https://reddit.com/r/ValueInvesting/comments/1tqfogb"
+        },
+        {
+          "quote": "+11.17% Wheeling BORING Names YTD. Here Are the Details.",
+          "upvotes": 87,
+          "subreddit": "thetagang",
+          "ago": "2d ago",
+          "url": "https://reddit.com/r/thetagang/comments/1tsyqr7"
+        },
+        {
+          "quote": "HPE’s $5B AI backlog is prolly gonna pump these 3 tickers on monday",
+          "upvotes": 26,
+          "subreddit": "stocks",
+          "ago": "3d ago",
+          "url": "https://reddit.com/r/stocks/comments/1tsl257"
+        },
+        {
+          "quote": "Following Dell - Hewlett Packard Enterprise skyrockets 30% after hours on biggest earnings beat since 2018 as another AI beneficiary",
+          "upvotes": 2,
+          "subreddit": "stocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/stocks/comments/1tu7hp3"
+        },
+        {
+          "quote": "The AI Trade Is Getting Bigger Than Nvidia",
+          "upvotes": 2,
+          "subreddit": "investing_discussion",
+          "ago": "4d ago",
+          "url": "https://reddit.com/r/investing_discussion/comments/1trjqx3"
+        },
+        {
+          "quote": "Is HPE going to run up again just like Dell did?",
+          "upvotes": 1,
+          "subreddit": "ValueInvesting",
+          "ago": "1h ago",
+          "url": "https://reddit.com/r/ValueInvesting/comments/1tvgs09"
+        },
+        {
+          "quote": "Is HPE going to run up again just like Dell did?",
+          "upvotes": 1,
+          "subreddit": "stocks",
+          "ago": "1h ago",
+          "url": "https://reddit.com/r/stocks/comments/1tvgrhi"
+        },
+        {
+          "quote": "I lost money on my call options to $HPE earnings beat",
+          "upvotes": 1,
+          "subreddit": "options",
+          "ago": "6h ago",
+          "url": "https://reddit.com/r/options/comments/1tva858"
+        },
+        {
+          "quote": "AI Stocks Are Booming… But Investors Are Starting To Ask Questions",
+          "upvotes": 1,
+          "subreddit": "investing_discussion",
+          "ago": "8h ago",
+          "url": "https://reddit.com/r/investing_discussion/comments/1tv7pdt"
+        },
+        {
+          "quote": "How high do u think HPE go?",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "11h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv327m"
+        },
+        {
+          "quote": "HPE 🚀 Rate my enter/exit timing on scale 1-10",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "12h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv0rce"
+        },
+        {
+          "quote": "Regret guy here again. HPE should of sold earlier gain",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "15h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuv1o9"
+        },
+        {
+          "quote": "I wish I had bought more $HPE | Now up more than 25%",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "16h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuty02"
+        },
+        {
+          "quote": "HPE earnings blow up more than 20%!!",
+          "upvotes": 1,
+          "subreddit": "StockMarket",
+          "ago": "20h ago",
+          "url": "https://reddit.com/r/StockMarket/comments/1tunxhb"
+        },
+        {
+          "quote": "HPE earnings blow up more than 20%!!",
+          "upvotes": 1,
+          "subreddit": "StockMarket",
+          "ago": "20h ago",
+          "url": "https://reddit.com/r/StockMarket/comments/1tunxhb"
+        },
+        {
+          "quote": "Missed out on HPE",
+          "upvotes": 1,
+          "subreddit": "stocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/stocks/comments/1tu7q1y"
+        },
+        {
+          "quote": "Really Really Stupid idea for my portfolio.",
+          "upvotes": 0,
+          "subreddit": "stocks",
+          "ago": "2d ago",
+          "url": "https://reddit.com/r/stocks/comments/1ttfi7o"
+        }
+      ],
+      "whyTrending": "Mention volume spiked 4.0x in the last 48 hours.",
+      "catalyst": null,
+      "predictions": {
+        "oneDay": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneWeek": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneMonth": {
+          "direction": "neutral",
+          "confidence": 50
+        }
+      },
+      "priceChange24h": 0
+    },
+    {
+      "rank": 23,
+      "ticker": "GS",
+      "name": "GS",
+      "mentions": 7,
+      "totalMentions": 9,
+      "velocityScore": 3.9,
+      "sentimentScore": 50,
+      "sentimentLabel": "mixed",
+      "sentimentReasoning": "",
+      "subreddits": [
+        "wallstreetbets",
+        "Superstonk",
+        "pennystocks"
+      ],
+      "lastMentionAgo": "7h ago",
+      "topPost": {
+        "quote": "Trump buy Tungsten stocks > Be ready on RML most asymetric pennystock US under radar",
+        "upvotes": 236,
+        "subreddit": "pennystocks"
+      },
+      "allTopPosts": [
+        {
+          "quote": "Trump buy Tungsten stocks > Be ready on RML most asymetric pennystock US under radar",
+          "upvotes": 236,
+          "subreddit": "pennystocks",
+          "ago": "3d ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1try3y7"
+        },
+        {
+          "quote": "JPMorgan Casts Doubt on Speculative Tech After 57% Rally",
+          "upvotes": 103,
+          "subreddit": "stocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/stocks/comments/1ttuh6k"
+        },
+        {
+          "quote": "20M - $45K+ (New Addition & Add More)",
+          "upvotes": 5,
+          "subreddit": "ValueInvesting",
+          "ago": "6d ago",
+          "url": "https://reddit.com/r/ValueInvesting/comments/1tplivx"
+        },
+        {
+          "quote": "EXCLUSIVE: Goldman Sachs CEO David Solomon Said Financial Markets Have Shifted Into Full “Greed Mode\"",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "7h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv82ox"
+        },
+        {
+          "quote": "BREAKING: Goldman Sachs CEO David Solomon Says Financial Markets Have Entered a Greed-Driven Phase",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "8h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv7pw6"
+        },
+        {
+          "quote": "My wife, a true apette, who forgot her Computershare password...",
+          "upvotes": 1,
+          "subreddit": "Superstonk",
+          "ago": "16h ago",
+          "url": "https://reddit.com/r/Superstonk/comments/1tutk5n"
+        },
+        {
+          "quote": "🎩EMBC: The Market Is Looking at the Past, While Management Is Building the Future",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "17h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tur39k"
+        },
+        {
+          "quote": "Can my dad live off dividends? Should he rearrange his retirement fund?",
+          "upvotes": 1,
+          "subreddit": "dividends",
+          "ago": "18h ago",
+          "url": "https://reddit.com/r/dividends/comments/1tuqnp8"
+        },
+        {
+          "quote": "Neos fund to Goldman cc etf",
+          "upvotes": 1,
+          "subreddit": "dividends",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/dividends/comments/1tuc1d3"
+        }
+      ],
+      "whyTrending": "Mention volume spiked 3.9x in the last 48 hours.",
+      "catalyst": null,
+      "predictions": {
+        "oneDay": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneWeek": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneMonth": {
+          "direction": "neutral",
+          "confidence": 50
+        }
+      },
+      "priceChange24h": 0
+    },
+    {
+      "rank": 24,
+      "ticker": "PDT",
+      "name": "PDT",
+      "mentions": 7,
+      "totalMentions": 9,
+      "velocityScore": 3.9,
+      "sentimentScore": 50,
+      "sentimentLabel": "mixed",
+      "sentimentReasoning": "",
+      "subreddits": [
+        "Daytrading",
+        "wallstreetbets",
+        "finance"
+      ],
+      "lastMentionAgo": "2h ago",
+      "topPost": {
+        "quote": "June 4th PDT rule removed, 16 brokers confirmed",
+        "upvotes": 63,
+        "subreddit": "Daytrading"
+      },
+      "allTopPosts": [
+        {
+          "quote": "June 4th PDT rule removed, 16 brokers confirmed",
+          "upvotes": 63,
+          "subreddit": "Daytrading",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1ttxh4d"
+        },
+        {
+          "quote": "🚨 BIG NEWS! It's official, the PDT (Pattern Day Trader) rule is being eliminated.",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "2h ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tvfqsp"
+        },
+        {
+          "quote": "$25K PDT Rules are dead...Why Are They Removing Every Guardrail Right Before The SpaceX IPO? (To clap our collective cheeks)",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "10h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv4rda"
+        },
+        {
+          "quote": "PDT Is Dead: Freedom for Retail Traders — or the Start of a New Day-Trading Epidemic?",
+          "upvotes": 1,
+          "subreddit": "finance",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/finance/comments/1tud59n"
+        },
+        {
+          "quote": "PDT Is Dead: Freedom for Retail Traders — or the Start of a New Day-Trading Epidemic?",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tud47z"
+        },
+        {
+          "quote": "Is this Hood pullback the ultimate Long entry?",
+          "upvotes": 1,
+          "subreddit": "StockMarket",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/StockMarket/comments/1ttv9m6"
+        },
+        {
+          "quote": "Is this Hood pullback the ultimate Long entry?",
+          "upvotes": 1,
+          "subreddit": "StockMarket",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/StockMarket/comments/1ttv9m6"
+        },
+        {
+          "quote": "PDT change from 25k to 2k.. LFG!!!!!",
+          "upvotes": 1,
+          "subreddit": "StockMarket",
+          "ago": "5d ago",
+          "url": "https://reddit.com/r/StockMarket/comments/1tq7toc"
+        },
+        {
+          "quote": "PDT change from 25k to 2k.. LFG!!!!!",
+          "upvotes": 1,
+          "subreddit": "StockMarket",
+          "ago": "5d ago",
+          "url": "https://reddit.com/r/StockMarket/comments/1tq7toc"
+        }
+      ],
+      "whyTrending": "Mention volume spiked 3.9x in the last 48 hours.",
+      "catalyst": null,
+      "predictions": {
+        "oneDay": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneWeek": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneMonth": {
+          "direction": "neutral",
+          "confidence": 50
+        }
+      },
+      "priceChange24h": 0
+    },
+    {
+      "rank": 25,
+      "ticker": "GOOG",
+      "name": "GOOG",
+      "mentions": 10,
+      "totalMentions": 14,
+      "velocityScore": 3.8,
+      "sentimentScore": 50,
+      "sentimentLabel": "mixed",
+      "sentimentReasoning": "",
+      "subreddits": [
+        "wallstreetbets",
+        "investing",
+        "stocks"
+      ],
+      "lastMentionAgo": "13h ago",
+      "topPost": {
+        "quote": "META is my top value play",
+        "upvotes": 365,
+        "subreddit": "ValueInvesting"
+      },
+      "allTopPosts": [
+        {
+          "quote": "META is my top value play",
+          "upvotes": 365,
+          "subreddit": "ValueInvesting",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/ValueInvesting/comments/1tu0um6"
+        },
+        {
+          "quote": "Am I supposed to just keep holding forever? When do people actually sell?",
+          "upvotes": 275,
+          "subreddit": "stocks",
+          "ago": "3d ago",
+          "url": "https://reddit.com/r/stocks/comments/1ts1765"
+        },
+        {
+          "quote": "+11.17% Wheeling BORING Names YTD. Here Are the Details.",
+          "upvotes": 87,
+          "subreddit": "thetagang",
+          "ago": "2d ago",
+          "url": "https://reddit.com/r/thetagang/comments/1tsyqr7"
+        },
+        {
+          "quote": "AVGO and CIEN",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "13h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuy74h"
+        },
+        {
+          "quote": "The federal government just gave quantum stocks one of the strongest tailwinds I’ve seen",
+          "upvotes": 1,
+          "subreddit": "investing",
+          "ago": "14h ago",
+          "url": "https://reddit.com/r/investing/comments/1tuwhsg"
+        },
+        {
+          "quote": "How much GOOG do you own?",
+          "upvotes": 1,
+          "subreddit": "stocks",
+          "ago": "20h ago",
+          "url": "https://reddit.com/r/stocks/comments/1tun12c"
+        },
+        {
+          "quote": "How much GOOG do you own?",
+          "upvotes": 1,
+          "subreddit": "stocks",
+          "ago": "20h ago",
+          "url": "https://reddit.com/r/stocks/comments/1tun0jg"
+        },
+        {
+          "quote": "Trading week recap 25.5.-29.5.",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "23h ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tujxg9"
+        },
+        {
+          "quote": "Quality is a gate. Fear is the ranking.",
+          "upvotes": 1,
+          "subreddit": "thetagang",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/thetagang/comments/1tugewv"
+        },
+        {
+          "quote": "What's with the massive single-name moves lately?",
+          "upvotes": 1,
+          "subreddit": "investing",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/investing/comments/1tu9la6"
+        },
+        {
+          "quote": "GOOG (Gemini) vs Anthropic and Open AI when IPO",
+          "upvotes": 1,
+          "subreddit": "stocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/stocks/comments/1tu8shz"
+        },
+        {
+          "quote": "Alphabet Inc. (NASDAQ: GOOG, GOOGL) announced plans to raise $80 billion through equity offerings.",
+          "upvotes": 1,
+          "subreddit": "stocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/stocks/comments/1tu5v0n"
+        },
+        {
+          "quote": "How to invest $25,000",
+          "upvotes": 1,
+          "subreddit": "investing_discussion",
+          "ago": "4d ago",
+          "url": "https://reddit.com/r/investing_discussion/comments/1tqvtp0"
+        },
+        {
+          "quote": "Why Is Berkshire Buying Home Builders w/ Shoddy Work Reputation?",
+          "upvotes": 0,
+          "subreddit": "ValueInvesting",
+          "ago": "2d ago",
+          "url": "https://reddit.com/r/ValueInvesting/comments/1tthi28"
+        }
+      ],
+      "whyTrending": "Mention volume spiked 3.8x in the last 48 hours.",
+      "catalyst": null,
+      "predictions": {
+        "oneDay": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneWeek": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneMonth": {
+          "direction": "neutral",
+          "confidence": 50
+        }
+      },
+      "priceChange24h": 0
+    },
+    {
+      "rank": 26,
+      "ticker": "SMCI",
+      "name": "SMCI",
+      "mentions": 8,
+      "totalMentions": 11,
+      "velocityScore": 3.6,
+      "sentimentScore": 50,
+      "sentimentLabel": "mixed",
+      "sentimentReasoning": "",
+      "subreddits": [
+        "wallstreetbets",
+        "stocks",
+        "Daytrading"
+      ],
+      "lastMentionAgo": "2h ago",
+      "topPost": {
+        "quote": "+11.17% Wheeling BORING Names YTD. Here Are the Details.",
+        "upvotes": 87,
+        "subreddit": "thetagang"
+      },
+      "allTopPosts": [
+        {
+          "quote": "+11.17% Wheeling BORING Names YTD. Here Are the Details.",
+          "upvotes": 87,
+          "subreddit": "thetagang",
+          "ago": "2d ago",
+          "url": "https://reddit.com/r/thetagang/comments/1tsyqr7"
+        },
+        {
+          "quote": "Selling Covered calls on AI related stocks and throws my call deep ITM",
+          "upvotes": 19,
+          "subreddit": "options",
+          "ago": "5d ago",
+          "url": "https://reddit.com/r/options/comments/1tqmtbc"
+        },
+        {
+          "quote": "SMCI",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "2h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tvfewi"
+        },
+        {
+          "quote": "DELL is up 330% from its 52-week low and I still can't decide if it's a buy or a trap",
+          "upvotes": 1,
+          "subreddit": "stocks",
+          "ago": "14h ago",
+          "url": "https://reddit.com/r/stocks/comments/1tuxqy0"
+        },
+        {
+          "quote": "In the AI Gold Rush, What Are the Shovels?",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "14h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuwp73"
+        },
+        {
+          "quote": "Current Artificial Intelligence bullish narrative and my stock watchlist.",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "18h ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tuqyi6"
+        },
+        {
+          "quote": "Key watchlist in relation with NVDA Taipei keynote",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "18h ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tuqcrp"
+        },
+        {
+          "quote": "AI Narratives, Nvidia Taipei; Speculative trading pairs",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "18h ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tuq28d"
+        },
+        {
+          "quote": "Nvidia Taipei keynote trade watchlist",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "18h ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tupt45"
+        },
+        {
+          "quote": "Narrative trades from the NVIDIA GTC Taipei",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "19h ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tupide"
+        },
+        {
+          "quote": "SMCI - run just started get in b4 too late!",
+          "upvotes": 0,
+          "subreddit": "ValueInvesting",
+          "ago": "6d ago",
+          "url": "https://reddit.com/r/ValueInvesting/comments/1tprmek"
+        }
+      ],
+      "whyTrending": "Mention volume spiked 3.6x in the last 48 hours.",
+      "catalyst": null,
+      "predictions": {
+        "oneDay": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneWeek": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneMonth": {
+          "direction": "neutral",
+          "confidence": 50
+        }
+      },
+      "priceChange24h": 0
+    },
+    {
+      "rank": 27,
+      "ticker": "POST",
+      "name": "POST",
+      "mentions": 5,
+      "totalMentions": 6,
+      "velocityScore": 3.6,
+      "sentimentScore": 50,
+      "sentimentLabel": "mixed",
+      "sentimentReasoning": "",
+      "subreddits": [
+        "wallstreetbets",
+        "pennystocks",
+        "Daytrading"
+      ],
+      "lastMentionAgo": "2h ago",
+      "topPost": {
+        "quote": "$HMR - The Next Uber - I told you so! Q1 Was a Blockbuster. EPS beat by 1,076%. Q2 Will Be Bigger. Still The Most Undervalued Stock On NASDAQ.  Prove Me Wrong Again.",
+        "upvotes": 39,
+        "subreddit": "pennystocks"
+      },
+      "allTopPosts": [
+        {
+          "quote": "$HMR - The Next Uber - I told you so! Q1 Was a Blockbuster. EPS beat by 1,076%. Q2 Will Be Bigger. Still The Most Undervalued Stock On NASDAQ.  Prove Me Wrong Again.",
+          "upvotes": 39,
+          "subreddit": "pennystocks",
+          "ago": "2d ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1ttd7s9"
+        },
+        {
+          "quote": "🚀 MY HOT GARBAGE BAG OF HUBC IS PRINTING AND YOU CUCKS WON'T LET ME POST ABOUT IT. WHOEVER REMOVES MY POST IS A GAY BER WITH NO BALLS 🚀",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "2h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tveszc"
+        },
+        {
+          "quote": "🚨 HOLY $HMR Trailer NEWS - The Next Uber - Up 110%+ since post 1. Up 50%+ since my last DD. The Most Undervalued Stock on NASDAQ Just Launched a YouTube Trailer. Marketing, eyes & attention are only just arriving.",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "5h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tvaufk"
+        },
+        {
+          "quote": "🚨 HOLY MOLY $HMR TRAILER DROP - UP 110%+ SINCE MY FIRST POST. UP 50%+ SINCE MY LAST ONE. 2.5M VOLUME IN A DAY. AND THEY JUST DROPPED THE MOST INSANE STOCK TRAILER I HAVE EVER SEEN. PLUS CASH IF YOU LEAVE A YOUTUBE COMMENT. THE MARKETING & EYES ARE ONLY JUST STARTING…",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "8h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tv7naz"
+        },
+        {
+          "quote": "LFVN 6/2 Daily Squeeze Chat",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "19h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tuovj4"
+        },
+        {
+          "quote": "ROMANIAN SELL SENTREPRISE FOR 3 ,600,000,000 CASH , CASH !!!! CASH !!!! I CANNOT POST THIS IN ANT ROMANIANIAN CHANNELS. TRANSLATE THIS . IT'S OFFICIAL https://www.libertatea.ro/stiri/chris-turlica-isi-vinde-compania-cu-trei-miliarde-sase-sute-de-milioane-de-dolari-5760649",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tu9rk3"
+        }
+      ],
+      "whyTrending": "Mention volume spiked 3.6x in the last 48 hours.",
+      "catalyst": null,
+      "predictions": {
+        "oneDay": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneWeek": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneMonth": {
+          "direction": "neutral",
+          "confidence": 50
+        }
+      },
+      "priceChange24h": 0
+    },
+    {
+      "rank": 28,
+      "ticker": "OKLO",
+      "name": "OKLO",
+      "mentions": 5,
+      "totalMentions": 6,
+      "velocityScore": 3.6,
+      "sentimentScore": 50,
+      "sentimentLabel": "mixed",
+      "sentimentReasoning": "",
+      "subreddits": [
+        "wallstreetbets",
+        "StockMarket",
+        "stocks"
+      ],
+      "lastMentionAgo": "11h ago",
+      "topPost": {
+        "quote": "What stock today has the most exciting long-term growth story?",
+        "upvotes": 3,
+        "subreddit": "investing_discussion"
+      },
+      "allTopPosts": [
+        {
+          "quote": "What stock today has the most exciting long-term growth story?",
+          "upvotes": 3,
+          "subreddit": "investing_discussion",
+          "ago": "4d ago",
+          "url": "https://reddit.com/r/investing_discussion/comments/1trbwbw"
+        },
+        {
+          "quote": "Biggest US Nuclear Fuel Enricher Is Scaling Up in Bet on AI Boom ($OKLO)",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "11h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tv1rbh"
+        },
+        {
+          "quote": "Urenco Expands U.S. Enrichment Capacity by Nearly 50% as Nuclear Fuel Demand Accelerates ($OKLO)",
+          "upvotes": 1,
+          "subreddit": "StockMarket",
+          "ago": "11h ago",
+          "url": "https://reddit.com/r/StockMarket/comments/1tv1myd"
+        },
+        {
+          "quote": "Urenco Expands U.S. Enrichment Capacity by Nearly 50% as Nuclear Fuel Demand Accelerates ($OKLO)",
+          "upvotes": 1,
+          "subreddit": "StockMarket",
+          "ago": "11h ago",
+          "url": "https://reddit.com/r/StockMarket/comments/1tv1myd"
+        },
+        {
+          "quote": "Urenco Expands U.S. Enrichment Capacity by Nearly 50% as Nuclear Fuel Demand Accelerates ($OKLO)",
+          "upvotes": 1,
+          "subreddit": "stocks",
+          "ago": "11h ago",
+          "url": "https://reddit.com/r/stocks/comments/1tv1kql"
+        },
+        {
+          "quote": "OKLO - Selling $65P ~38 DTE for $600 credit | Bullish thesis",
+          "upvotes": 1,
+          "subreddit": "options",
+          "ago": "12h ago",
+          "url": "https://reddit.com/r/options/comments/1tv11jx"
+        }
+      ],
+      "whyTrending": "Mention volume spiked 3.6x in the last 48 hours.",
+      "catalyst": null,
+      "predictions": {
+        "oneDay": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneWeek": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneMonth": {
+          "direction": "neutral",
+          "confidence": 50
+        }
+      },
+      "priceChange24h": 0
+    },
+    {
+      "rank": 29,
+      "ticker": "GLOBE",
+      "name": "GLOBE",
+      "mentions": 5,
+      "totalMentions": 6,
+      "velocityScore": 3.6,
+      "sentimentScore": 50,
+      "sentimentLabel": "mixed",
+      "sentimentReasoning": "",
+      "subreddits": [
+        "pennystocks"
+      ],
+      "lastMentionAgo": "18h ago",
+      "topPost": {
+        "quote": "PRZO Engages Subcontractor To Scale DefendAir Net Pod Production, Boosting Capacity To Thousands Of Units Annually Amid Growing Counter‑UAS Demand",
+        "upvotes": 6,
+        "subreddit": "pennystocks"
+      },
+      "allTopPosts": [
+        {
+          "quote": "PRZO Engages Subcontractor To Scale DefendAir Net Pod Production, Boosting Capacity To Thousands Of Units Annually Amid Growing Counter‑UAS Demand",
+          "upvotes": 6,
+          "subreddit": "pennystocks",
+          "ago": "4d ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tqztf2"
+        },
+        {
+          "quote": "News: Cosmos Health (NASDAQ: COSM) Enters $69 Billion Global Animal Health Industry with Veterinary C-Scrub Wash 4% Following Successful European Standard Testing Under EN 1656 and EN 1657",
+          "upvotes": 5,
+          "subreddit": "pennystocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1ttru7i"
+        },
+        {
+          "quote": "News: Cosmos Health (NASDAQ: COSM) Enters $69 Billion Global Animal Health Industry with Veterinary C-Scrub Wash 4% Following Successful European Standard Testing Under EN 1656 and EN 1657",
+          "upvotes": 2,
+          "subreddit": "pennystocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1ttzp18"
+        },
+        {
+          "quote": "Cosmos Health Provides Balance Sheet Update: Highlights European Investment Bank Financing Discussions for up to €25M, Eliminates 38% of Warrant Overhang with No Dilution; Reaffirms Growth Trajectory; Notes No Known Business Reason for Recent Share Price Decline",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "18h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tupzo3"
+        },
+        {
+          "quote": "NRx Pharmaceuticals (Nasdaq: NRXP) Subsidiary HOPE Therapeutics Becomes First Commercial Site to Deploy Zeta Surgical's FDA-Cleared Zeta TMS Navigation System",
+          "upvotes": 1,
+          "subreddit": "pennystocks",
+          "ago": "20h ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1tuo21r"
+        },
+        {
+          "quote": "Cosmos Health Releases 2026-2029 Guidance: Targeting $200M Revenue, $71M Gross Profit, and $44M Adjusted EBITDA by 2029 - Building an Innovative, High-Margin Healthcare Platform with Strong Cash Generation",
+          "upvotes": 0,
+          "subreddit": "pennystocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/pennystocks/comments/1ttqme7"
+        }
+      ],
+      "whyTrending": "Mention volume spiked 3.6x in the last 48 hours.",
+      "catalyst": null,
+      "predictions": {
+        "oneDay": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneWeek": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneMonth": {
+          "direction": "neutral",
+          "confidence": 50
+        }
+      },
+      "priceChange24h": 0
+    },
+    {
+      "rank": 30,
+      "ticker": "TSM",
+      "name": "TSM",
+      "mentions": 9,
+      "totalMentions": 13,
+      "velocityScore": 3.5,
+      "sentimentScore": 50,
+      "sentimentLabel": "mixed",
+      "sentimentReasoning": "",
+      "subreddits": [
+        "wallstreetbets",
+        "Daytrading",
+        "investing_discussion"
+      ],
+      "lastMentionAgo": "14h ago",
+      "topPost": {
+        "quote": "Am I supposed to just keep holding forever? When do people actually sell?",
+        "upvotes": 275,
+        "subreddit": "stocks"
+      },
+      "allTopPosts": [
+        {
+          "quote": "Am I supposed to just keep holding forever? When do people actually sell?",
+          "upvotes": 275,
+          "subreddit": "stocks",
+          "ago": "3d ago",
+          "url": "https://reddit.com/r/stocks/comments/1ts1765"
+        },
+        {
+          "quote": "20M - $45K+ (New Addition & Add More)",
+          "upvotes": 5,
+          "subreddit": "ValueInvesting",
+          "ago": "6d ago",
+          "url": "https://reddit.com/r/ValueInvesting/comments/1tplivx"
+        },
+        {
+          "quote": "In the AI Gold Rush, What Are the Shovels?",
+          "upvotes": 1,
+          "subreddit": "wallstreetbets",
+          "ago": "14h ago",
+          "url": "https://reddit.com/r/wallstreetbets/comments/1tuwp73"
+        },
+        {
+          "quote": "Current Artificial Intelligence bullish narrative and my stock watchlist.",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "18h ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tuqyi6"
+        },
+        {
+          "quote": "Key watchlist in relation with NVDA Taipei keynote",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "18h ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tuqcrp"
+        },
+        {
+          "quote": "AI Narratives, Nvidia Taipei; Speculative trading pairs",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "18h ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tuq28d"
+        },
+        {
+          "quote": "Nvidia Taipei keynote trade watchlist",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "18h ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tupt45"
+        },
+        {
+          "quote": "Narrative trades from the NVIDIA GTC Taipei",
+          "upvotes": 1,
+          "subreddit": "Daytrading",
+          "ago": "19h ago",
+          "url": "https://reddit.com/r/Daytrading/comments/1tupide"
+        },
+        {
+          "quote": "I made a free tool for seeing how companies are connected",
+          "upvotes": 1,
+          "subreddit": "investing_discussion",
+          "ago": "20h ago",
+          "url": "https://reddit.com/r/investing_discussion/comments/1tunr4m"
+        },
+        {
+          "quote": "Woke up from coma after a year... Can't believe my eyes. What can I still buy??",
+          "upvotes": 1,
+          "subreddit": "stocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/stocks/comments/1tu8zu5"
+        },
+        {
+          "quote": "NVDA Computex 2026 Summary: Vera CPU, Rubin Production, Physical AI and Robotaxis",
+          "upvotes": 1,
+          "subreddit": "stocks",
+          "ago": "1d ago",
+          "url": "https://reddit.com/r/stocks/comments/1tu5gv5"
+        },
+        {
+          "quote": "China invading Taiwan Impact",
+          "upvotes": 0,
+          "subreddit": "stocks",
+          "ago": "3d ago",
+          "url": "https://reddit.com/r/stocks/comments/1ts0f1p"
+        },
+        {
+          "quote": "TSMC is the Hormuz Strait of semiconductors. I moved 30% of my portfolio over today.",
+          "upvotes": 0,
+          "subreddit": "stocks",
+          "ago": "3d ago",
+          "url": "https://reddit.com/r/stocks/comments/1ts0574"
+        }
+      ],
+      "whyTrending": "Mention volume spiked 3.5x in the last 48 hours.",
+      "catalyst": null,
+      "predictions": {
+        "oneDay": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneWeek": {
+          "direction": "neutral",
+          "confidence": 50
+        },
+        "oneMonth": {
+          "direction": "neutral",
+          "confidence": 50
+        }
+      },
+      "priceChange24h": 0
+    }
+  ],
+  "updatedAt": "2026-06-03T07:31:03.550Z"
+}

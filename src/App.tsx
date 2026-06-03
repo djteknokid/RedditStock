@@ -4,6 +4,7 @@ import type { StockEntry } from './data/stocks';
 import StockTable from './components/StockTable';
 import DetailPanel from './components/DetailPanel';
 import AboutPage from './AboutPage';
+import EvaluatePage from './EvaluatePage';
 
 function timeAgo(iso: string): string {
   const secs = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
@@ -61,6 +62,7 @@ export default function App() {
   }
 
   if (window.location.pathname === '/about') return <AboutPage />;
+  if (window.location.pathname === '/evaluate') return <EvaluatePage />;
 
   const statusEl = {
     loading: <span style={{ fontSize: 12, color: '#9ca3af' }}>Scanning Reddit...</span>,
@@ -169,6 +171,8 @@ export default function App() {
       <div style={{ padding: '0 28px 20px', textAlign: 'center' }}>
         <p style={{ fontSize: 11, color: '#d1d5db' }}>
           Reddit data via Arctic Shift · Analysis by GPT-4o · Not financial advice ·{' '}
+          <a href="/evaluate" style={{ color: '#9ca3af', textDecoration: 'underline' }}>Evaluate predictions</a>
+          {' · '}
           <a href="/about" style={{ color: '#9ca3af', textDecoration: 'underline' }}>About & Disclaimer</a>
         </p>
       </div>

@@ -458,10 +458,21 @@ Keep the same order as the input (velocity-ranked).`,
           oneMonth: { direction: 'neutral', confidence: 50 },
         },
         priceChange24h: gpt.priceChange24h ?? 0,
+        priceAtSnapshot: null as number | null, // filled in below
       };
     });
 
-    // 7. Save to Redis
+    // 7. Fetch current prices so evaluate can compute actual move later
+    const snapshotPrices = await Promise.all(
+      stocks.map(s => (yf as any).quote(s.ticker).then((q: any) => q.regularMarketPrice ?? null).catch(() => null))
+    );
+    stocks.forEach((s, i) => { s.priceAtSnapshot = snapshotPrices[i]; });
+
+    // 8. Save to Redis — archive previous snapshot before overwriting
+    const previous = await redis.get<any>('buzzd:stocks');
+    if (previous?.stocks?.length) {
+      await redis.set('buzzd:stocks:yesterday', JSON.stringify(previous), { ex: 90000 * 2 });
+    }
     await redis.set('buzzd:stocks', JSON.stringify({ stocks, updatedAt: new Date().toISOString() }), { ex: 90000 });
     console.log(`Saved ${stocks.length} stocks to Redis`);
 
