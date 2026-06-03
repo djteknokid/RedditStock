@@ -28,6 +28,7 @@ export interface StockEntry {
     upvotes: number;
     subreddit: string;
     ago: string;
+    url?: string;
   }[];
   whyTrending: string;
   catalyst?: string;

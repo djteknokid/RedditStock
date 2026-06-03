@@ -370,6 +370,7 @@ Keep the same order as the input (velocity-ranked).`,
           upvotes: p.score ?? 0,
           subreddit: p.subreddit,
           ago: timeAgo(p.created_utc),
+          url: `https://reddit.com/r/${p.subreddit}/comments/${p.id}`,
         }));
 
       return {

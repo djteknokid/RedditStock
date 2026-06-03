@@ -164,8 +164,16 @@ export default function DetailPanel({ stock, onClose }: DetailPanelProps) {
             Posts ({(stock.allTopPosts ?? [stock.topPost]).length})
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {(stock.allTopPosts ?? [{ ...stock.topPost, ago: stock.lastMentionAgo }]).map((p, i) => (
-              <div key={i} style={{ background: '#f9fafb', borderRadius: 8, padding: '10px 12px' }}>
+            {(stock.allTopPosts ?? [{ ...stock.topPost, ago: stock.lastMentionAgo, url: undefined }]).map((p, i) => (
+              <a
+                key={i}
+                href={p.url ?? `https://reddit.com/r/${p.subreddit}/search?q=${encodeURIComponent(stock.ticker)}&restrict_sr=1&sort=top`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ background: '#f9fafb', borderRadius: 8, padding: '10px 12px', textDecoration: 'none', display: 'block' }}
+                onMouseEnter={e => (e.currentTarget.style.background = '#f3f4f6')}
+                onMouseLeave={e => (e.currentTarget.style.background = '#f9fafb')}
+              >
                 <p style={{ fontSize: 12, color: '#374151', lineHeight: '1.55', marginBottom: 6 }}>
                   {p.quote}
                 </p>
@@ -173,8 +181,9 @@ export default function DetailPanel({ stock, onClose }: DetailPanelProps) {
                   <span>↑ {p.upvotes.toLocaleString()}</span>
                   <span>r/{p.subreddit}</span>
                   <span>{p.ago}</span>
+                  <span style={{ marginLeft: 'auto' }}>↗</span>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>
