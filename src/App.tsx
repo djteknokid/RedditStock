@@ -13,12 +13,15 @@ function timeAgo(iso: string): string {
   return `${Math.floor(secs / 86400)}d ago`;
 }
 
+interface PriceData { price: number; changePercent: number; }
+
 export default function App() {
   const [stocks, setStocks] = useState<StockEntry[]>(fallbackStocks);
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState<'loading' | 'live' | 'building' | 'error'>('loading');
   const [lastUpdated, setLastUpdated] = useState('');
   const [selectedTicker, setSelectedTicker] = useState<string | null>(null);
+  const [prices, setPrices] = useState<Record<string, PriceData>>({});
 
   const selectedStock = stocks.find(s => s.ticker === selectedTicker) ?? null;
 
@@ -46,6 +49,11 @@ export default function App() {
         setStatus('error');
         setLoading(false);
       });
+
+    fetch('/api/prices')
+      .then(r => r.json())
+      .then(data => { if (data.prices) setPrices(data.prices); })
+      .catch(() => {});
   }, []);
 
   function handleSelect(ticker: string) {
@@ -133,6 +141,7 @@ export default function App() {
             stocks={stocks}
             selectedTicker={selectedTicker}
             onSelect={handleSelect}
+            prices={prices}
           />
         </div>
 

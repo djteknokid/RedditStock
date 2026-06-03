@@ -1,9 +1,15 @@
 import type { StockEntry, Direction } from '../data/stocks';
 
+interface PriceData {
+  price: number;
+  changePercent: number;
+}
+
 interface StockTableProps {
   stocks: StockEntry[];
   selectedTicker: string | null;
   onSelect: (ticker: string) => void;
+  prices: Record<string, PriceData>;
 }
 
 function directionChip(d: Direction, confidence: number) {
@@ -31,6 +37,7 @@ function fmt(n: number) {
 const COL_WIDTHS = {
   rank:      36,
   ticker:    80,
+  price:     90,
   change:    80,
   mentions:  80,
   sentiment: 72,
@@ -50,7 +57,7 @@ const CELL_STYLE: React.CSSProperties = {
   padding: '11px 8px', fontSize: 13, verticalAlign: 'middle',
 };
 
-export default function StockTable({ stocks, selectedTicker, onSelect }: StockTableProps) {
+export default function StockTable({ stocks, selectedTicker, onSelect, prices }: StockTableProps) {
   return (
     <div style={{ overflowX: 'auto' }}>
       <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
@@ -58,6 +65,7 @@ export default function StockTable({ stocks, selectedTicker, onSelect }: StockTa
           <col style={{ width: COL_WIDTHS.rank }} />
           <col style={{ width: COL_WIDTHS.ticker }} />
           <col />  {/* name — fills remaining space */}
+          <col style={{ width: COL_WIDTHS.price }} />
           <col style={{ width: COL_WIDTHS.change }} />
           <col style={{ width: COL_WIDTHS.mentions }} />
           <col style={{ width: COL_WIDTHS.sentiment }} />
@@ -71,7 +79,8 @@ export default function StockTable({ stocks, selectedTicker, onSelect }: StockTa
             <th style={{ ...HEADER_STYLE, paddingLeft: 16 }}>#</th>
             <th style={HEADER_STYLE}>Ticker</th>
             <th style={HEADER_STYLE}>Company</th>
-            <th style={{ ...HEADER_STYLE, textAlign: 'right' }}>24h</th>
+            <th style={{ ...HEADER_STYLE, textAlign: 'right' }}>Price</th>
+            <th style={{ ...HEADER_STYLE, textAlign: 'right' }}>Today</th>
             <th style={{ ...HEADER_STYLE, textAlign: 'right' }}>Mentions</th>
             <th style={{ ...HEADER_STYLE, textAlign: 'right' }}>Sentiment</th>
             <th style={{ ...HEADER_STYLE, textAlign: 'center' }}>1 Day</th>
@@ -83,8 +92,10 @@ export default function StockTable({ stocks, selectedTicker, onSelect }: StockTa
         <tbody>
           {stocks.map((s, i) => {
             const isSelected = s.ticker === selectedTicker;
-            const priceUp = s.priceChange24h >= 0;
             const isEven = i % 2 === 0;
+            const priceInfo = prices[s.ticker];
+            const changePercent = priceInfo?.changePercent ?? s.priceChange24h;
+            const priceUp = changePercent >= 0;
 
             return (
               <tr
@@ -115,9 +126,20 @@ export default function StockTable({ stocks, selectedTicker, onSelect }: StockTa
                   {s.name}
                 </td>
 
-                {/* 24h change */}
+                {/* Price */}
+                <td style={{ ...CELL_STYLE, textAlign: 'right', fontVariantNumeric: 'tabular-nums', color: '#111', fontWeight: 500 }}>
+                  {priceInfo
+                    ? `$${priceInfo.price < 10 ? priceInfo.price.toFixed(3) : priceInfo.price < 1000 ? priceInfo.price.toFixed(2) : priceInfo.price.toLocaleString('en-US', { maximumFractionDigits: 0 })}`
+                    : <span style={{ color: '#d1d5db' }}>—</span>
+                  }
+                </td>
+
+                {/* Today's change */}
                 <td style={{ ...CELL_STYLE, textAlign: 'right', fontWeight: 600, fontVariantNumeric: 'tabular-nums', color: priceUp ? '#16a34a' : '#dc2626' }}>
-                  {priceUp ? '+' : ''}{s.priceChange24h}%
+                  {priceInfo
+                    ? `${priceUp ? '+' : ''}${changePercent.toFixed(2)}%`
+                    : <span style={{ color: '#d1d5db', fontWeight: 400 }}>—</span>
+                  }
                 </td>
 
                 {/* Mentions */}
