@@ -15,6 +15,8 @@ const SUBREDDITS = [
   'wallstreetbets', 'stocks', 'investing',
   'options', 'pennystocks', 'stockmarket',
   'Superstonk', 'valueinvesting', 'RobinHoodPennyStocks', 'dividends',
+  'investing_discussion', 'StockMarket', 'Daytrading', 'thetagang',
+  'Vitards', 'SecurityAnalysis', 'finance',
 ];
 
 const ARCTIC_SHIFT = 'https://arctic-shift.photon-reddit.com/api/posts/search';
