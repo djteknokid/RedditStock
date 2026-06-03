@@ -109,6 +109,14 @@ export default function DetailPanel({ stock, onClose }: DetailPanelProps) {
             </div>
           </div>
         </div>
+        {/* Catalyst pill */}
+        {stock.catalyst && (
+          <div style={{ marginTop: 14, display: 'inline-flex', alignItems: 'center', gap: 6,
+            background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 6, padding: '5px 10px' }}>
+            <span style={{ fontSize: 10, fontWeight: 700, color: '#d97706', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Catalyst</span>
+            <span style={{ fontSize: 12, color: '#92400e', fontWeight: 500 }}>{stock.catalyst}</span>
+          </div>
+        )}
       </div>
 
       {/* Scrollable body */}

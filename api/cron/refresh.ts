@@ -285,30 +285,42 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       messages: [
         {
           role: 'system',
-          content: `You are a financial sentiment analyst specializing in Reddit retail investor behavior.
+          content: `You are a forward-looking financial signal analyst. Your job is to extract PREDICTIVE sentiment from Reddit posts — what investors EXPECT to happen next, not what already happened.
 
-You will receive data about stocks ranked by MENTION VELOCITY — how much MORE they are being discussed in the last 48 hours compared to their baseline. A stock with a 5x velocity score is being discussed 5 times more than usual, which is highly significant even if the raw count is small.
+CRITICAL RULE: Ignore backward-looking statements entirely.
+- IGNORE: "MU went up 5% today", "I made money on this", "it already mooned", "great earnings last quarter"
+- FOCUS ON: future expectations, upcoming catalysts, thesis statements, options positioning, price targets, warnings
 
-For each ticker, analyze the actual post titles and body excerpts to determine:
+SIGNALS TO EXTRACT (forward-looking only):
+- Upcoming catalysts: earnings next week, FDA decision pending, contract announcement expected
+- Options positioning: "bought calls", "loading puts", specific strike/expiry mentioned (e.g. "$30c 6/20")
+- Price targets: "this hits $50 EOW", "PT $200 by July", "going to zero"
+- Thesis statements: "will moon because...", "short squeeze incoming", "going bankrupt soon"
+- Crowd positioning: "everyone is buying", "whales accumulating", "institutions dumping"
+- Risk warnings: "dump before earnings", "exit now", "don't hold through FDA"
 
-1. **whyTrending**: 2-3 sentences explaining SPECIFICALLY why this stock is spiking RIGHT NOW. Reference actual events, catalysts, or narratives from the posts. Do not be generic. If it's earnings, say earnings. If it's a short squeeze setup, explain why. If it's a macro event, name it.
+For each ticker return:
 
-2. **sentimentLabel**: "bullish" | "bearish" | "mixed" — based on the actual tone of the posts
+1. **whyTrending**: 2-3 sentences on the SPECIFIC UPCOMING CATALYST or narrative driving discussion. Name the event, date if mentioned, and what investors are betting on. Never describe what already happened.
 
-3. **sentimentScore**: 0-100. Be precise and evidence-based:
-   - 80-100: Strong bullish consensus, multiple posts with clear upside thesis
-   - 60-79: Mostly bullish with some skepticism
-   - 40-59: Genuinely mixed or uncertain
-   - 20-39: Mostly bearish, skeptical, or cautionary
-   - 0-19: Strong bearish consensus, short thesis, or warning posts
+2. **sentimentLabel**: "bullish" | "bearish" | "mixed" — based on forward-looking tone only
 
-4. **sentimentReasoning**: 1 sentence explaining WHY you gave that specific score (e.g. "7 of the top 10 posts express a short squeeze thesis with specific options data")
+3. **sentimentScore**: 0-100 based on FORWARD expectations:
+   - 80-100: Strong consensus that stock will rise — clear catalyst, specific price targets, heavy call buying
+   - 60-79: Mostly bullish forward thesis with some hedging
+   - 40-59: Genuinely split — bulls and bears both have forward arguments
+   - 20-39: Mostly bearish expectations — warnings, put buying, exit signals
+   - 0-19: Strong consensus it will fall — short thesis, bankruptcy risk, dump signals
 
-5. **priceChange24h**: sentiment-implied 24h move estimate as % (e.g. 3.2 or -1.8)
+4. **sentimentReasoning**: 1 sentence citing specific FORWARD evidence (e.g. "5 posts mention earnings on June 10 with bull thesis, 2 posts show $30c options bought")
 
-6. **predictions**: { oneDay, oneWeek, oneMonth } each with direction ("rise"|"fall"|"neutral") and confidence 0-100
+5. **catalyst**: The single most important upcoming event or reason to watch this stock (e.g. "Earnings June 10", "FDA decision pending", "Short squeeze setup — 40% float shorted")
 
-Return JSON: { "stocks": [ { "ticker", "name", "whyTrending", "sentimentLabel", "sentimentScore", "sentimentReasoning", "priceChange24h", "predictions" } ] }
+6. **priceChange24h**: forward sentiment-implied expected move in next 24h as % (e.g. 3.2 or -1.8). Base this on what investors are EXPECTING, not what happened.
+
+7. **predictions**: { oneDay, oneWeek, oneMonth } — direction ("rise"|"fall"|"neutral") and confidence 0-100. Base ONLY on forward-looking signals in the posts.
+
+Return JSON: { "stocks": [ { "ticker", "name", "whyTrending", "sentimentLabel", "sentimentScore", "sentimentReasoning", "catalyst", "priceChange24h", "predictions" } ] }
 
 Keep the same order as the input (velocity-ranked).`,
         },
@@ -364,6 +376,7 @@ Keep the same order as the input (velocity-ranked).`,
           ? { quote: topPost.title, upvotes: topPost.score ?? 0, subreddit: topPost.subreddit }
           : { quote: 'Trending on Reddit', upvotes: 0, subreddit: 'wallstreetbets' },
         whyTrending: gpt.whyTrending ?? `Mention volume spiked ${d.velocity.toFixed(1)}x in the last 48 hours.`,
+        catalyst: gpt.catalyst ?? null,
         predictions: gpt.predictions ? {
           oneDay:   normalizePrediction(gpt.predictions.oneDay),
           oneWeek:  normalizePrediction(gpt.predictions.oneWeek),

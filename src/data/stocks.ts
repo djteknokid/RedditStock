@@ -24,6 +24,7 @@ export interface StockEntry {
     subreddit: string;
   };
   whyTrending: string;
+  catalyst?: string;
   predictions: {
     oneDay: Prediction;
     oneWeek: Prediction;
