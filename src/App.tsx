@@ -112,7 +112,7 @@ export default function App() {
       </div>
 
       {/* Body: table + panel */}
-      <div style={{ flex: 1, display: 'flex', overflow: 'hidden', padding: '0 28px 28px', gap: 12, minHeight: 0 }}>
+      <div style={{ flex: 1, display: 'flex', padding: '0 28px 28px', gap: 12, minHeight: 0, alignItems: 'flex-start' }}>
 
         {/* Table pane */}
         <div style={{
@@ -151,6 +151,8 @@ export default function App() {
             width: 360, flexShrink: 0, background: '#ffffff',
             borderRadius: 10, border: '1px solid #e5e7eb',
             overflow: 'hidden', display: 'flex', flexDirection: 'column',
+            position: 'sticky', top: 0, alignSelf: 'flex-start',
+            maxHeight: 'calc(100svh - 56px - 40px - 28px)',
           }}>
             <DetailPanel
               stock={selectedStock}
