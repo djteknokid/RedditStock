@@ -27,7 +27,7 @@ function directionChip(d: Direction, confidence: number) {
       background: cfg.bg, borderRadius: 4, padding: '2px 6px',
     }}>
       {cfg.label}
-      <span style={{ fontWeight: 400, color: cfg.color, opacity: 0.7 }}>{confidence}%</span>
+      <span style={{ fontWeight: 400, color: cfg.color, opacity: 0.7 }}>{Math.round(confidence)}%</span>
     </span>
   );
 }
