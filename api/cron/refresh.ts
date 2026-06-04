@@ -57,9 +57,19 @@ async function fetchStockTwits(ticker: string): Promise<StockTwitsSentiment> {
     let bearish = 0;
     const bodies: string[] = [];
 
+    const bullishTerms = /\b(bull|bullish|calls?|long|buy|buying|moon|rocket|squeeze|breakout|upside|pumping|ripping|going up|load(ing|ed)|accumulate|earnings play)\b|🚀|📈|💎|🟢/i;
+    const bearishTerms = /\b(bear|bearish|puts?|short|sell|selling|dump(ing)?|crash|downside|collapse|drop(ping)?|puts?|overvalued|going down|exit|bail)\b|📉|🔴|💀|🩳/i;
+
     for (const m of msgs) {
       if (m.sentiment?.basic === 'Bullish') bullish++;
       else if (m.sentiment?.basic === 'Bearish') bearish++;
+      else if (m.body) {
+        // Fall back to keyword inference when label is absent
+        const hasBull = bullishTerms.test(m.body);
+        const hasBear = bearishTerms.test(m.body);
+        if (hasBull && !hasBear) bullish++;
+        else if (hasBear && !hasBull) bearish++;
+      }
       if (m.body && bodies.length < 8) bodies.push(m.body.replace(/\n+/g, ' ').trim().slice(0, 120));
     }
 
