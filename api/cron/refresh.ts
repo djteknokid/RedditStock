@@ -340,7 +340,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // 3. Score by velocity (spike detection) not raw mentions
     const scored = [...tickerMap.values()]
-      .filter(d => d.recentPosts.length >= 5) // raised floor: need real discussion
+      .filter(d => d.recentPosts.length >= 8) // need real discussion volume
       .map(d => {
         const recentCount = d.recentPosts.length;
         const olderDailyAvg = d.olderPosts.length / 5;
@@ -351,7 +351,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return { ...d, recentCount, olderCount: d.olderPosts.length, velocity, score };
       })
       .sort((a, b) => b.score - a.score)
-      .slice(0, 30); // top 30 only — more focused, less noise
+      .slice(0, 40); // fetch more candidates — we'll filter by StockTwits quality next
 
     console.log(`Top spiking tickers: ${scored.slice(0, 5).map(d => `${d.ticker}(v=${d.velocity.toFixed(1)})`).join(', ')}`);
 
@@ -368,12 +368,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const earningsByTicker = new Map(scored.map((d, i) => [d.ticker, earningsResults[i]]));
     const stocktwitsByTicker = new Map(scored.map((d, i) => [d.ticker, stocktwitsResults[i]]));
 
-    // Log StockTwits coverage
-    const stCovered = stocktwitsResults.filter(s => s.total > 0).length;
-    console.log(`StockTwits: ${stCovered}/${scored.length} tickers have data`);
+    // Filter: keep only tickers with meaningful signal from at least one source
+    // Quality tier 1: strong Reddit velocity (v≥6) — these have real discussion
+    // Quality tier 2: weaker Reddit but StockTwits has labeled sentiment (bullish+bearish ≥ 5)
+    const qualified = scored.filter(d => {
+      const st = stocktwitsByTicker.get(d.ticker)!;
+      const hasStrongReddit = d.velocity >= 6;
+      const hasStockTwitsSignal = (st.bullish + st.bearish) >= 5;
+      return hasStrongReddit || hasStockTwitsSignal;
+    }).slice(0, 15); // cap at 15 high-quality tickers for GPT
+
+    console.log(`StockTwits coverage: ${stocktwitsResults.filter(s => s.total > 0).length}/${scored.length} have data`);
+    console.log(`Qualified tickers (${qualified.length}): ${qualified.map(d => d.ticker).join(', ')}`);
 
     // 5. Build rich context for GPT — Reddit posts + StockTwits sentiment + earnings per ticker
-    const context = scored.map(d => {
+    const context = qualified.map(d => {
       const topPosts = d.allPosts
         .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
         .slice(0, 15)
@@ -503,7 +512,7 @@ Keep the same order as the input (velocity-ranked).`,
       const conf = sentimentScore >= 55 ? 45 : sentimentScore <= 45 ? 45 : 40;
       return { direction: 'neutral', confidence: conf };
     }
-    const stocks = scored.map((d, i) => {
+    const stocks = qualified.map((d, i) => {
       const gpt = gptByTicker.get(d.ticker) ?? gptResult.stocks?.[i] ?? {};
       const topPost = d.allPosts.sort((a, b) => (b.score ?? 0) - (a.score ?? 0))[0];
       const mostRecent = d.allPosts.sort((a, b) => b.created_utc - a.created_utc)[0];
