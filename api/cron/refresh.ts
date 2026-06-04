@@ -255,11 +255,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // 2. Count mentions per ticker, split by time window
+    // Only count a ticker if it appears in the POST TITLE — body mentions are too noisy
     const tickerMap = new Map<string, TickerMentions>();
 
     for (const post of allPosts) {
-      const text = `${post.title} ${post.selftext ?? ''}`;
-      const tickers = extractTickers(text);
+      const titleTickers = extractTickers(post.title);          // title only — high signal
+      const bodyTickers = extractTickers(post.selftext ?? '');  // body — only counts if also in title
+      // A ticker must appear in the title to be attributed to this post
+      const tickers = titleTickers.length > 0
+        ? [...new Set([...titleTickers, ...bodyTickers.filter(t => titleTickers.includes(t))])]
+        : []; // post with no ticker in title is ignored entirely
       const seenInPost = new Set<string>();
 
       for (const ticker of tickers) {
