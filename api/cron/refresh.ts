@@ -414,6 +414,14 @@ Keep the same order as the input (velocity-ranked).`,
     function normalizePrediction(p: any) {
       return { direction: normalizeDirection(p?.direction), confidence: p?.confidence ?? 50 };
     }
+    // When GPT returns neutral/50, derive from sentimentScore so we always make a real call
+    function oneDayFromSentiment(sentimentScore: number, velocity: number): { direction: 'rise' | 'fall' | 'neutral'; confidence: number } {
+      if (sentimentScore >= 70) return { direction: 'rise', confidence: Math.min(50 + (sentimentScore - 70) * 1.5 + velocity * 2, 85) };
+      if (sentimentScore <= 35) return { direction: 'fall', confidence: Math.min(50 + (35 - sentimentScore) * 1.5 + velocity * 2, 85) };
+      // 36-69: genuinely mixed — neutral is honest, but widen confidence based on how close to edges
+      const conf = sentimentScore >= 55 ? 45 : sentimentScore <= 45 ? 45 : 40;
+      return { direction: 'neutral', confidence: conf };
+    }
     const stocks = scored.map((d, i) => {
       const gpt = gptByTicker.get(d.ticker) ?? gptResult.stocks?.[i] ?? {};
       const topPost = d.allPosts.sort((a, b) => (b.score ?? 0) - (a.score ?? 0))[0];
@@ -448,15 +456,19 @@ Keep the same order as the input (velocity-ranked).`,
         allTopPosts,
         whyTrending: gpt.whyTrending ?? `Mention volume spiked ${d.velocity.toFixed(1)}x in the last 48 hours.`,
         catalyst: gpt.catalyst ?? null,
-        predictions: gpt.predictions ? {
-          oneDay:   normalizePrediction(gpt.predictions.oneDay),
-          oneWeek:  normalizePrediction(gpt.predictions.oneWeek),
-          oneMonth: normalizePrediction(gpt.predictions.oneMonth),
-        } : {
-          oneDay:   { direction: 'neutral', confidence: 50 },
-          oneWeek:  { direction: 'neutral', confidence: 50 },
-          oneMonth: { direction: 'neutral', confidence: 50 },
-        },
+        predictions: (() => {
+          const sentScore = gpt.sentimentScore ?? 50;
+          const rawOneDay = gpt.predictions ? normalizePrediction(gpt.predictions.oneDay) : { direction: 'neutral' as const, confidence: 50 };
+          // If GPT hedged to neutral/50 on 1-day, override with sentiment-derived call
+          const oneDay = (rawOneDay.direction === 'neutral' && rawOneDay.confidence === 50)
+            ? oneDayFromSentiment(sentScore, d.velocity)
+            : rawOneDay;
+          return {
+            oneDay,
+            oneWeek:  gpt.predictions ? normalizePrediction(gpt.predictions.oneWeek)  : { direction: 'neutral' as const, confidence: 50 },
+            oneMonth: gpt.predictions ? normalizePrediction(gpt.predictions.oneMonth) : { direction: 'neutral' as const, confidence: 50 },
+          };
+        })(),
         priceChange24h: gpt.priceChange24h ?? 0,
         priceAtSnapshot: null as number | null, // filled in below
       };
