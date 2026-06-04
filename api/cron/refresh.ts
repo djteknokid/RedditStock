@@ -506,8 +506,8 @@ Keep the same order as the input (velocity-ranked).`,
     }
     // When GPT returns neutral/50, derive from sentimentScore so we always make a real call
     function oneDayFromSentiment(sentimentScore: number, velocity: number): { direction: 'rise' | 'fall' | 'neutral'; confidence: number } {
-      if (sentimentScore >= 70) return { direction: 'rise', confidence: Math.min(50 + (sentimentScore - 70) * 1.5 + velocity * 2, 85) };
-      if (sentimentScore <= 35) return { direction: 'fall', confidence: Math.min(50 + (35 - sentimentScore) * 1.5 + velocity * 2, 85) };
+      if (sentimentScore >= 70) return { direction: 'rise', confidence: Math.round(Math.min(50 + (sentimentScore - 70) * 1.5 + velocity * 2, 85)) };
+      if (sentimentScore <= 35) return { direction: 'fall', confidence: Math.round(Math.min(50 + (35 - sentimentScore) * 1.5 + velocity * 2, 85)) };
       // 36-69: genuinely mixed — neutral is honest, but widen confidence based on how close to edges
       const conf = sentimentScore >= 55 ? 45 : sentimentScore <= 45 ? 45 : 40;
       return { direction: 'neutral', confidence: conf };
