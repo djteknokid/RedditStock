@@ -57,8 +57,8 @@ async function fetchStockTwits(ticker: string): Promise<StockTwitsSentiment> {
     let bearish = 0;
     const bodies: string[] = [];
 
-    const bullishTerms = /\b(bull|bullish|calls?|long|buy|buying|moon|rocket|squeeze|breakout|upside|pumping|ripping|going up|load(ing|ed)|accumulate|earnings play)\b|🚀|📈|💎|🟢/i;
-    const bearishTerms = /\b(bear|bearish|puts?|short|sell|selling|dump(ing)?|crash|downside|collapse|drop(ping)?|puts?|overvalued|going down|exit|bail)\b|📉|🔴|💀|🩳/i;
+    const bullishTerms = /\b(bull|bullish|calls?|long|buy|buying|bought|moon|rocket|squeeze|breakout|upside|pumping|ripping|going up|load(ing|ed)|accumulate|earnings play|dip buy|green|up|higher|hold(ing)?|strong|love|great|good|nice)\b|🚀|📈|💎|🟢|🔥|⬆️/i;
+    const bearishTerms = /\b(bear|bearish|puts?|short|sell|selling|sold|dump(ing)?|crash|downside|collapse|drop(ping)?|overvalued|going down|exit|bail|red|down|lower|weak|hate|bad|worst|avoid|warning|careful|caution)\b|📉|🔴|💀|🩳|⬇️|😬|🤮/i;
 
     for (const m of msgs) {
       if (m.sentiment?.basic === 'Bullish') bullish++;
@@ -493,7 +493,7 @@ Keep the same order as the input (velocity-ranked).`,
       return 'neutral';
     }
     function normalizePrediction(p: any) {
-      return { direction: normalizeDirection(p?.direction), confidence: p?.confidence ?? 50 };
+      return { direction: normalizeDirection(p?.direction), confidence: Math.round(p?.confidence ?? 50) };
     }
     // When GPT returns neutral/50, derive from sentimentScore so we always make a real call
     function oneDayFromSentiment(sentimentScore: number, velocity: number): { direction: 'rise' | 'fall' | 'neutral'; confidence: number } {
