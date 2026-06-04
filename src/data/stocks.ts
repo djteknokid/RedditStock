@@ -30,6 +30,11 @@ export interface StockEntry {
     ago: string;
     url?: string;
   }[];
+  stocktwits?: {
+    bullish: number;
+    bearish: number;
+    total: number;
+  } | null;
   whyTrending: string;
   catalyst?: string;
   predictions: {

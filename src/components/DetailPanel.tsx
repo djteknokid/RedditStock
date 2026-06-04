@@ -140,6 +140,33 @@ export default function DetailPanel({ stock, onClose, exchange }: DetailPanelPro
           </div>
         </div>
 
+        {/* StockTwits signal */}
+        {stock.stocktwits && stock.stocktwits.total > 0 && (() => {
+          const { bullish, bearish, total } = stock.stocktwits;
+          const bullPct = Math.round(bullish / total * 100);
+          const bearPct = Math.round(bearish / total * 100);
+          return (
+            <div style={{ marginBottom: 20 }}>
+              <div style={{ fontSize: 10, color: '#9ca3af', fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', marginBottom: 8 }}>
+                StockTwits Signal
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                {/* Bullish/Bearish bar */}
+                <div style={{ flex: 1, height: 8, borderRadius: 4, overflow: 'hidden', display: 'flex' }}>
+                  <div style={{ width: `${bullPct}%`, background: '#22c55e', transition: 'width 0.4s ease' }} />
+                  <div style={{ width: `${bearPct}%`, background: '#ef4444', transition: 'width 0.4s ease' }} />
+                  <div style={{ flex: 1, background: '#f3f4f6' }} />
+                </div>
+              </div>
+              <div style={{ display: 'flex', gap: 16, marginTop: 6, fontSize: 12 }}>
+                <span style={{ color: '#16a34a', fontWeight: 600 }}>{bullish} Bullish ({bullPct}%)</span>
+                <span style={{ color: '#dc2626', fontWeight: 600 }}>{bearish} Bearish ({bearPct}%)</span>
+                <span style={{ color: '#9ca3af' }}>{total} msgs</span>
+              </div>
+            </div>
+          );
+        })()}
+
         {/* Why trending */}
         <div style={{ marginBottom: 20 }}>
           <div style={{ fontSize: 10, color: '#9ca3af', fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', marginBottom: 8 }}>

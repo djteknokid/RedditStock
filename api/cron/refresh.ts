@@ -24,6 +24,50 @@ const SUBREDDITS = [
 ];
 
 const ARCTIC_SHIFT = 'https://arctic-shift.photon-reddit.com/api/posts/search';
+const STOCKTWITS_BASE = 'https://api.stocktwits.com/api/2/streams/symbol';
+
+interface StockTwitsMessage {
+  body: string;
+  created_at: string;
+  sentiment?: { basic: 'Bullish' | 'Bearish' } | null;
+}
+
+interface StockTwitsSentiment {
+  bullish: number;
+  bearish: number;
+  total: number;
+  messages: string[]; // top 8 message bodies for GPT context
+}
+
+async function fetchStockTwits(ticker: string): Promise<StockTwitsSentiment> {
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+    const res = await fetch(`${STOCKTWITS_BASE}/${ticker}.json?limit=30`, {
+      headers: { 'User-Agent': 'buzzd.fyi/1.0' },
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+
+    if (!res.ok) return { bullish: 0, bearish: 0, total: 0, messages: [] };
+    const data = await res.json();
+    const msgs: StockTwitsMessage[] = data.messages ?? [];
+
+    let bullish = 0;
+    let bearish = 0;
+    const bodies: string[] = [];
+
+    for (const m of msgs) {
+      if (m.sentiment?.basic === 'Bullish') bullish++;
+      else if (m.sentiment?.basic === 'Bearish') bearish++;
+      if (m.body && bodies.length < 8) bodies.push(m.body.replace(/\n+/g, ' ').trim().slice(0, 120));
+    }
+
+    return { bullish, bearish, total: msgs.length, messages: bodies };
+  } catch {
+    return { bullish: 0, bearish: 0, total: 0, messages: [] };
+  }
+}
 
 // Well-known tickers to always filter out as noise words
 const SKIP = new Set([
@@ -305,29 +349,47 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(200).json({ status: 'no_data', postsCount: allPosts.length });
     }
 
-    // 4. Fetch earnings dates in parallel for all scored tickers
-    console.log('Fetching earnings dates...');
-    const earningsResults = await Promise.all(scored.map(d => getEarningsContext(d.ticker)));
+    // 4. Fetch earnings dates + StockTwits sentiment in parallel for all scored tickers
+    console.log('Fetching earnings dates and StockTwits sentiment...');
+    const [earningsResults, stocktwitsResults] = await Promise.all([
+      Promise.all(scored.map(d => getEarningsContext(d.ticker))),
+      Promise.all(scored.map(d => fetchStockTwits(d.ticker))),
+    ]);
     const earningsByTicker = new Map(scored.map((d, i) => [d.ticker, earningsResults[i]]));
+    const stocktwitsByTicker = new Map(scored.map((d, i) => [d.ticker, stocktwitsResults[i]]));
 
-    // 5. Build rich context for GPT — top posts + earnings date per ticker
+    // Log StockTwits coverage
+    const stCovered = stocktwitsResults.filter(s => s.total > 0).length;
+    console.log(`StockTwits: ${stCovered}/${scored.length} tickers have data`);
+
+    // 5. Build rich context for GPT — Reddit posts + StockTwits sentiment + earnings per ticker
     const context = scored.map(d => {
       const topPosts = d.allPosts
         .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
-        .slice(0, 20)
+        .slice(0, 15)
         .map(p => {
-          const body = (p.selftext ?? '').replace(/\n+/g, ' ').trim().slice(0, 150);
+          const body = (p.selftext ?? '').replace(/\n+/g, ' ').trim().slice(0, 120);
           return `  - [r/${p.subreddit} ↑${p.score}] ${p.title}${body ? ` | ${body}` : ''}`;
         })
         .join('\n');
 
+      const st = stocktwitsByTicker.get(d.ticker)!;
+      const stLine = st.total > 0
+        ? `StockTwits: ${st.bullish} Bullish / ${st.bearish} Bearish / ${st.total - st.bullish - st.bearish} no-label (${st.total} msgs)`
+        : 'StockTwits: no data';
+      const stMessages = st.messages.length > 0
+        ? `StockTwits messages:\n${st.messages.map(m => `  - ${m}`).join('\n')}`
+        : '';
+
       return [
         `TICKER: ${d.ticker}`,
-        `Recent mentions (last 48h): ${d.recentCount} | Older mentions (days 3-7): ${d.olderCount} | Velocity score: ${d.velocity.toFixed(2)}x`,
+        `Reddit: ${d.recentCount} mentions (48h) | ${d.olderCount} older (days 3-7) | Velocity: ${d.velocity.toFixed(2)}x`,
+        stLine,
         `Earnings: ${earningsByTicker.get(d.ticker) ?? 'Unknown'}`,
-        `Top posts:`,
+        `Reddit top posts:`,
         topPosts,
-      ].join('\n');
+        stMessages,
+      ].filter(Boolean).join('\n');
     }).join('\n\n---\n\n');
 
     // 6. Send to GPT-4o with full context
@@ -339,7 +401,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       messages: [
         {
           role: 'system',
-          content: `You are a forward-looking financial signal analyst. Your job is to extract PREDICTIVE sentiment from Reddit posts — what investors EXPECT to happen next, not what already happened.
+          content: `You are a forward-looking financial signal analyst. Each ticker comes with TWO independent data sources:
+1. Reddit posts — tells you WHY it's trending and what narrative is driving discussion
+2. StockTwits sentiment — Bullish/Bearish counts from traders who explicitly labeled their conviction
+
+Use both sources together. StockTwits Bullish/Bearish ratio is a strong directional signal because traders choose the label deliberately. Reddit posts explain the narrative behind the numbers.
 
 CRITICAL RULE: Ignore backward-looking statements entirely.
 - IGNORE: "MU went up 5% today", "I made money on this", "it already mooned", "great earnings last quarter"
@@ -349,40 +415,40 @@ Each ticker includes an "Earnings:" line with the next earnings date from Yahoo 
 - EARNINGS TODAY or TOMORROW → high confidence move expected. Direction based on sentiment (bullish = rise, bearish = fall). Confidence 75-90%.
 - EARNINGS IN 2-7 DAYS → elevated uncertainty. Posts about "loading up before earnings" or "dumping before earnings" are key signals.
 - EARNINGS IN 8-30 DAYS → earnings are the 1-month signal, not the 1-day signal.
-- NO EARNINGS SOON → 1-day prediction based purely on momentum, options flow, and crowd positioning in posts.
+- NO EARNINGS SOON → 1-day prediction based on momentum, StockTwits ratio, and crowd positioning.
 
 SIGNALS TO EXTRACT (forward-looking only):
+- StockTwits ratio: >60% Bullish = meaningful signal. >75% Bullish = strong signal. Same logic inverted for Bearish.
 - Upcoming catalysts: earnings next week, FDA decision pending, contract announcement expected
-- Options positioning: "bought calls", "loading puts", specific strike/expiry mentioned (e.g. "$30c 6/20")
-- Price targets: "this hits $50 EOW", "PT $200 by July", "going to zero"
-- Thesis statements: "will moon because...", "short squeeze incoming", "going bankrupt soon"
+- Options positioning: "bought calls", "loading puts", specific strike/expiry mentioned
+- Price targets: "this hits $50 EOW", "PT $200 by July"
 - Crowd positioning: "everyone is buying", "whales accumulating", "institutions dumping"
 - Risk warnings: "dump before earnings", "exit now", "don't hold through FDA"
 
 For each ticker return:
 
-1. **whyTrending**: 2-3 sentences on the SPECIFIC UPCOMING CATALYST or narrative driving discussion. Name the event, date if mentioned, and what investors are betting on. Never describe what already happened.
+1. **whyTrending**: 2-3 sentences on the SPECIFIC UPCOMING CATALYST or narrative driving discussion. Name the event, date if mentioned, and what investors are betting on.
 
-2. **sentimentLabel**: "bullish" | "bearish" | "mixed" — based on forward-looking tone only
+2. **sentimentLabel**: "bullish" | "bearish" | "mixed"
 
-3. **sentimentScore**: 0-100 based on FORWARD expectations:
-   - 80-100: Strong consensus that stock will rise — clear catalyst, specific price targets, heavy call buying
-   - 60-79: Mostly bullish forward thesis with some hedging
-   - 40-59: Genuinely split — bulls and bears both have forward arguments
-   - 20-39: Mostly bearish expectations — warnings, put buying, exit signals
-   - 0-19: Strong consensus it will fall — short thesis, bankruptcy risk, dump signals
+3. **sentimentScore**: 0-100 based on FORWARD expectations. Weight StockTwits ratio heavily if available (it's explicit conviction). Weight Reddit narrative for context.
+   - 80-100: Strong consensus that stock will rise
+   - 60-79: Mostly bullish with some hedging
+   - 40-59: Genuinely split
+   - 20-39: Mostly bearish expectations
+   - 0-19: Strong consensus it will fall
 
-4. **sentimentReasoning**: 1 sentence citing specific FORWARD evidence (e.g. "5 posts mention earnings on June 10 with bull thesis, 2 posts show $30c options bought")
+4. **sentimentReasoning**: 1 sentence citing specific evidence from BOTH sources (e.g. "StockTwits 18/24 Bullish; 4 Reddit posts mention earnings June 10 with bull thesis")
 
-5. **catalyst**: The single most important upcoming event (e.g. "Earnings June 10", "FDA decision pending", "Short squeeze setup — 40% float shorted"). If earnings are in the next 7 days, that IS the catalyst.
+5. **catalyst**: The single most important upcoming event.
 
-6. **priceChange24h**: forward sentiment-implied expected move in next 24h as % (e.g. 3.2 or -1.8). If earnings are today/tomorrow, this should reflect typical earnings move magnitude (±5-15%).
+6. **priceChange24h**: forward sentiment-implied expected move in next 24h as %.
 
-7. **predictions**: IMPORTANT — do NOT default to neutral/50. Make a real call based on the evidence.
-   - oneDay: driven by earnings timing + Reddit momentum. If earnings tomorrow and sentiment bullish → rise 75-85%. If no catalyst and mixed sentiment → neutral 45-55% is fine but justify it.
-   - oneWeek: driven by post-earnings drift or upcoming catalyst resolution.
-   - oneMonth: longer thesis, less sensitive to near-term events.
-   - direction: "rise" | "fall" | "neutral" (use neutral sparingly — only when genuinely no signal)
+7. **predictions**: IMPORTANT — do NOT default to neutral/50. Make a real call.
+   - oneDay: Use StockTwits ratio + earnings timing as primary signal. If StockTwits is 70%+ Bullish with no earnings headwind → rise 65-75%.
+   - oneWeek: Post-earnings drift or catalyst resolution.
+   - oneMonth: Longer thesis.
+   - direction: "rise" | "fall" | "neutral" (use neutral sparingly)
    - confidence: 0-100 (avoid 50 unless truly no information)
 
 Return JSON: { "stocks": [ { "ticker", "name", "whyTrending", "sentimentLabel", "sentimentScore", "sentimentReasoning", "catalyst", "priceChange24h", "predictions" } ] }
@@ -391,7 +457,7 @@ Keep the same order as the input (velocity-ranked).`,
         },
         {
           role: 'user',
-          content: `Analyze these velocity-ranked Reddit stock discussions:\n\n${context}`,
+          content: `Analyze these velocity-ranked stock discussions from Reddit + StockTwits:\n\n${context}`,
         },
       ],
     });
@@ -459,6 +525,10 @@ Keep the same order as the input (velocity-ranked).`,
           ? { quote: topPost.title, upvotes: topPost.score ?? 0, subreddit: topPost.subreddit }
           : { quote: 'Trending on Reddit', upvotes: 0, subreddit: 'wallstreetbets' },
         allTopPosts,
+        stocktwits: (() => {
+          const st = stocktwitsByTicker.get(d.ticker)!;
+          return st.total > 0 ? { bullish: st.bullish, bearish: st.bearish, total: st.total } : null;
+        })(),
         whyTrending: gpt.whyTrending ?? `Mention volume spiked ${d.velocity.toFixed(1)}x in the last 48 hours.`,
         catalyst: gpt.catalyst ?? null,
         predictions: (() => {
