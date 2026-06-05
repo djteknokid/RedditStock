@@ -27,9 +27,13 @@ async function getQuoteData(ticker: string): Promise<{ price: number; changePerc
     let change5d = 0;
     const quotes = chart?.quotes ?? [];
     if (quotes.length >= 2) {
-      const first = quotes[0].close ?? quotes[0].open ?? 0;
-      const last = quotes[quotes.length - 1].close ?? 0;
-      if (first > 0) change5d = (last - first) / first * 100;
+      // Use close price, but fall back to open — skip bars where both are null/0
+      const validQuotes = quotes.filter((q: any) => (q.close ?? q.open ?? 0) > 0);
+      if (validQuotes.length >= 2) {
+        const first = validQuotes[0].close ?? validQuotes[0].open ?? 0;
+        const last = validQuotes[validQuotes.length - 1].close ?? validQuotes[validQuotes.length - 1].open ?? 0;
+        if (first > 0 && last > 0) change5d = (last - first) / first * 100;
+      }
     }
 
     // Map Yahoo exchange name to Google Finance exchange suffix
