@@ -376,7 +376,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const hasStrongReddit = d.velocity >= 6;
       const hasStockTwitsSignal = (st.bullish + st.bearish) >= 5;
       return hasStrongReddit || hasStockTwitsSignal;
-    }).slice(0, 15); // cap at 15 high-quality tickers for GPT
+    }).slice(0, 30); // wider pool — GPT will score them, then we split top10/bottom10
 
     console.log(`StockTwits coverage: ${stocktwitsResults.filter(s => s.total > 0).length}/${scored.length} have data`);
     console.log(`Qualified tickers (${qualified.length}): ${qualified.map(d => d.ticker).join(', ')}`);
@@ -574,13 +574,23 @@ Keep the same order as the input (velocity-ranked).`,
     );
     stocks.forEach((s, i) => { s.priceAtSnapshot = snapshotPrices[i]; });
 
+    // Split into top 10 bullish + top 10 bearish by GPT sentiment score, re-rank each group
+    const bullish = [...stocks].sort((a, b) => b.sentimentScore - a.sentimentScore).slice(0, 10);
+    const bearish = [...stocks].sort((a, b) => a.sentimentScore - b.sentimentScore).slice(0, 10);
+    // Dedupe — if a ticker is in both (score near 50), bullish takes priority
+    const bearishOnly = bearish.filter(s => !bullish.find(b => b.ticker === s.ticker));
+    const finalStocks = [
+      ...bullish.map((s, i) => ({ ...s, rank: i + 1, group: 'bullish' as const })),
+      ...bearishOnly.map((s, i) => ({ ...s, rank: i + 1, group: 'bearish' as const })),
+    ];
+
     // 8. Save to Redis — archive previous snapshot before overwriting
     const previous = await redis.get<any>('buzzd:stocks');
     if (previous?.stocks?.length) {
       await redis.set('buzzd:stocks:yesterday', JSON.stringify(previous), { ex: 90000 * 2 });
     }
-    await redis.set('buzzd:stocks', JSON.stringify({ stocks, updatedAt: new Date().toISOString() }), { ex: 90000 });
-    console.log(`Saved ${stocks.length} stocks to Redis`);
+    await redis.set('buzzd:stocks', JSON.stringify({ stocks: finalStocks, updatedAt: new Date().toISOString() }), { ex: 90000 });
+    console.log(`Saved ${finalStocks.length} stocks (${bullish.length} bullish, ${bearishOnly.length} bearish) to Redis`);
 
     return res.status(200).json({ status: 'ok', count: stocks.length, postsAnalyzed: allPosts.length });
   } catch (err) {

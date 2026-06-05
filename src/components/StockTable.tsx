@@ -102,11 +102,33 @@ export default function StockTable({ stocks, selectedTicker, onSelect, prices }:
             const priceInfo = prices[s.ticker];
             const changePercent = priceInfo?.changePercent ?? s.priceChange24h;
             const priceUp = changePercent >= 0;
-            // "already moved" = today's price already up >10% (the news is priced in)
             const alreadyMoved = Math.abs(changePercent) > 10;
             const notMovedYet = priceInfo && Math.abs(changePercent) <= 3 && s.sentimentScore >= 65;
 
+            // Section divider between bullish and bearish groups
+            const prevGroup = stocks[i - 1]?.group;
+            const showDivider = s.group === 'bearish' && prevGroup === 'bullish';
+
             return (
+              <>
+                {showDivider && (
+                  <tr key={`divider-${s.ticker}`}>
+                    <td colSpan={12} style={{ padding: '6px 16px', background: '#fef2f2', borderTop: '2px solid #fecaca', borderBottom: '1px solid #fecaca' }}>
+                      <span style={{ fontSize: 10, fontWeight: 700, color: '#dc2626', letterSpacing: '0.07em', textTransform: 'uppercase' }}>
+                        ↓ Bearish Signal — Top 10 Negative Sentiment
+                      </span>
+                    </td>
+                  </tr>
+                )}
+                {i === 0 && (
+                  <tr key="divider-bullish">
+                    <td colSpan={12} style={{ padding: '6px 16px', background: '#f0fdf4', borderBottom: '1px solid #bbf7d0' }}>
+                      <span style={{ fontSize: 10, fontWeight: 700, color: '#16a34a', letterSpacing: '0.07em', textTransform: 'uppercase' }}>
+                        ↑ Bullish Signal — Top 10 Positive Sentiment
+                      </span>
+                    </td>
+                  </tr>
+                )}
               <tr
                 key={s.ticker}
                 onClick={() => onSelect(s.ticker)}
@@ -216,6 +238,7 @@ export default function StockTable({ stocks, selectedTicker, onSelect, prices }:
                   );
                 })()}
               </tr>
+            </>
             );
           })}
         </tbody>

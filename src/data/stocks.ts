@@ -35,6 +35,7 @@ export interface StockEntry {
     bearish: number;
     total: number;
   } | null;
+  group?: 'bullish' | 'bearish';
   whyTrending: string;
   catalyst?: string;
   predictions: {
