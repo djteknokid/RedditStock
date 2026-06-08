@@ -568,11 +568,21 @@ Keep the same order as the input (velocity-ranked).`,
       };
     });
 
-    // 7. Fetch current prices so evaluate can compute actual move later
+    // 7. Use today's opening bell price as snapshot baseline (set by 9:30am cron)
+    // Falls back to current price if open snapshot not available
+    const dateKey = new Date().toISOString().slice(0, 10);
+    const openSnapshot = await redis.get<{ prices: Record<string, number> }>(`buzzd:prices:open:${dateKey}`);
+    const openPrices = openSnapshot?.prices ?? {};
+
     const snapshotPrices = await Promise.all(
-      stocks.map(s => (yf as any).quote(s.ticker).then((q: any) => q.regularMarketPrice ?? null).catch(() => null))
+      stocks.map(s => {
+        if (openPrices[s.ticker]) return Promise.resolve(openPrices[s.ticker]);
+        // fallback: fetch current price
+        return (yf as any).quote(s.ticker).then((q: any) => q.regularMarketPrice ?? null).catch(() => null);
+      })
     );
     stocks.forEach((s, i) => { s.priceAtSnapshot = snapshotPrices[i]; });
+    console.log(`Price snapshot: ${Object.keys(openPrices).length > 0 ? 'using opening bell prices' : 'fallback to current prices'}`);
 
     // Split into top 10 bullish + top 10 bearish by GPT sentiment score, re-rank each group
     const bullish = [...stocks].sort((a, b) => b.sentimentScore - a.sentimentScore).slice(0, 10);

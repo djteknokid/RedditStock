@@ -1,8 +1,12 @@
 {
   "crons": [
     {
+      "path": "/api/cron/open",
+      "schedule": "30 13 * * 1-5"
+    },
+    {
       "path": "/api/cron/refresh",
-      "schedule": "0 9 * * *"
+      "schedule": "0 18 * * 1-5"
     }
   ],
   "rewrites": [
