@@ -69,7 +69,7 @@ async function fetchApifyPosts(): Promise<ApifyPost[]> {
         ],
         searchPosts: false,
         crawlCommentsPerPost: false,
-        maxPostsCount: 300,
+        maxPostsCount: 900,
         fastMode: true,
         proxy: {
           useApifyProxy: true,
