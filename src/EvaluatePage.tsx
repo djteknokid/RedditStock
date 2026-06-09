@@ -73,13 +73,15 @@ function CalendarGrid({ series, selectedDate, onSelect }: {
 }) {
   const byDate = new Map(series.map(d => [d.date, d]));
 
-  // Build calendar for the months we have data
+  // Build calendar only for months that span from earliest data to now
   const now = new Date();
+  const dates = series.map(d => d.date).sort();
+  const earliest = dates.length > 0 ? new Date(dates[0]) : now;
   const months: { year: number; month: number }[] = [];
-  // Show last 2 months + current
-  for (let i = 2; i >= 0; i--) {
-    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    months.push({ year: d.getFullYear(), month: d.getMonth() });
+  const cursor = new Date(earliest.getFullYear(), earliest.getMonth(), 1);
+  while (cursor <= now) {
+    months.push({ year: cursor.getFullYear(), month: cursor.getMonth() });
+    cursor.setMonth(cursor.getMonth() + 1);
   }
 
   return (
