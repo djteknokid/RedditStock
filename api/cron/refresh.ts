@@ -228,7 +228,7 @@ const COMPANY_TO_TICKER: Record<string, string> = {
   'spy': 'SPY', 'qqq': 'QQQ', 'iwm': 'IWM',
   'marathon': 'MARA', 'riot': 'RIOT', 'riot platforms': 'RIOT',
   'marvell': 'MRVL',
-  'ast spacemobile': 'ASTS', 'ast': 'ASTS',
+  'ast spacemobile': 'ASTS',
   'rocket lab': 'RKLB', 'rocketlab': 'RKLB',
   'intuitive machines': 'LUNR',
   'spacex': 'SPCX',
@@ -251,11 +251,13 @@ function extractTickers(text: string): string[] {
     }
   }
 
-  // Company name / nickname matching
+  // Company name / nickname matching — word boundary protected
   const lower = text.toLowerCase();
   const phrases = Object.keys(COMPANY_TO_TICKER).sort((a, b) => b.length - a.length);
   for (const phrase of phrases) {
-    if (lower.includes(phrase)) {
+    // Require word boundaries to prevent "ast" matching inside "last", "fast", etc.
+    const regex = new RegExp(`(?<![a-z])${phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![a-z])`, 'i');
+    if (regex.test(lower)) {
       const ticker = COMPANY_TO_TICKER[phrase];
       if (!seen.has(ticker)) { seen.add(ticker); results.push(ticker); }
     }
