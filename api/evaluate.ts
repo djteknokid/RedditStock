@@ -140,7 +140,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     };
 
     // Append to rolling eval log if this snapshot isn't already recorded
-    if (predictionDate && scoreable.length > 0) {
+    // Only log snapshots taken during market hours (12pm–6pm ET) — midnight test runs are excluded
+    const snapshotHourET = new Date(
+      new Date(yesterday.updatedAt).toLocaleString('en-US', { timeZone: 'America/New_York' })
+    ).getHours();
+    const isMarketHoursSnapshot = snapshotHourET >= 12 && snapshotHourET < 18;
+
+    if (predictionDate && scoreable.length > 0 && isMarketHoursSnapshot) {
       const log: any[] = (await redis.get<any[]>('buzzd:eval:log')) ?? [];
       const alreadyLogged = log.some(e => e.date === predictionDate);
       if (!alreadyLogged) {
