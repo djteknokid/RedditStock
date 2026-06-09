@@ -15,16 +15,24 @@ const redis = new Redis({
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 
-const SUBREDDITS = [
-  'wallstreetbets', 'stocks', 'investing',
-  'options', 'pennystocks', 'stockmarket',
-  'Superstonk', 'valueinvesting', 'RobinHoodPennyStocks', 'dividends',
-  'investing_discussion', 'StockMarket', 'Daytrading', 'thetagang',
-  'Vitards', 'SecurityAnalysis', 'finance',
-];
+const APIFY_RUN_URL =
+  'https://api.apify.com/v2/acts/harshmaur~reddit-scraper-pro/run-sync-get-dataset-items';
 
-const ARCTIC_SHIFT = 'https://arctic-shift.photon-reddit.com/api/posts/search';
 const STOCKTWITS_BASE = 'https://api.stocktwits.com/api/2/streams/symbol';
+
+interface ApifyPost {
+  id: string;
+  title: string;
+  body?: string;
+  upVotes?: number;
+  score?: number;
+  scorePerHour?: number;
+  commentsPerHour?: number;
+  flair?: string;
+  createdAt?: string;
+  communityName?: string;
+  url?: string;
+}
 
 interface StockTwitsMessage {
   body: string;
@@ -36,7 +44,49 @@ interface StockTwitsSentiment {
   bullish: number;
   bearish: number;
   total: number;
-  messages: string[]; // top 8 message bodies for GPT context
+  messages: string[];
+}
+
+async function fetchApifyPosts(): Promise<ApifyPost[]> {
+  const token = process.env.APIFY_API_TOKEN;
+  if (!token) throw new Error('APIFY_API_TOKEN not set');
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 55000);
+
+  try {
+    const res = await fetch(`${APIFY_RUN_URL}?token=${token}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        startUrls: [
+          { url: 'https://www.reddit.com/r/wallstreetbets/hot/' },
+          { url: 'https://www.reddit.com/r/stocks/hot/' },
+        ],
+        searchPosts: false,
+        crawlCommentsPerPost: false,
+        maxPostsCount: 50,
+        fastMode: true,
+        proxy: {
+          useApifyProxy: true,
+          apifyProxyGroups: ['RESIDENTIAL'],
+        },
+      }),
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+
+    if (!res.ok) {
+      const body = await res.text();
+      throw new Error(`Apify returned ${res.status}: ${body.slice(0, 200)}`);
+    }
+
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch (e) {
+    clearTimeout(timeout);
+    throw e;
+  }
 }
 
 async function fetchStockTwits(ticker: string): Promise<StockTwitsSentiment> {
@@ -64,7 +114,6 @@ async function fetchStockTwits(ticker: string): Promise<StockTwitsSentiment> {
       if (m.sentiment?.basic === 'Bullish') bullish++;
       else if (m.sentiment?.basic === 'Bearish') bearish++;
       else if (m.body) {
-        // Fall back to keyword inference when label is absent
         const hasBull = bullishTerms.test(m.body);
         const hasBear = bearishTerms.test(m.body);
         if (hasBull && !hasBear) bullish++;
@@ -79,7 +128,6 @@ async function fetchStockTwits(ticker: string): Promise<StockTwitsSentiment> {
   }
 }
 
-// Well-known tickers to always filter out as noise words
 const SKIP = new Set([
   'DD','IMO','WSB','NYSE','IPO','ETF','CEO','SEC','FDA','ATH','YTD','AI','US','EU','UK',
   'FOR','THE','AND','BUT','OR','IT','MY','BE','IS','ON','IN','TO','AT','BY','IF','SO',
@@ -89,25 +137,20 @@ const SKIP = new Set([
   'WON','YES','YET','YOU','GDP','CPI','FED','BOJ','ECB','YOLO','FOMO','HODL','TBH',
   'FYI','EOD','EOW','AMA','TIL','ETA','PSA','TBA','TBD','TLDR','CALLS','PUTS','ITM',
   'OTM','ATM','DTE','IV','OI','SPX','NDX','RUT','VIX','FOMC','JPM','Q1','Q2','Q3','Q4',
-  // Trading jargon
   'GTC','EOY','AH','PM','TA','DD','PT','SL','TP','RR','PNL','PL','YOY','QOQ','MOM',
   'HODL','BTFD','BTFP','RIPS','DIPS','BULL','BEAR','MOON','DUMP','PUMP','BAGS','LOSS',
   'GAIN','PLAY','YOLO','FOMO','APES','GANG','HOLD','SOLD','BUY','SELL','LONG','SHORT',
-  // Common words that look like tickers
   'THIS','THAT','THEY','THEM','THEN','THAN','WHEN','WHAT','WITH','FROM','HAVE','BEEN',
   'WILL','JUST','LIKE','MORE','ALSO','EVEN','ONLY','OVER','BACK','INTO','WELL','WANT',
   'NEED','KNOW','GOOD','MAKE','LOOK','TIME','YEAR','WEEK','LAST','NEXT','SOME','MOST',
   'MANY','MUCH','VERY','SAME','TAKE','GIVE','COME','TELL','SHOW','HIGH','LATE','HARD',
-  // Non-equity tickers that appear in finance subs
   'BTC','ETH','SOL','XRP','DOGE','SHIB','LINK','DOT','ADA','MATIC','AVAX','UNI',
   'YT','YTD','IG','DM','PM','AM','HR','HRS','WK','MO','YR',
   'EDIT','TLDR','IMHO','IMO','AFAIK','IIRC','TIL','AMA','ELI5',
+  'HOT','NEW','TOP','BEST','RISING','CONTROVERSIAL',
 ]);
 
-// Company name / nickname → ticker mapping
-// Keys are lowercase for case-insensitive matching
 const COMPANY_TO_TICKER: Record<string, string> = {
-  // Big tech
   'nvidia': 'NVDA', 'jensen': 'NVDA', 'jensen huang': 'NVDA',
   'apple': 'AAPL', 'iphone': 'AAPL', 'tim cook': 'AAPL',
   'microsoft': 'MSFT', 'msft': 'MSFT', 'msoft': 'MSFT', 'azure': 'MSFT', 'satya': 'MSFT',
@@ -167,62 +210,17 @@ const COMPANY_TO_TICKER: Record<string, string> = {
   'snap': 'SNAP', 'snapchat': 'SNAP',
   'pinterest': 'PINS',
   'blackrock': 'BLK',
-  'openai': 'MSFT', // OpenAI is private, discussions often correlate to MSFT
+  'openai': 'MSFT',
   'chatgpt': 'MSFT',
   'spy': 'SPY', 'qqq': 'QQQ', 'iwm': 'IWM',
   'marathon': 'MARA', 'riot': 'RIOT', 'riot platforms': 'RIOT',
   'marvell': 'MRVL',
+  'ast spacemobile': 'ASTS', 'ast': 'ASTS',
+  'rocket lab': 'RKLB', 'rocketlab': 'RKLB',
+  'intuitive machines': 'LUNR',
+  'spacex': 'SPCX',
+  'ibm': 'IBM',
 };
-
-interface RawPost {
-  id: string;
-  title: string;
-  selftext?: string;
-  score: number;
-  upvote_ratio: number;
-  created_utc: number;
-  subreddit: string;
-}
-
-interface TickerMentions {
-  ticker: string;
-  recentPosts: RawPost[];   // last 48h
-  olderPosts: RawPost[];    // days 3-7
-  allPosts: RawPost[];
-}
-
-async function fetchSubredditPosts(subreddit: string, afterTs: number): Promise<RawPost[]> {
-  const allPosts: RawPost[] = [];
-  let beforeTs: number | null = null;
-
-  for (let page = 0; page < 5; page++) {
-    try {
-      const params = new URLSearchParams({ subreddit, limit: '100', after: String(afterTs) });
-      if (beforeTs) params.set('before', String(beforeTs));
-
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 12000);
-      const res = await fetch(`${ARCTIC_SHIFT}?${params}`, {
-        headers: { 'User-Agent': 'buzzd.fyi/1.0' },
-        signal: controller.signal,
-      });
-      clearTimeout(timeout);
-
-      if (!res.ok) break;
-      const data = await res.json();
-      const posts: RawPost[] = data.data ?? [];
-      if (posts.length === 0) break;
-      allPosts.push(...posts);
-      beforeTs = posts[posts.length - 1].created_utc ?? null;
-      if (!beforeTs || posts.length < 100) break;
-    } catch (e) {
-      console.error(`r/${subreddit} page ${page}:`, String(e));
-      break;
-    }
-  }
-
-  return allPosts;
-}
 
 function extractTickers(text: string): string[] {
   const seen = new Set<string>();
@@ -233,16 +231,15 @@ function extractTickers(text: string): string[] {
     if (!SKIP.has(m[1]) && !seen.has(m[1])) { seen.add(m[1]); results.push(m[1]); }
   }
 
-  // Bare ALL-CAPS 2-5 letter words that look like tickers
+  // Bare ALL-CAPS 2-5 letter words
   for (const m of text.matchAll(/\b([A-Z]{2,5})\b/g)) {
     if (!SKIP.has(m[1]) && !seen.has(m[1]) && /^[A-Z]+$/.test(m[1])) {
       seen.add(m[1]); results.push(m[1]);
     }
   }
 
-  // Company name / nickname matching (case-insensitive)
+  // Company name / nickname matching
   const lower = text.toLowerCase();
-  // Check multi-word phrases first (longer matches take priority)
   const phrases = Object.keys(COMPANY_TO_TICKER).sort((a, b) => b.length - a.length);
   for (const phrase of phrases) {
     if (lower.includes(phrase)) {
@@ -254,14 +251,13 @@ function extractTickers(text: string): string[] {
   return results;
 }
 
-function timeAgo(utc: number): string {
-  const secs = Math.floor(Date.now() / 1000) - utc;
+function timeAgo(iso: string): string {
+  const secs = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
   if (secs < 3600) return `${Math.floor(secs / 60)}m ago`;
   if (secs < 86400) return `${Math.floor(secs / 3600)}h ago`;
   return `${Math.floor(secs / 86400)}d ago`;
 }
 
-// Returns a human-readable earnings proximity string for GPT context
 async function getEarningsContext(ticker: string): Promise<string> {
   try {
     const cal = await (yf as any).quoteSummary(ticker, { modules: ['calendarEvents'] }) as any;
@@ -289,36 +285,38 @@ async function getEarningsContext(ticker: string): Promise<string> {
   }
 }
 
+interface TickerAggregate {
+  ticker: string;
+  posts: ApifyPost[];
+  totalScorePerHour: number;
+  maxScorePerHour: number;
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.headers.authorization !== `Bearer ${process.env.CRON_SECRET}`) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
   try {
-    const now = Math.floor(Date.now() / 1000);
-    const sevenDaysAgo = now - 7 * 86400;
-    const twoDaysAgo = now - 2 * 86400;
+    // 1. Fetch hot posts from WSB + r/stocks via Apify residential proxy
+    console.log('Fetching Reddit hot posts via Apify...');
+    const apifyPosts = await fetchApifyPosts();
+    console.log(`Apify returned ${apifyPosts.length} posts`);
 
-    // 1. Fetch 7 days of posts from all subreddits in parallel
-    console.log('Fetching 7-day posts from 10 subreddits...');
-    const allPosts = (await Promise.all(SUBREDDITS.map(s => fetchSubredditPosts(s, sevenDaysAgo)))).flat();
-    console.log(`Total posts: ${allPosts.length}`);
-
-    if (allPosts.length === 0) {
+    if (apifyPosts.length === 0) {
       return res.status(200).json({ status: 'no_data', postsCount: 0 });
     }
 
-    // 2. Count mentions per ticker, split by time window
-    // Only count a ticker if it appears in the POST TITLE — body mentions are too noisy
-    const tickerMap = new Map<string, TickerMentions>();
+    // 2. Extract tickers from each post, aggregate by ticker
+    const tickerMap = new Map<string, TickerAggregate>();
 
-    for (const post of allPosts) {
-      const titleTickers = extractTickers(post.title);          // title only — high signal
-      const bodyTickers = extractTickers(post.selftext ?? '');  // body — only counts if also in title
-      // A ticker must appear in the title to be attributed to this post
-      const tickers = titleTickers.length > 0
-        ? [...new Set([...titleTickers, ...bodyTickers.filter(t => titleTickers.includes(t))])]
-        : []; // post with no ticker in title is ignored entirely
+    for (const post of apifyPosts) {
+      const titleTickers = extractTickers(post.title ?? '');
+      const bodyTickers = extractTickers(post.body ?? '');
+
+      // Title mention required; body tickers only count if they're also in the title
+      if (titleTickers.length === 0) continue;
+      const tickers = [...new Set([...titleTickers, ...bodyTickers.filter(t => titleTickers.includes(t))])];
       const seenInPost = new Set<string>();
 
       for (const ticker of tickers) {
@@ -326,40 +324,36 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         seenInPost.add(ticker);
 
         if (!tickerMap.has(ticker)) {
-          tickerMap.set(ticker, { ticker, recentPosts: [], olderPosts: [], allPosts: [] });
+          tickerMap.set(ticker, { ticker, posts: [], totalScorePerHour: 0, maxScorePerHour: 0 });
         }
-        const d = tickerMap.get(ticker)!;
-        d.allPosts.push(post);
-        if (post.created_utc >= twoDaysAgo) {
-          d.recentPosts.push(post);
-        } else {
-          d.olderPosts.push(post);
-        }
+        const agg = tickerMap.get(ticker)!;
+        agg.posts.push(post);
+        const sph = post.scorePerHour ?? 0;
+        agg.totalScorePerHour += sph;
+        if (sph > agg.maxScorePerHour) agg.maxScorePerHour = sph;
       }
     }
 
-    // 3. Score by velocity (spike detection) not raw mentions
+    // 3. Score by scorePerHour velocity (Apify computes this — replaces Arctic Shift velocity)
     const scored = [...tickerMap.values()]
-      .filter(d => d.recentPosts.length >= 8) // need real discussion volume
+      .filter(d => d.posts.length >= 1) // at least one title mention
       .map(d => {
-        const recentCount = d.recentPosts.length;
-        const olderDailyAvg = d.olderPosts.length / 5;
-        const baseline = olderDailyAvg * 2 + 1;
-        const velocity = recentCount / baseline;
-        const unknownBonus = d.allPosts.length < 50 ? 2.5 : d.allPosts.length < 200 ? 1.5 : 1.0;
-        const score = velocity * unknownBonus;
-        return { ...d, recentCount, olderCount: d.olderPosts.length, velocity, score };
+        // Primary signal: total scorePerHour across all posts mentioning this ticker
+        const velocity = d.totalScorePerHour > 0
+          ? d.totalScorePerHour
+          : d.posts.length * 10; // fallback if scorePerHour not available
+        return { ...d, velocity };
       })
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 40); // fetch more candidates — we'll filter by StockTwits quality next
+      .sort((a, b) => b.velocity - a.velocity)
+      .slice(0, 40);
 
-    console.log(`Top spiking tickers: ${scored.slice(0, 5).map(d => `${d.ticker}(v=${d.velocity.toFixed(1)})`).join(', ')}`);
+    console.log(`Top tickers by scorePerHour: ${scored.slice(0, 8).map(d => `${d.ticker}(${d.velocity.toFixed(0)})`).join(', ')}`);
 
     if (scored.length === 0) {
-      return res.status(200).json({ status: 'no_data', postsCount: allPosts.length });
+      return res.status(200).json({ status: 'no_data', postsCount: apifyPosts.length });
     }
 
-    // 4. Fetch earnings dates + StockTwits sentiment in parallel for all scored tickers
+    // 4. Fetch earnings dates + StockTwits sentiment in parallel
     console.log('Fetching earnings dates and StockTwits sentiment...');
     const [earningsResults, stocktwitsResults] = await Promise.all([
       Promise.all(scored.map(d => getEarningsContext(d.ticker))),
@@ -368,27 +362,27 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const earningsByTicker = new Map(scored.map((d, i) => [d.ticker, earningsResults[i]]));
     const stocktwitsByTicker = new Map(scored.map((d, i) => [d.ticker, stocktwitsResults[i]]));
 
-    // Filter: keep only tickers with meaningful signal from at least one source
-    // Quality tier 1: strong Reddit velocity (v≥6) — these have real discussion
-    // Quality tier 2: weaker Reddit but StockTwits has labeled sentiment (bullish+bearish ≥ 5)
+    // Quality filter: keep tickers with meaningful signal from at least one source
     const qualified = scored.filter(d => {
       const st = stocktwitsByTicker.get(d.ticker)!;
-      const hasStrongReddit = d.velocity >= 6;
+      const hasRedditVelocity = d.velocity >= 6 || d.posts.length >= 2;
       const hasStockTwitsSignal = (st.bullish + st.bearish) >= 5;
-      return hasStrongReddit || hasStockTwitsSignal;
-    }).slice(0, 30); // wider pool — GPT will score them, then we split top10/bottom10
+      return hasRedditVelocity || hasStockTwitsSignal;
+    }).slice(0, 30);
 
-    console.log(`StockTwits coverage: ${stocktwitsResults.filter(s => s.total > 0).length}/${scored.length} have data`);
+    console.log(`StockTwits coverage: ${stocktwitsResults.filter(s => s.total > 0).length}/${scored.length}`);
     console.log(`Qualified tickers (${qualified.length}): ${qualified.map(d => d.ticker).join(', ')}`);
 
-    // 5. Build rich context for GPT — Reddit posts + StockTwits sentiment + earnings per ticker
+    // 5. Build GPT context — Reddit posts + StockTwits + earnings
     const context = qualified.map(d => {
-      const topPosts = d.allPosts
-        .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
+      const topPosts = d.posts
+        .sort((a, b) => (b.scorePerHour ?? b.score ?? 0) - (a.scorePerHour ?? a.score ?? 0))
         .slice(0, 15)
         .map(p => {
-          const body = (p.selftext ?? '').replace(/\n+/g, ' ').trim().slice(0, 120);
-          return `  - [r/${p.subreddit} ↑${p.score}] ${p.title}${body ? ` | ${body}` : ''}`;
+          const body = (p.body ?? '').replace(/\n+/g, ' ').trim().slice(0, 120);
+          const sub = p.communityName ?? 'reddit';
+          const sph = p.scorePerHour != null ? ` ↑${p.scorePerHour.toFixed(0)}/hr` : '';
+          return `  - [r/${sub}${sph}] ${p.title}${body ? ` | ${body}` : ''}`;
         })
         .join('\n');
 
@@ -402,7 +396,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       return [
         `TICKER: ${d.ticker}`,
-        `Reddit: ${d.recentCount} mentions (48h) | ${d.olderCount} older (days 3-7) | Velocity: ${d.velocity.toFixed(2)}x`,
+        `Reddit: ${d.posts.length} posts | Total scorePerHour: ${d.velocity.toFixed(0)} | Peak scorePerHour: ${d.maxScorePerHour.toFixed(0)}`,
         stLine,
         `Earnings: ${earningsByTicker.get(d.ticker) ?? 'Unknown'}`,
         `Reddit top posts:`,
@@ -411,7 +405,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       ].filter(Boolean).join('\n');
     }).join('\n\n---\n\n');
 
-    // 6. Send to GPT-4o with full context
+    // 6. GPT-4o analysis
     console.log('Sending to GPT-4o...');
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o',
@@ -421,7 +415,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         {
           role: 'system',
           content: `You are a forward-looking financial signal analyst. Each ticker comes with TWO independent data sources:
-1. Reddit posts — tells you WHY it's trending and what narrative is driving discussion
+1. Reddit posts — tells you WHY it's trending and what narrative is driving discussion. The "scorePerHour" field is the post's upvote velocity — a high scorePerHour means this post is gaining traction fast right now.
 2. StockTwits sentiment — Bullish/Bearish counts from traders who explicitly labeled their conviction
 
 Use both sources together. StockTwits Bullish/Bearish ratio is a strong directional signal because traders choose the label deliberately. Reddit posts explain the narrative behind the numbers.
@@ -483,18 +477,15 @@ Keep the same order as the input (velocity-ranked).`,
 
     const gptResult = JSON.parse(completion.choices[0].message.content ?? '{}');
     console.log(`GPT analyzed ${gptResult.stocks?.length ?? 0} stocks`);
-    // Log first stock to verify predictions shape
     if (gptResult.stocks?.[0]) {
       console.log('GPT sample:', JSON.stringify(gptResult.stocks[0]).slice(0, 300));
     }
 
-    // Build a lookup map by ticker for fast matching
     const gptByTicker = new Map<string, any>();
     for (const s of gptResult.stocks ?? []) {
       if (s.ticker) gptByTicker.set(s.ticker.toUpperCase(), s);
     }
 
-    // 6. Merge into final shape
     function normalizeDirection(d: string): 'rise' | 'fall' | 'neutral' {
       const s = (d ?? '').toLowerCase();
       if (s === 'rise' || s === 'up' || s === 'bullish') return 'rise';
@@ -504,56 +495,54 @@ Keep the same order as the input (velocity-ranked).`,
     function normalizePrediction(p: any) {
       return { direction: normalizeDirection(p?.direction), confidence: Math.round(p?.confidence ?? 50) };
     }
-    // When GPT returns neutral/50, derive from sentimentScore so we always make a real call
     function oneDayFromSentiment(sentimentScore: number, velocity: number): { direction: 'rise' | 'fall' | 'neutral'; confidence: number } {
-      if (sentimentScore >= 70) return { direction: 'rise', confidence: Math.round(Math.min(50 + (sentimentScore - 70) * 1.5 + velocity * 2, 85)) };
-      if (sentimentScore <= 35) return { direction: 'fall', confidence: Math.round(Math.min(50 + (35 - sentimentScore) * 1.5 + velocity * 2, 85)) };
-      // 36-69: genuinely mixed — neutral is honest, but widen confidence based on how close to edges
+      if (sentimentScore >= 70) return { direction: 'rise', confidence: Math.round(Math.min(50 + (sentimentScore - 70) * 1.5 + Math.log1p(velocity) * 3, 85)) };
+      if (sentimentScore <= 35) return { direction: 'fall', confidence: Math.round(Math.min(50 + (35 - sentimentScore) * 1.5 + Math.log1p(velocity) * 3, 85)) };
       const conf = sentimentScore >= 55 ? 45 : sentimentScore <= 45 ? 45 : 40;
       return { direction: 'neutral', confidence: conf };
     }
+
     const stocks = qualified.map((d, i) => {
       const gpt = gptByTicker.get(d.ticker) ?? gptResult.stocks?.[i] ?? {};
-      const topPost = d.allPosts.sort((a, b) => (b.score ?? 0) - (a.score ?? 0))[0];
-      const mostRecent = d.allPosts.sort((a, b) => b.created_utc - a.created_utc)[0];
-      const subreddits = [...new Set(d.allPosts.map(p => p.subreddit))].slice(0, 3);
-      const allTopPosts = d.allPosts
-        .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
+      const topPost = d.posts.sort((a, b) => (b.scorePerHour ?? b.score ?? 0) - (a.scorePerHour ?? a.score ?? 0))[0];
+      const mostRecent = d.posts.sort((a, b) => new Date(b.createdAt ?? 0).getTime() - new Date(a.createdAt ?? 0).getTime())[0];
+      const subreddits = [...new Set(d.posts.map(p => p.communityName ?? 'wallstreetbets'))].slice(0, 3);
+      const allTopPosts = d.posts
+        .sort((a, b) => (b.scorePerHour ?? b.score ?? 0) - (a.scorePerHour ?? a.score ?? 0))
         .slice(0, 20)
         .map(p => ({
           quote: p.title,
-          upvotes: p.score ?? 0,
-          subreddit: p.subreddit,
-          ago: timeAgo(p.created_utc),
-          url: `https://reddit.com/r/${p.subreddit}/comments/${p.id}`,
+          upvotes: p.upVotes ?? p.score ?? 0,
+          subreddit: p.communityName ?? 'wallstreetbets',
+          ago: p.createdAt ? timeAgo(p.createdAt) : 'recently',
+          url: p.url ?? `https://reddit.com/r/${p.communityName ?? 'wallstreetbets'}`,
         }));
 
       return {
         rank: i + 1,
         ticker: d.ticker,
         name: gpt.name ?? d.ticker,
-        mentions: d.recentCount,
-        totalMentions: d.allPosts.length,
-        velocityScore: Math.round(d.velocity * 10) / 10,
+        mentions: d.posts.length,
+        totalMentions: d.posts.length,
+        velocityScore: Math.round(d.velocity),
         sentimentScore: gpt.sentimentScore ?? 50,
         sentimentLabel: gpt.sentimentLabel ?? 'mixed',
         sentimentReasoning: gpt.sentimentReasoning ?? '',
         subreddits,
-        lastMentionAgo: mostRecent ? timeAgo(mostRecent.created_utc) : 'recently',
+        lastMentionAgo: mostRecent?.createdAt ? timeAgo(mostRecent.createdAt) : 'recently',
         topPost: topPost
-          ? { quote: topPost.title, upvotes: topPost.score ?? 0, subreddit: topPost.subreddit }
+          ? { quote: topPost.title, upvotes: topPost.upVotes ?? topPost.score ?? 0, subreddit: topPost.communityName ?? 'wallstreetbets' }
           : { quote: 'Trending on Reddit', upvotes: 0, subreddit: 'wallstreetbets' },
         allTopPosts,
         stocktwits: (() => {
           const st = stocktwitsByTicker.get(d.ticker)!;
           return st.total > 0 ? { bullish: st.bullish, bearish: st.bearish, total: st.total } : null;
         })(),
-        whyTrending: gpt.whyTrending ?? `Mention volume spiked ${d.velocity.toFixed(1)}x in the last 48 hours.`,
+        whyTrending: gpt.whyTrending ?? `Trending on Reddit with ${d.velocity.toFixed(0)} scorePerHour.`,
         catalyst: gpt.catalyst ?? null,
         predictions: (() => {
           const sentScore = gpt.sentimentScore ?? 50;
           const rawOneDay = gpt.predictions ? normalizePrediction(gpt.predictions.oneDay) : { direction: 'neutral' as const, confidence: 50 };
-          // If GPT hedged to neutral/50 on 1-day, override with sentiment-derived call
           const oneDay = (rawOneDay.direction === 'neutral' && rawOneDay.confidence === 50)
             ? oneDayFromSentiment(sentScore, d.velocity)
             : rawOneDay;
@@ -564,12 +553,11 @@ Keep the same order as the input (velocity-ranked).`,
           };
         })(),
         priceChange24h: gpt.priceChange24h ?? 0,
-        priceAtSnapshot: null as number | null, // filled in below
+        priceAtSnapshot: null as number | null,
       };
     });
 
-    // 7. Use today's opening bell price as snapshot baseline (set by 9:30am cron)
-    // Falls back to current price if open snapshot not available
+    // 7. Attach today's opening bell price (or current price fallback)
     const dateKey = new Date().toISOString().slice(0, 10);
     const openSnapshot = await redis.get<{ prices: Record<string, number> }>(`buzzd:prices:open:${dateKey}`);
     const openPrices = openSnapshot?.prices ?? {};
@@ -577,24 +565,22 @@ Keep the same order as the input (velocity-ranked).`,
     const snapshotPrices = await Promise.all(
       stocks.map(s => {
         if (openPrices[s.ticker]) return Promise.resolve(openPrices[s.ticker]);
-        // fallback: fetch current price
         return (yf as any).quote(s.ticker).then((q: any) => q.regularMarketPrice ?? null).catch(() => null);
       })
     );
     stocks.forEach((s, i) => { s.priceAtSnapshot = snapshotPrices[i]; });
     console.log(`Price snapshot: ${Object.keys(openPrices).length > 0 ? 'using opening bell prices' : 'fallback to current prices'}`);
 
-    // Split into top 10 bullish + top 10 bearish by GPT sentiment score, re-rank each group
+    // 8. Split top 10 bullish + top 10 bearish
     const bullish = [...stocks].sort((a, b) => b.sentimentScore - a.sentimentScore).slice(0, 10);
     const bearish = [...stocks].sort((a, b) => a.sentimentScore - b.sentimentScore).slice(0, 10);
-    // Dedupe — if a ticker is in both (score near 50), bullish takes priority
     const bearishOnly = bearish.filter(s => !bullish.find(b => b.ticker === s.ticker));
     const finalStocks = [
       ...bullish.map((s, i) => ({ ...s, rank: i + 1, group: 'bullish' as const })),
       ...bearishOnly.map((s, i) => ({ ...s, rank: i + 1, group: 'bearish' as const })),
     ];
 
-    // 8. Save to Redis — archive previous snapshot before overwriting
+    // 9. Archive previous snapshot, save new one
     const previous = await redis.get<any>('buzzd:stocks');
     if (previous?.stocks?.length) {
       await redis.set('buzzd:stocks:yesterday', JSON.stringify(previous), { ex: 90000 * 2 });
@@ -602,7 +588,7 @@ Keep the same order as the input (velocity-ranked).`,
     await redis.set('buzzd:stocks', JSON.stringify({ stocks: finalStocks, updatedAt: new Date().toISOString() }), { ex: 90000 });
     console.log(`Saved ${finalStocks.length} stocks (${bullish.length} bullish, ${bearishOnly.length} bearish) to Redis`);
 
-    return res.status(200).json({ status: 'ok', count: stocks.length, postsAnalyzed: allPosts.length });
+    return res.status(200).json({ status: 'ok', count: stocks.length, postsAnalyzed: apifyPosts.length });
   } catch (err) {
     console.error('Refresh error:', err);
     return res.status(500).json({ error: String(err) });
