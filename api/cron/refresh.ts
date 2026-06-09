@@ -307,10 +307,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(200).json({ status: 'no_data', postsCount: 0 });
     }
 
-    // 2. Extract tickers from each post, aggregate by ticker
+    // 2. Extract tickers — only from posts in the last 24 hours
+    const cutoff24h = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+    const recentPosts = apifyPosts.filter(p => (p.createdAt ?? '') >= cutoff24h);
+    console.log(`Posts within 24h: ${recentPosts.length} / ${apifyPosts.length} total`);
+
     const tickerMap = new Map<string, TickerAggregate>();
 
-    for (const post of apifyPosts) {
+    for (const post of recentPosts) {
       const titleTickers = extractTickers(post.title ?? '');
       const bodyTickers = extractTickers(post.body ?? '');
 
