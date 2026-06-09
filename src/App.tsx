@@ -170,7 +170,7 @@ export default function App() {
       {/* Footer */}
       <div style={{ padding: '0 28px 20px', textAlign: 'center' }}>
         <p style={{ fontSize: 11, color: '#d1d5db' }}>
-          Reddit data via Arctic Shift · Analysis by GPT-4o · Not financial advice ·{' '}
+          Reddit data via Apify · Analysis by GPT-4o · Not financial advice ·{' '}
           <a href="/evaluate" style={{ color: '#9ca3af', textDecoration: 'underline' }}>Evaluate predictions</a>
           {' · '}
           <a href="/about" style={{ color: '#9ca3af', textDecoration: 'underline' }}>About & Disclaimer</a>

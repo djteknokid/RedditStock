@@ -68,7 +68,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    const predictionDate = yesterday.updatedAt?.slice(0, 10) ?? '';
+    // Convert UTC timestamp to ET date — cron runs at 2pm ET (18:00 UTC) so this is correct for normal runs.
+    // Avoids late-night manual runs (after midnight UTC) being attributed to the next calendar day.
+    const predictionDate = yesterday.updatedAt
+      ? new Date(new Date(yesterday.updatedAt).toLocaleString('en-US', { timeZone: 'America/New_York' })).toISOString().slice(0, 10)
+      : '';
     const tickers = yesterday.stocks.map((s: any) => s.ticker);
 
     // Use next day's opening bell price if available, otherwise current price

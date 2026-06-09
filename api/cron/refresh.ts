@@ -3,7 +3,7 @@ import { Redis } from '@upstash/redis';
 import OpenAI from 'openai';
 import YahooFinanceLib from 'yahoo-finance2';
 
-export const maxDuration = 60;
+export const maxDuration = 300;
 
 const YahooFinance = (YahooFinanceLib as any).default ?? YahooFinanceLib;
 const yf = new YahooFinance({ suppressNotices: ['yahooSurvey', 'ripHistorical'] });
@@ -52,7 +52,7 @@ async function fetchApifyPosts(): Promise<ApifyPost[]> {
   if (!token) throw new Error('APIFY_API_TOKEN not set');
 
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 55000);
+  const timeout = setTimeout(() => controller.abort(), 240000);
 
   try {
     const res = await fetch(`${APIFY_RUN_URL}?token=${token}`, {
@@ -61,11 +61,15 @@ async function fetchApifyPosts(): Promise<ApifyPost[]> {
       body: JSON.stringify({
         startUrls: [
           { url: 'https://www.reddit.com/r/wallstreetbets/hot/' },
+          { url: 'https://www.reddit.com/r/wallstreetbets/top/?t=day' },
           { url: 'https://www.reddit.com/r/stocks/hot/' },
+          { url: 'https://www.reddit.com/r/options/hot/' },
+          { url: 'https://www.reddit.com/r/investing/hot/' },
+          { url: 'https://www.reddit.com/r/pennystocks/hot/' },
         ],
         searchPosts: false,
         crawlCommentsPerPost: false,
-        maxPostsCount: 50,
+        maxPostsCount: 300,
         fastMode: true,
         proxy: {
           useApifyProxy: true,
@@ -148,6 +152,15 @@ const SKIP = new Set([
   'YT','YTD','IG','DM','PM','AM','HR','HRS','WK','MO','YR',
   'EDIT','TLDR','IMHO','IMO','AFAIK','IIRC','TIL','AMA','ELI5',
   'HOT','NEW','TOP','BEST','RISING','CONTROVERSIAL',
+  // Common English words that look like tickers
+  'DONT','CANT','WONT','ISNT','ARENT','WASNT','WERE','THEY','THEM','THEIR',
+  'WEAR','YOUR','WHILE','THAN','THAT','THIS','WITH','HAVE','FROM','BEEN',
+  'JUST','LIKE','OVER','BACK','INTO','WELL','WANT','NEED','KNOW','GOOD',
+  'MAKE','LOOK','TIME','YEAR','WEEK','LAST','NEXT','SOME','MOST','MANY',
+  'MUCH','VERY','SAME','TAKE','GIVE','COME','TELL','SHOW','HIGH','HARD',
+  // Single/two-letter noise
+  'SK','GPU','PDT','RAN','PCT','AVG','MAX','MIN','EST','EPS','REV',
+  'LOL','WTF','FUD','GG','GJ','GW','GL','GN','GM','GS',
 ]);
 
 const COMPANY_TO_TICKER: Record<string, string> = {
@@ -365,7 +378,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Quality filter: keep tickers with meaningful signal from at least one source
     const qualified = scored.filter(d => {
       const st = stocktwitsByTicker.get(d.ticker)!;
-      const hasRedditVelocity = d.velocity >= 6 || d.posts.length >= 2;
+      const hasRedditVelocity = d.velocity >= 20 || d.posts.length >= 3;
       const hasStockTwitsSignal = (st.bullish + st.bearish) >= 5;
       return hasRedditVelocity || hasStockTwitsSignal;
     }).slice(0, 30);
